@@ -2,9 +2,7 @@ import styled from 'styled-components';
 
 const Input = styled.input`
     margin-top: 1rem;
-    min-height:3rem;
-    min-width:200px;
-    width:10vw;
+    width:100%;
     border-radius:8px;
     padding: 12px 20px;
     border: 2px solid ${props => props.theme.color.primaryLightColor};

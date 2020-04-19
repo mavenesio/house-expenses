@@ -1,8 +1,11 @@
-import React from 'react';
+// @ts-nocheck
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import PlusSquare from '../Icons/PlusSquare';
 import ChartBar from '../Icons/ChartBar';
 import FileRegular from '../Icons/FileRegular';
+import Modal from '../Modal/Modal';
+import ModalCard from '../Modal/ModalCard';
 
 import Link from 'next/link';
 
@@ -48,14 +51,26 @@ const ChartButton = styled(ChartBar)`
     }
 `;
 
+
 const FooterNavbar = () => {
-    return (
-        <FooterNavbarContainer>
-            <PlusButton onClick={() => console.log('111111')}/>
-            <HistoryButton onClick={() => console.log('2222')}/>
-            <ChartButton onClick={() => console.log('3333')}/>
-        </FooterNavbarContainer>
-    )
+    const [ModalIsVisible, setModalIsVisible] = useState(false);
+
+    return (<>
+                <FooterNavbarContainer>
+                    <PlusButton onClick={() => setModalIsVisible(!ModalIsVisible)}/>
+                    <HistoryButton onClick={() => console.log('2222')}/>
+                    <ChartButton onClick={() => console.log('3333')}/>
+                </FooterNavbarContainer>
+                <Modal
+                    isVisible={ModalIsVisible} 
+                    changeVisibility={() => setModalIsVisible(!ModalIsVisible)}>
+                        <ModalCard 
+                            onSuccess={(name, payment) => console.log('name: ', name, 'paymnet: ', payment)}
+                            changeVisibility={() => setModalIsVisible(!ModalIsVisible)}
+                        />
+                </Modal >
+            </>
+            )
 }
 
 export default FooterNavbar
