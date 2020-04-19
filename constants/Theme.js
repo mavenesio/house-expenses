@@ -25,7 +25,7 @@ const theme = {
         }
     },
     header:{
-      height: 100,
+      height: 50,
     }
   };
 
