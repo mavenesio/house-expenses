@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
 const Input = styled.input`
-    margin-top: 1rem;
     width:100%;
     border-radius:8px;
-    padding: 12px 20px;
+    padding: 25px 20px;
     border: 2px solid ${props => props.theme.color.primaryLightColor};
     font-family: ${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.text};
@@ -15,13 +14,14 @@ const Input = styled.input`
     &:focus {
         outline: none;
         border: 2px solid ${props => props.theme.color.primaryDarkColor};
-    }
+    };
     & ~ label{
-        color:${props => props.theme.color.primaryDarkColor};;
-        margin-top:-50px;
-        margin-left: 10px;
-        font-size: 14px;
+        color:${props => props.theme.color.primaryDarkColor};
         font-family: ${props => props.theme.font.family};
+        font-size: 14px;
+        position:absolute;
+        top:0px;
+        left:10px;
     }
 `;
 export default Input;
