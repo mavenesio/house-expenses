@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import TimesCircle from '../Icons/TimesCircle';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
+import StyledSelect from '../StyledSelect/StyledSelect';
+import {YearOptions, MonthOptions, NumberOfMonthOptions} from '../../constants/constants';
 
 const CrossButton = styled(TimesCircle)`
     align-self:center;
@@ -28,7 +30,9 @@ const ModalHeader = styled.div`
     flex-direction:row;
     justify-content:space-between;
     padding:1rem;
-    border-bottom: 1px solid black;
+    margin:1rem;
+    height:10%;
+    border-bottom: 2px solid ${props => props.theme.color.primaryLightColor};
 `;
 const ModalHeaderText = styled.div`
     font-family:${props => props.theme.font.family};
@@ -37,30 +41,35 @@ const ModalHeaderText = styled.div`
 const ModalBody = styled.div`
     display:flex;
     flex-direction:column;
+    height:60%;
+    overflow-y: auto;
 `;
 const ModalFooter = styled.div`
     display:flex;
     flex-direction:row;
     justify-content:flex-end;
+    height:10%;
 `;
 
 const InputContainer = styled.div`
+    margin:1rem;
     display:flex;
     flex-direction:column;
-    margin:1rem;
+    position:relative;
     font-family: ${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.text};
     font-weight: ${props => props.theme.font.weight.bold};
 `;
-const NameInput = styled(Input).attrs({placeholder:'name of the expence', type:'string', name:'name'})``;
-const PaymentInput = styled(Input).attrs({placeholder:'$$$$', type:'number', name:'payment'})``;
-const MonthsInput = styled(Input).attrs({placeholder:'# meses', type:'number', name:'Month'})``;
+const NameInput = styled(Input).attrs({placeholder:'', type:'string', name:'name'})``;
+const PaymentInput = styled(Input).attrs({placeholder:'', type:'number', name:'payment'})``;
 
 const ModalCard = (props) => {
     const [Name, setName] = useState('');
     const [Payment, setPayment] = useState('0');
-    const [Months, setMonths] = useState('1');
-    const {onSuccess, changeVisibility} = props;
+    const [StartMonth, setStartMonth] = useState('1');
+    const [StartYear, setStartYear] = useState(YearOptions[0]);
+    const [NumberOfMonth, setNumberOfMonth] = useState(NumberOfMonthOptions[0]);
+    const {changeVisibility} = props;
 
 
     return (
@@ -86,17 +95,36 @@ const ModalCard = (props) => {
                     />
                     <label>A pagar</label>
                 </InputContainer>
-                <InputContainer>
-                    <MonthsInput
-                        Value={Months}
-                        onChange={(event) => {setMonths(event.target.value)}}
-                    />
-                    <label>Cantidad de meses</label>
-                </InputContainer>
+                <StyledSelect
+                    options={MonthOptions}
+                    value={StartMonth}
+                    onChange={(value) => setStartMonth(value)}
+                    placeholder='options..'
+                    label='Mes de comienzo'
+                    name='StartMonth'
+                />
+                <StyledSelect
+                    options={YearOptions}
+                    value={StartYear}
+                    onChange={(value) => setStartYear(value)}
+                    placeholder='options..'
+                    label=''
+                    label='Año de comienzo'
+                    name='StartYear'
+                />
+                <StyledSelect
+                    options={NumberOfMonthOptions}
+                    value={NumberOfMonth}
+                    onChange={(value) => setNumberOfMonth(value)}
+                    placeholder='options..'
+                    label=''
+                    label='Duración de meses'
+                    name='NumberOfMonth'
+                />
             </ModalBody>
             <ModalFooter>
                 <InputContainer>
-                    <Button onClick={() => {onSuccess(Name, Payment);/* changeVisibility()*/}} >Agregar!</Button>
+                    <Button onClick={() => {console.log(Name, Payment, StartMonth, StartYear, NumberOfMonth); changeVisibility()}} >Agregar!</Button>
                 </InputContainer>
             </ModalFooter>
         </ModalCardContainer>
