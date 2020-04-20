@@ -19,12 +19,13 @@ const HeaderText = styled.div`
     padding-left: 1rem;
 `;
 
-const Header = () => {
+const Header = (props) => {
+    const {title} = props;
     return (
         <HeaderContainer>
             <Link href={'./index'}>
                 <HeaderText>
-                    Gastos
+                    {title}
                 </HeaderText>
             </Link>
         </HeaderContainer>

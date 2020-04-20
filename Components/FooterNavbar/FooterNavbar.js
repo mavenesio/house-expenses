@@ -64,10 +64,7 @@ const FooterNavbar = () => {
                 <Modal
                     isVisible={ModalIsVisible} 
                     changeVisibility={() => setModalIsVisible(!ModalIsVisible)}>
-                        <ModalCard 
-                            onSuccess={(name, payment) => console.log('name: ', name, 'paymnet: ', payment)}
-                            changeVisibility={() => setModalIsVisible(!ModalIsVisible)}
-                        />
+                        <ModalCard changeVisibility={() => setModalIsVisible(!ModalIsVisible)} />
                 </Modal >
             </>
             )

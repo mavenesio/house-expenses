@@ -16,7 +16,7 @@ const PageContainer = styled.div`
 `;
 const Body = styled.div`
   overflow-x:scroll;
-  height:80%;
+  height:90%;
 `;export default class App extends NextApp {
   render() {
     const { Component, pageProps } = this.props
@@ -29,7 +29,6 @@ const Body = styled.div`
             <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en" />
           </Head>
           <PageContainer>
-            <Header />
             <Body>
               <Component {...pageProps} />
             </Body>
