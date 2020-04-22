@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, {useState} from 'react';
+import {useRouter} from 'next/router';
 import styled from 'styled-components';
 import PlusSquare from '../Icons/PlusSquare';
 import ChartBar from '../Icons/ChartBar';
@@ -54,18 +55,24 @@ const ChartButton = styled(ChartBar)`
 
 const FooterNavbar = () => {
     const [ModalIsVisible, setModalIsVisible] = useState(false);
+    const router = useRouter();
 
     return (<>
-                <FooterNavbarContainer>
-                    <PlusButton onClick={() => setModalIsVisible(!ModalIsVisible)}/>
-                    <HistoryButton onClick={() => console.log('2222')}/>
-                    <ChartButton onClick={() => console.log('3333')}/>
-                </FooterNavbarContainer>
-                <Modal
-                    isVisible={ModalIsVisible} 
-                    changeVisibility={() => setModalIsVisible(!ModalIsVisible)}>
-                        <ModalCard changeVisibility={() => setModalIsVisible(!ModalIsVisible)} />
-                </Modal >
+                {
+                    (router.pathname !== '/' && router.pathname !== '/Loginpage') && 
+                    <>
+                        <FooterNavbarContainer>
+                            <PlusButton onClick={() => setModalIsVisible(!ModalIsVisible)}/>
+                            <HistoryButton onClick={() => console.log('2222')}/>
+                            <ChartButton onClick={() => console.log('3333')}/>
+                        </FooterNavbarContainer>
+                        <Modal
+                            isVisible={ModalIsVisible} 
+                            changeVisibility={() => setModalIsVisible(!ModalIsVisible)}>
+                                <ModalCard changeVisibility={() => setModalIsVisible(!ModalIsVisible)} />
+                        </Modal >
+                    </>
+                }
             </>
             )
 }
