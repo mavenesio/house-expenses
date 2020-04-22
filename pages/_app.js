@@ -1,10 +1,10 @@
  
-import NextApp from 'next/app'
 import React from 'react'
 import theme from '../constants/Theme';
 import styled, { ThemeProvider } from "styled-components";
-import Head from 'next/head'
-import Header from '../Components/Header/Header';
+import Head from 'next/head';
+import {ApolloProvider} from '@apollo/client';
+import client from '../config/apollo';
 import FooterNavbar from '../Components/FooterNavbar/FooterNavbar';
 
 const PageContainer = styled.div`
@@ -17,24 +17,27 @@ const PageContainer = styled.div`
 const Body = styled.div`
   overflow-x:scroll;
   height:90%;
-`;export default class App extends NextApp {
-  render() {
-    const { Component, pageProps } = this.props
+`;
+
+const MyApp = ({Component, pageProps})=>  {
 
     return (
       <ThemeProvider theme={theme}>
           <Head>
             <title>Simulator</title>
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en" />
+            <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet" />
           </Head>
           <PageContainer>
             <Body>
-              <Component {...pageProps} />
+              <ApolloProvider client={client}>
+                  <Component {...pageProps} />
+              </ApolloProvider>
             </Body>
             <FooterNavbar />
           </PageContainer>
       </ThemeProvider>
     )
-  }
 }
+
+export default MyApp;
