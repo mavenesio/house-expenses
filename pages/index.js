@@ -1,99 +1,91 @@
 // @ts-nocheck
-import React, {useState, useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import styled from 'styled-components';
-import Card from '../Components/Card/Card';
-import CircleSolid from '../Components/Icons/CircleSolid';
-import Header from '../Components/Header/Header';
-import Checkbox from '../Components/CheckBox/Checkbox';
 import fetch from 'isomorphic-unfetch';
 
-const Row = styled.tr`
+import Input from '../Components/Input/Input';
+import Button from '../Components/Button/Button';
+import Modal from '../Components/Modal/Modal';
+import CreateUserCard from '../Components/Modal/CreateUserCard';
+import Header from '../Components/Header/Header';
+
+const LoginContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
+const LoginBox = styled.div`
+  display:flex;
+  flex-direction:column;
+  border:2px solid ${props => props.theme.color.primaryDarkColor};
+  border-radius: 8px;
+  width:70%;
+  position:absolute;
+  top:calc(15%);
+  left:calc(15%);
+`;
+const ButtonContainer = styled.div`
+  margin:1rem;
   display:flex;
   flex-direction:row;
-  justify-content:center;
-  position:relative;
+  justify-content: flex-end;
 `;
-const HorizontalLine = styled.div`
-  display: ${props => props.paid ? 'unset' : 'none'};
-  height:0px;
-  width:calc(70%);
-  position:absolute;
-  top:calc(50%);
-  border: 1.5px solid ${props => props.theme.color.primaryColor};
+const InputContainer = styled.div`
+    margin:1rem;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    font-family: ${props => props.theme.font.family};
+    font-size: ${props => props.theme.font.size.text};
+    font-weight: ${props => props.theme.font.weight.bold};
 `;
-const Cell = styled.td`
-  font-family:${props => props.theme.font.family};
-  font-size: ${props => props.theme.font.size.text};
-  text-transform:capitalize;
-  align-self:center;
-  width:30%;
-  justify-self:flex-start;
+const CustomButton = styled(Button)`
+  margin:0.5rem;
+  width:50%;
+  cursor: pointer;
 `;
-const ExpensesContainer = styled.div`
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  flex-wrap: nowrap;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid ${props => props.theme.color.primaryColor};
-  & > * {
-        flex: 1 1 20%;
-    }
-`;
-const TotalFooter = styled.div`
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  flex-wrap: nowrap;
-  padding-bottom: 1rem;
-  & > * {
-        flex: 1 1 20%;
-    }
-`;
-function HomePage({currentExpenses}) {
-  const renderCurrentExpenses = useCallback(
-    (expenses) => {
-      return expenses.map(expense => 
-        <Row>
-          <Cell>
-            {expense.name}
-          </Cell>
-          <Cell>
-            $ {expense.amount}
-          </Cell>
-          <Checkbox checked={expense.paid} />
-        </Row>
-      )
-    },[])
+const EmailInput = styled(Input).attrs({placeholder:'', type:'string', name:'Email'})``;
+const PasswordInput = styled(Input).attrs({placeholder:'', type:'string', name:'Password'})``;
+
+
+
+function Login({data}) {
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
+  const [ModalIsVisible, setModalIsVisible] = useState(false)
   return (
     <>
-      <Header title='A PAGAR ESTE MES' />
-      <ExpensesContainer>
-        {
-          renderCurrentExpenses(currentExpenses)        
-        }
-      </ExpensesContainer>
-      <TotalFooter>
-        <Row>
-          <Cell>TOTAL</Cell>
-          <Cell>{currentExpenses.reduce((a, b) => a + parseFloat(b.amount), 0)}</Cell>
-        </Row>
-      </TotalFooter>
+      <Header title='LOGIN' />
+      <LoginContainer>
+        <LoginBox>
+          <InputContainer>
+              <EmailInput
+                  Value={Email}
+                  onChange={(event) => {setEmail(event.target.value)}}
+              />
+              <label>Email</label>
+          </InputContainer>
+          <InputContainer>
+              <PasswordInput
+                  Value={Password}
+                  onChange={(event) => {setPassword(event.target.value)}}
+              />
+              <label>Password</label>
+          </InputContainer>
+          <ButtonContainer>
+            <CustomButton onClick={() => {setModalIsVisible(true)}} >Sign In</CustomButton>
+            <CustomButton onClick={() => {console.log('Log in')}} >Log In</CustomButton>
+          </ButtonContainer>
+        </LoginBox>
+      </LoginContainer>
+      <Modal
+          isVisible={ModalIsVisible} 
+          changeVisibility={() => setModalIsVisible(!ModalIsVisible)}>
+              <CreateUserCard changeVisibility={() => setModalIsVisible(!ModalIsVisible)} />
+      </Modal>
     </>
   )
-
 }
 
-HomePage.getInitialProps = async ctx => {
-  const res = await fetch(`http://localhost:3000/api/getCurrentExpenses`);
-  const data = await res.json();
-  return { currentExpenses: data }
-}
-
-export default HomePage
-
-
-/*
-          <Checkbox checked={expense.paid} />
-
-*/ 
+export default Login
