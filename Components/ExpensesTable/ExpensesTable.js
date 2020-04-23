@@ -95,9 +95,14 @@ const ExpensesTable = (props) => {
     return (
         <>
             <ExpensesTableContainer>
-                <Table>
-                    {renderRows(dataTable)}
-                </Table>
+                {dataTable && dataTable.length > 0
+                    ?
+                    <Table>
+                        {renderRows(dataTable)}
+                    </Table>
+                    :
+                    <h1>No hay gastos</h1>
+                }
             </ExpensesTableContainer>
         </>
     )
