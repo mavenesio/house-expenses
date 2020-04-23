@@ -52,7 +52,7 @@ const ChartButton = styled(ChartBar)`
 
 
 const FooterNavbar = () => {
-    const [ModalIsVisible, setModalIsVisible] = useState(true);
+    const [ModalIsVisible, setModalIsVisible] = useState(false);
 
     return (<>
                 <FooterNavbarContainer>
