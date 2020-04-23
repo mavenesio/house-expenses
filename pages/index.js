@@ -1,16 +1,17 @@
 // @ts-nocheck
 import React, {useState, useEffect, useCallback} from 'react';
 import styled from 'styled-components';
-import fetch from 'isomorphic-unfetch';
+import {useRouter} from 'next/router';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import {gql, useMutation} from '@apollo/client';
 
 import Input from '../Components/Input/Input';
-import Button, {InputButton} from '../Components/Button/Button';
+import Button from '../Components/Button/Button';
 import Modal from '../Components/Modal/Modal';
 import CreateUserCard from '../Components/Modal/CreateUserCard';
 import Header from '../Components/Header/Header';
 import ErrorField from '../Components/ErrorField/ErrorField';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 
 const LoginContainer = styled.form`
   position: relative;
@@ -33,6 +34,9 @@ const ButtonContainer = styled.div`
   display:flex;
   flex-direction:row;
   justify-content: flex-end;
+  @media screen {
+    flex-direction:column-reverse;
+  }
 `;
 const InputContainer = styled.div`
     margin:1rem;
@@ -46,11 +50,25 @@ const InputContainer = styled.div`
 const CustomButton = styled(Button)`
   margin:0.5rem;
   width:50%;
+  @media screen {
+    width:100%;
+    margin:0.5rem 0rem 0.5rem 0rem;
+  }
   cursor: pointer;
+`;
+const AUTHOTIZATION_USER = gql`
+  mutation userAuthorization($input: AuthorizationInput){
+    userAuthorization(input: $input){
+      token
+    }
+  }
 `;
 
 function Login() {
   const [ModalIsVisible, setModalIsVisible] = useState(false);
+  const [ErrorMessage, setErrorMessage] = useState(null);
+  const router = useRouter();
+  const [AuthorizationInput] = useMutation(AUTHOTIZATION_USER);
   const formik = useFormik({
     initialValues: {email: '', password: ''},
     validationSchema: Yup.object({
@@ -60,15 +78,35 @@ function Login() {
                   .min(6, 'password no puede tener menos de 6 caracteres')
 
     }),
-    onSubmit: values => {
-      console.log('sending...');
-      console.log(values);
+    onSubmit: async values => {
+      const {email, password} = values;
+      try {
+        const {data} = await AuthorizationInput({
+          variables: {
+            input:{email, password}
+          }
+        });
+        
+        const {token} = data.userAuthorization;
+        localStorage.setItem('token', token);
+        router.push('/Homepage')
+
+
+
+
+      } catch (err) {
+        const message = err.message.replace('GraphQL error:', '');
+        setErrorMessage(message);
+        setTimeout( () => {
+          setErrorMessage(null);
+        },3000);
+      }
     }
   })
   return (
     <>
       <Header title='LOGIN' />
-      <LoginContainer onSubmit={formik.handleSubmit}>
+      <LoginContainer onSubmit={formik.handleSubmit} id='loginForm'>
         <LoginBox>
           <InputContainer>
               <Input
@@ -106,6 +144,13 @@ function Login() {
               }
             </InputContainer>
           <ButtonContainer>
+              {
+                ErrorMessage
+                ?
+                <ErrorField errorMessage={ErrorMessage} />
+                :
+                null
+              }
             <CustomButton onClick={() => {setModalIsVisible(true)}} >Sign In</CustomButton>
             <CustomButton type='submit' form='loginForm' >Log In</CustomButton>
           </ButtonContainer>
