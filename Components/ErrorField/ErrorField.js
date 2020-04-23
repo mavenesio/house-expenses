@@ -10,12 +10,15 @@ const ErrorFieldContainer = styled.div`
 
 
 const ErrorField = (props) => {
-    const {errorMessage} = props;
+    const {errorMessage, touched} = props;
     return (
         <>
             {
-                errorMessage !== '' && 
-                <ErrorFieldContainer> ** {errorMessage} </ErrorFieldContainer>
+                touched && errorMessage 
+                ?
+                <ErrorFieldContainer> * {errorMessage} </ErrorFieldContainer>
+                :
+                null
             }    
         </>)
 }
