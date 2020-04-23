@@ -5,8 +5,6 @@ import styled from 'styled-components';
 import PlusSquare from '../Icons/PlusSquare';
 import ChartBar from '../Icons/ChartBar';
 import FileRegular from '../Icons/FileRegular';
-import Modal from '../Modal/Modal';
-import ModalCard from '../Modal/ModalCard';
 
 const FooterNavbarContainer = styled.div`
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
@@ -52,19 +50,12 @@ const ChartButton = styled(ChartBar)`
 
 
 const FooterNavbar = () => {
-    const [ModalIsVisible, setModalIsVisible] = useState(false);
 
     return (<>
                 <FooterNavbarContainer>
-                    <PlusButton onClick={() => setModalIsVisible(!ModalIsVisible)}/>
                     <HistoryButton onClick={() => console.log('2222')}/>
                     <ChartButton onClick={() => console.log('3333')}/>
                 </FooterNavbarContainer>
-                <Modal
-                    isVisible={ModalIsVisible} 
-                    changeVisibility={() => setModalIsVisible(!ModalIsVisible)}>
-                        <ModalCard changeVisibility={() => setModalIsVisible(!ModalIsVisible)} />
-                </Modal >
             </>
             )
 }
