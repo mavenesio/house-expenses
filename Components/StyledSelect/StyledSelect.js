@@ -8,10 +8,14 @@ const InputContainer = styled.div`
     font-family: ${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.text};
     font-weight: ${props => props.theme.font.weight.bold};
-    margin:1rem;
+    margin:0.1rem 1rem 0.1rem 1rem;
+    width:100%;
     position:relative;
 `;
 const CustomSelect = styled(Select)`
+    & > div{
+        padding-bottom:unset;
+    }
     & ~ label{
         color:${props => props.theme.color.primaryDarkColor};
         font-family: ${props => props.theme.font.family};
@@ -37,7 +41,7 @@ const StyledSelect = (props) => {
                 styles={SelectColourStyles}
                 options={options}
                 value={value}
-                onChange={(value) => onChange(value)}
+                onChange={onChange}
                 placeholder={placeholder}
                 name={name}
                 inputId={name}
