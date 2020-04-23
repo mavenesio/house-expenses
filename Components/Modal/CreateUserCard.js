@@ -26,7 +26,7 @@ const CreateUserCardContainer = styled.div`
     background-color:white;
     border-radius:5px;
     width:78%;
-    height:78%;
+    height:75%;
 `;
 const ModalHeader = styled.div`
     display:flex;
@@ -34,7 +34,7 @@ const ModalHeader = styled.div`
     justify-content:space-between;
     padding:1rem;
     margin:1rem;
-    height:10%;
+    height:5%;
     border-bottom: 2px solid ${props => props.theme.color.primaryLightColor};
 `;
 const ModalHeaderText = styled.div`
@@ -44,14 +44,8 @@ const ModalHeaderText = styled.div`
 const ModalBody = styled.form`
     display:flex;
     flex-direction:column;
-    height:60%;
+    height:70%;
     overflow-y: auto;
-`;
-const ModalFooter = styled.div`
-    display:flex;
-    flex-direction:row;
-    justify-content:flex-end;
-    height:10%;
 `;
 
 const InputContainer = styled.div`
@@ -66,6 +60,10 @@ const InputContainer = styled.div`
 const CustomButton = styled(Button)`
   margin:0.5rem;
   width:50%;
+  @media screen {
+    width:100%;
+    margin:unset;
+  }
   cursor: pointer;
 `;
 const ADD_USER = gql`
@@ -77,9 +75,8 @@ const ADD_USER = gql`
     }
 `;
 
-const CreateUserCard = (props) => {7
-    const {changeVisibility} = props;
-    const [addUser] = useMutation(ADD_USER, );
+const CreateUserCard = ({changeVisibility}) => {
+    const [addUser] = useMutation(ADD_USER);
     const formik = useFormik({
         initialValues: {
             firstName: '',
@@ -108,12 +105,11 @@ const CreateUserCard = (props) => {7
                         }
                     }
                 });
-                console.log(data);
+                changeVisibility();
             } catch (err) {
                 console.log(err);
             }
         }
-
     })
 
 
@@ -136,13 +132,7 @@ const CreateUserCard = (props) => {7
                         value={formik.values.firstName}
                     />
                     <label>firstName</label>
-                    {
-                        formik.touched.firstName && formik.errors.firstName 
-                        ?
-                        <ErrorField errorMessage={formik.errors.firstName} />
-                        :
-                        null
-                    }
+                    <ErrorField errorMessage={formik.errors.firstName} touched={formik.touched.firstName} />
                 </InputContainer>
                 <InputContainer>
                     <Input
@@ -154,12 +144,7 @@ const CreateUserCard = (props) => {7
                         value={formik.values.lastName}
                     />
                     <label>lastName</label>
-                    {
-                        formik.touched.lastName && formik.errors.lastName 
-                        ?
-                        <ErrorField errorMessage={formik.errors.lastName} />
-                        :
-                        null
+                    <ErrorField errorMessage={formik.errors.lastName} touched={formik.touched.lastName} />
                     }
                 </InputContainer>
                 <InputContainer>
@@ -172,13 +157,7 @@ const CreateUserCard = (props) => {7
                         value={formik.values.createEmail}
                     />
                     <label>Email</label>
-                    {
-                        formik.touched.createEmail && formik.errors.createEmail 
-                        ?
-                        <ErrorField errorMessage={formik.errors.createEmail} />
-                        :
-                        null
-                    }
+                    <ErrorField errorMessage={formik.errors.email} touched={formik.touched.email} />
                 </InputContainer>
                 <InputContainer>
                     <Input
@@ -189,16 +168,10 @@ const CreateUserCard = (props) => {7
                         value={formik.values.createPassword}
                     />
                     <label>Password</label>
-                    {
-                        formik.touched.createPassword && formik.errors.createPassword 
-                        ?
-                        <ErrorField errorMessage={formik.errors.createPassword} />
-                        :
-                        null
-                    }
+                    <ErrorField errorMessage={formik.errors.password} touched={formik.touched.password} />
                 </InputContainer>
                 <InputContainer>
-                    <CustomButton type='submit' form='createForm' >Log In</CustomButton>
+                    <CustomButton type='submit' form='createForm' >Crate User</CustomButton>
                 </InputContainer>
             </ModalBody>
         </CreateUserCardContainer>
