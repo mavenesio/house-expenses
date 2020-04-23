@@ -9,7 +9,6 @@ import Checkbox from '../CheckBox/Checkbox';
 const ExpensesTableContainer = styled.div`
     width:100%;
     height:100%;
-    margin-top:2rem;
     font-family: ${props => props.theme.font.family}, cursive;
     font-size:25px;
 `;
