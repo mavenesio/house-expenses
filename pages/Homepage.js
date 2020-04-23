@@ -1,32 +1,31 @@
 // @ts-nocheck
 import React, {useState, useEffect, useCallback} from 'react';
+import {gql, useQuery} from '@apollo/client';
 import styled from 'styled-components';
 import Header from '../Components/Header/Header';
-import fetch from 'isomorphic-unfetch';
 import ExpensesTable from '../Components/ExpensesTable/ExpensesTable';
 
-function Homepage({data}) {
-  const [currentExpenses, setcurrentExpenses] = useState(data);
-  
-  useEffect(() => {
-    () => {
-      setcurrentExpenses(data);
+const GET_USER_EXPENSES = gql`
+    query getExpenses{
+      getExpenses{
+        id
+        name
+        amount
+      }
     }
-  }, [data]);
-  
+`;
+
+
+const Homepage = () => {
+  const {data, loading, error} = useQuery(GET_USER_EXPENSES);
+
   return (
     <>
       <Header title='A PAGAR ESTE MES' />
-      <ExpensesTable dataTable={currentExpenses}/>
+      <ExpensesTable dataTable={data ? data.getExpenses : undefined}/>
     </>
   )
 
-}
-
-Homepage.getInitialProps = async ctx => {
-  const res = await fetch(`http://localhost:3000/api/getCurrentExpenses`);
-  const data = await res.json();
-  return { data: data }
 }
 
 export default Homepage
