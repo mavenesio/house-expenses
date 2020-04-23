@@ -75,31 +75,58 @@ const Row = styled.div`
     justify-content:space-between;
     margin-top:1rem;
 `;
+const ADD_RANGE_EXPENSES = gql`
+    mutation addRangeExpenses($input:RangeExpenseInput!){
+        addRangeExpenses(input: $input){
+            id
+        }
+    }
+`;
+
 const ModalCard = (props) => {
     const {changeVisibility} = props;
+    const [ErrorMessage, setErrorMessage] = useState(null);
+    const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES);
     const formik = useFormik({
         initialValues: {
-            name: 'aysa',
-            amount: 30,
-            startMonth: MonthOptions[0],
+            name: '',
+            amount: 0,
+            startMonth: MonthOptions[(new Date()).getMonth()],
             startYear: YearOptions[0],
             numberOfMonth: NumberOfMonthOptions[0],
         },
         validationSchema: Yup.object({
-            name: Yup.string().required('El nombre es requerido.'),
-            amount: Yup.number().min(0, 'El monto no puede ser menor a 0.').required('El monto es requerido.'),
-            startMonth: Yup.object().required('Mes de comienzo es requerido.'),
-            startYear: Yup.object().required('Año de comienzo es requerido.')
+            name: Yup.string('Debe ser string').required('Campo requerido.'),
+            amount: Yup.number('Debe ser numero').min(0, 'monto mayor a 0.').required('Campo requerido.'),
+            startMonth: Yup.object().required('Campo requerido.'),
+            startYear: Yup.object().required('Campo requerido.')
         }),
-        onSubmit: values => {
-            console.log('***', values);
+        onSubmit: async values => {
+            try {
+                const {name, amount, startMonth, startYear, numberOfMonth} = values;
+                const inp = {   name,
+                                amount: parseFloat(amount),
+                                startMonth: parseInt(startMonth.value),
+                                startYear: parseInt(startYear.value),
+                                monthAmount: parseInt(numberOfMonth.value)};
+                const {data} = await addRangeExpenses({
+                    variables: { input: {...inp}}
+                });
+                changeVisibility();
+            } catch (err) {
+                const message = err.message.replace('GraphQL error:', '');
+                setErrorMessage(message);
+                setTimeout( () => {
+                  setErrorMessage(null);
+                },3000);
+            }
         }
     })
 
     const { handleChange,setFieldValue } = formik;
-    const handleStartMonthSelect = useCallback((value) => { console.log(value); setFieldValue('startMonth', value)}, [handleChange]);
-    const handleStartYearSelect = useCallback((value) => { console.log(value); setFieldValue('startYear', value)}, [handleChange]);
-    const handleNumberOfMonthSelect = useCallback((value) => { console.log(value); setFieldValue('numberOfMonth', value)}, [handleChange]);
+    const handleStartMonthSelect = useCallback((value) => setFieldValue('startMonth', value), [handleChange]);
+    const handleStartYearSelect = useCallback((value) => setFieldValue('startYear', value), [handleChange]);
+    const handleNumberOfMonthSelect = useCallback((value) => setFieldValue('numberOfMonth', value), [handleChange]);
 
     return (
         <ModalCardContainer onSubmit={formik.handleSubmit} id='expenseForm'>
@@ -109,6 +136,7 @@ const ModalCard = (props) => {
                 </ModalHeaderText>
                 <CrossButton onClick={changeVisibility}/>
             </ModalHeader>
+            <ErrorField ErrorMessage={ErrorMessage} touched={true} />
             <ModalBody >
                 <Row>
                     <InputContainer>
