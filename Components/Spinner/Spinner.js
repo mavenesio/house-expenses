@@ -1,7 +1,7 @@
 
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import {getRandomThemeColour,getRandomNumber} from '../../utils/utils';
+import theme from '../../constants/Theme';
 
 import {ClimbingBoxLoader, ClockLoader, DotLoader, HashLoader, PacmanLoader} from "react-spinners";
 
@@ -24,6 +24,11 @@ const SpinnerWrapper = styled.div`
 `;
 const Spinner = (props) => {
     const {loading} = props;
+    const getThemeColor = useCallback(
+        (colors) =>{
+            const keys = Object.keys(colors)
+            return colors[keys[Math.random() * keys.length]]
+        },[]);
 
     return (
         <>
@@ -31,7 +36,7 @@ const Spinner = (props) => {
                 loading &&
                 <SpinnerContainer>
                     <SpinnerWrapper>
-                        <PacmanLoader size={90} color={getRandomThemeColour(1)} loading={loading}/>
+                        <PacmanLoader size={90} color={getThemeColor(theme.color)} loading={loading}/>
                     </SpinnerWrapper>
                 </SpinnerContainer>
             }
