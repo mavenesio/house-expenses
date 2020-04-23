@@ -26,7 +26,6 @@ const CreateUserCardContainer = styled.div`
     background-color:white;
     border-radius:5px;
     width:78%;
-    height:75%;
 `;
 const ModalHeader = styled.div`
     display:flex;
@@ -44,12 +43,11 @@ const ModalHeaderText = styled.div`
 const ModalBody = styled.form`
     display:flex;
     flex-direction:column;
-    height:70%;
     overflow-y: auto;
 `;
 
 const InputContainer = styled.div`
-    margin:1rem;
+    margin:0.2rem 1rem 0.2rem 1rem;
     display:flex;
     flex-direction:column;
     position:relative;
@@ -58,14 +56,14 @@ const InputContainer = styled.div`
     font-weight: ${props => props.theme.font.weight.bold};
 `;
 const CustomButton = styled(Button)`
-  margin:0.5rem;
+  margin:1rem 0rem 1rem 0rem;
   width:50%;
   @media screen {
     width:100%;
-    margin:unset;
   }
   cursor: pointer;
 `;
+
 const ADD_USER = gql`
     mutation addUser($input: UserInput!) {
         addUser(input: $input){
@@ -76,6 +74,7 @@ const ADD_USER = gql`
 `;
 
 const CreateUserCard = ({changeVisibility}) => {
+    const [ErrorMessage, setErrorMessage] = useState(null);
     const [addUser] = useMutation(ADD_USER);
     const formik = useFormik({
         initialValues: {
@@ -91,10 +90,8 @@ const CreateUserCard = ({changeVisibility}) => {
             createPassword: Yup.string().required('password no puede ser vacio').min(6, 'password no puede tener menos de 6 caracteres')
         }),
         onSubmit: async values => {
-            console.log(values);
             try {
                 const {firstName, lastName, createPassword, createEmail} = values;
-                console.log(firstName, lastName,createPassword, createEmail)
                 const {data} = await addUser({
                     variables: {
                         input: {
@@ -107,7 +104,11 @@ const CreateUserCard = ({changeVisibility}) => {
                 });
                 changeVisibility();
             } catch (err) {
-                console.log(err);
+                const message = err.message.replace('GraphQL error:', '');
+                setErrorMessage(message);
+                setTimeout( () => {
+                  setErrorMessage(null);
+                },3000);
             }
         }
     })
@@ -121,32 +122,32 @@ const CreateUserCard = ({changeVisibility}) => {
                 </ModalHeaderText>
                 <CrossButton onClick={changeVisibility}/>
             </ModalHeader>
-            <ModalBody  onSubmit={formik.handleSubmit} id='createForm'>  
-                <InputContainer>
-                    <Input
-                        name='firstName'
-                        id='firstName'
-                        type='firstName'
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.firstName}
-                    />
-                    <label>firstName</label>
-                    <ErrorField errorMessage={formik.errors.firstName} touched={formik.touched.firstName} />
-                </InputContainer>
-                <InputContainer>
-                    <Input
-                        name='lastName'
-                        id='lastName'
-                        type='lastName'
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.lastName}
-                    />
-                    <label>lastName</label>
-                    <ErrorField errorMessage={formik.errors.lastName} touched={formik.touched.lastName} />
-                    }
-                </InputContainer>
+            <ErrorField errorMessage={ErrorMessage} touched={true}/>
+            <ModalBody  onSubmit={formik.handleSubmit} id='createForm'>
+                    <InputContainer>
+                        <Input
+                            name='firstName'
+                            id='firstName'
+                            type='firstName'
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.firstName}
+                        />
+                        <label>firstName</label>
+                        <ErrorField errorMessage={formik.errors.firstName} touched={formik.touched.firstName} />
+                    </InputContainer>
+                    <InputContainer>
+                        <Input
+                            name='lastName'
+                            id='lastName'
+                            type='lastName'
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.lastName}
+                        />
+                        <label>lastName</label>
+                        <ErrorField errorMessage={formik.errors.lastName} touched={formik.touched.lastName} />
+                    </InputContainer>
                 <InputContainer>
                     <Input
                         name='createEmail'
