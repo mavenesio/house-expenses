@@ -2,6 +2,7 @@
 import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
 import pen from '../Icons/Pen';
+import Card from '../Card/Card';
 import Checkbox from '../CheckBox/Checkbox';
 
 
@@ -52,6 +53,16 @@ const HorizonalLine = styled.div`
     width:100%;
     display: ${props => props.isvisible ? 'block' : 'none' };
 `;
+const FooterLine = styled.div`
+    height:0px;
+    border: 1.5px solid ${props => props.theme.color.primaryColor};
+    position:absolute;
+    top:0px;
+    width:100%;
+    display:block;
+`;
+
+
 const AmoutCell = styled.div`
     text-align:end;
     width:15%;
@@ -91,6 +102,25 @@ const ExpensesTable = (props) => {
                                     </Row>)
 
         }, [])
+    const getFooter = useCallback(
+        (data) => {
+            return (<Row>
+                        <NameCell>
+                        <FooterLine />
+                            Total
+                        </NameCell>
+                        <AmoutCell>
+                            <FooterLine />
+                            {data.reduce((a,b) => {return a + b.amount},0)}
+                        </AmoutCell>
+                        <IconCell>
+                        </IconCell>
+                        <IconCell>
+                        </IconCell>
+                    </Row>)
+        }
+
+    )
 
     return (
         <>
@@ -99,9 +129,10 @@ const ExpensesTable = (props) => {
                     ?
                     <Table>
                         {renderRows(dataTable)}
+                        {getFooter(dataTable)}
                     </Table>
                     :
-                    <h1>No hay gastos</h1>
+                    <Card><p>No hay gastos</p></Card>
                 }
             </ExpensesTableContainer>
         </>
