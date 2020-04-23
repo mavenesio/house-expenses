@@ -16,7 +16,7 @@ import ErrorField from '../Components/ErrorField/ErrorField';
 const LoginContainer = styled.form`
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 90%;
 `;
 
 const LoginBox = styled.div`
@@ -118,13 +118,7 @@ function Login() {
                   value={formik.values.email}
               />
               <label>Email</label>
-              {
-                formik.touched.email && formik.errors.email 
-                ?
-                <ErrorField errorMessage={formik.errors.email} />
-                :
-                null
-              }
+              <ErrorField errorMessage={formik.errors.email} touched={formik.errors.email }/>
           </InputContainer>
           <InputContainer>
               <Input
@@ -135,22 +129,10 @@ function Login() {
                   value={formik.values.password}
               />
               <label>Password</label>
-              {
-                formik.touched.password && formik.errors.password 
-                ?
-                <ErrorField errorMessage={formik.errors.password} />
-                :
-                null
-              }
+              <ErrorField errorMessage={formik.errors.password} touched={formik.errors.password } />
             </InputContainer>
           <ButtonContainer>
-              {
-                ErrorMessage
-                ?
-                <ErrorField errorMessage={ErrorMessage} />
-                :
-                null
-              }
+            <ErrorField errorMessage={ErrorMessage} touched={true}/>
             <CustomButton onClick={() => {setModalIsVisible(true)}} >Sign In</CustomButton>
             <CustomButton type='submit' form='loginForm' >Log In</CustomButton>
           </ButtonContainer>
