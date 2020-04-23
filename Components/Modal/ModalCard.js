@@ -1,9 +1,14 @@
 // @ts-nocheck
 import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import {useMutation, gql} from'@apollo/client';
+
 import TimesCircle from '../Icons/TimesCircle';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
+import ErrorField from '../ErrorField/ErrorField';
 import StyledSelect from '../StyledSelect/StyledSelect';
 import {YearOptions, MonthOptions, NumberOfMonthOptions} from '../../constants/constants';
 
@@ -16,14 +21,13 @@ const CrossButton = styled(TimesCircle)`
         color: ${props => props.theme.color.primaryLightColor};
     }
 `;
-const ModalCardContainer = styled.div`
+const ModalCardContainer = styled.form`
     z-index:5;
     position:relative;
     align-self:center;
     background-color:white;
     border-radius:5px;
     width:78%;
-    height:78%;
 `;
 const ModalHeader = styled.div`
     display:flex;
@@ -41,18 +45,12 @@ const ModalHeaderText = styled.div`
 const ModalBody = styled.div`
     display:flex;
     flex-direction:column;
-    height:60%;
     overflow-y: auto;
-`;
-const ModalFooter = styled.div`
-    display:flex;
-    flex-direction:row;
-    justify-content:flex-end;
-    height:10%;
 `;
 
 const InputContainer = styled.div`
-    margin:1rem;
+    margin:0.1rem 1rem 0.1rem 1rem;
+    width:50%;
     display:flex;
     flex-direction:column;
     position:relative;
@@ -60,73 +58,121 @@ const InputContainer = styled.div`
     font-size: ${props => props.theme.font.size.text};
     font-weight: ${props => props.theme.font.weight.bold};
 `;
-const NameInput = styled(Input).attrs({placeholder:'', type:'string', name:'name'})``;
-const PaymentInput = styled(Input).attrs({placeholder:'', type:'number', name:'payment'})``;
-
+const ButtonContainer = styled.div`
+    margin:0.1rem 1rem 0.1rem 1rem;
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-end;
+    position:relative;
+    font-family: ${props => props.theme.font.family};
+    font-size: ${props => props.theme.font.size.text};
+    font-weight: ${props => props.theme.font.weight.bold};
+`;
+const Row = styled.div`
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    margin-top:1rem;
+`;
 const ModalCard = (props) => {
-    const [Name, setName] = useState('');
-    const [Payment, setPayment] = useState('0');
-    const [StartMonth, setStartMonth] = useState('1');
-    const [StartYear, setStartYear] = useState(YearOptions[0]);
-    const [NumberOfMonth, setNumberOfMonth] = useState(NumberOfMonthOptions[0]);
     const {changeVisibility} = props;
+    const formik = useFormik({
+        initialValues: {
+            name: 'aysa',
+            amount: 30,
+            startMonth: MonthOptions[0],
+            startYear: YearOptions[0],
+            numberOfMonth: NumberOfMonthOptions[0],
+        },
+        validationSchema: Yup.object({
+            name: Yup.string().required('El nombre es requerido.'),
+            amount: Yup.number().min(0, 'El monto no puede ser menor a 0.').required('El monto es requerido.'),
+            startMonth: Yup.object().required('Mes de comienzo es requerido.'),
+            startYear: Yup.object().required('Año de comienzo es requerido.')
+        }),
+        onSubmit: values => {
+            console.log('***', values);
+        }
+    })
 
+    const { handleChange,setFieldValue } = formik;
+    const handleStartMonthSelect = useCallback((value) => { console.log(value); setFieldValue('startMonth', value)}, [handleChange]);
+    const handleStartYearSelect = useCallback((value) => { console.log(value); setFieldValue('startYear', value)}, [handleChange]);
+    const handleNumberOfMonthSelect = useCallback((value) => { console.log(value); setFieldValue('numberOfMonth', value)}, [handleChange]);
 
     return (
-        <ModalCardContainer>
+        <ModalCardContainer onSubmit={formik.handleSubmit} id='expenseForm'>
             <ModalHeader>
                 <ModalHeaderText>
                     Nuevo gasto
                 </ModalHeaderText>
                 <CrossButton onClick={changeVisibility}/>
             </ModalHeader>
-            <ModalBody>
-                <InputContainer>
-                    <NameInput
-                        Value={Name}
-                        onChange={(event) => {setName(event.target.value)}}
+            <ModalBody >
+                <Row>
+                    <InputContainer>
+                        <Input
+                            value={formik.values.name}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            name='name'
+                            id='name'
+                            type='name'
+                        />
+                        <label>Nombre</label>
+                    <ErrorField errorMessage={formik.errors.name} touched={formik.touched.name} />
+                    </InputContainer>
+                    <InputContainer>
+                        <Input
+                            value={formik.values.amount}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            name='amount'
+                            id='amount'
+                            type='amount'
+                        />
+                        <label>Monto</label>
+                    <ErrorField errorMessage={formik.errors.amount} touched={formik.touched.amount} />
+                    </InputContainer>
+                </Row>
+                <Row>
+                    <StyledSelect
+                        value={formik.values.startMonth}
+                        onChange={handleStartMonthSelect}
+                        name='startMonth'
+                        type='startMonth'
+                        options={MonthOptions}
+                        label='Mes de comienzo'
                     />
-                    <label>Name</label>
-                </InputContainer>
-                <InputContainer>
-                    <PaymentInput
-                        Value={Payment}
-                        onChange={(event) => {setPayment(event.target.value)}}
+                    <StyledSelect
+                        options={YearOptions}
+                        value={formik.values.startYear}
+                        onChange={handleStartYearSelect}
+                        name='startYear'
+                        type='startYear'
+                        label='Año de comienzo'
                     />
-                    <label>A pagar</label>
-                </InputContainer>
-                <StyledSelect
-                    options={MonthOptions}
-                    value={StartMonth}
-                    onChange={(value) => setStartMonth(value)}
-                    placeholder='options..'
-                    label='Mes de comienzo'
-                    name='StartMonth'
-                />
-                <StyledSelect
-                    options={YearOptions}
-                    value={StartYear}
-                    onChange={(value) => setStartYear(value)}
-                    placeholder='options..'
-                    label=''
-                    label='Año de comienzo'
-                    name='StartYear'
-                />
-                <StyledSelect
-                    options={NumberOfMonthOptions}
-                    value={NumberOfMonth}
-                    onChange={(value) => setNumberOfMonth(value)}
-                    placeholder='options..'
-                    label=''
-                    label='Duración de meses'
-                    name='NumberOfMonth'
-                />
+                    <ErrorField errorMessage={formik.errors.startMonth} touched={formik.touched.startMonth} />
+                    <ErrorField errorMessage={formik.errors.startYear} touched={formik.touched.startYear} />
+                </Row>
+                <Row>
+                    <StyledSelect
+                        options={NumberOfMonthOptions}
+                        value={formik.values.numberOfMonth}
+                        onChange={handleNumberOfMonthSelect}
+                        name='numberOfMonth'
+                        type='numberOfMonth'
+                        label='Cantidad de meses'
+                    />
+                    <ErrorField errorMessage={formik.errors.numberOfMonth} touched={formik.touched.numberOfMonth} />
+                </Row>
+                <Row>
+                    <ButtonContainer>
+                        <Button type='submit' form='expenseForm' >Agregar!</Button>
+                    </ButtonContainer>
+                </Row>
             </ModalBody>
-            <ModalFooter>
-                <InputContainer>
-                    <Button onClick={() => {console.log(Name, Payment, StartMonth, StartYear, NumberOfMonth); changeVisibility()}} >Agregar!</Button>
-                </InputContainer>
-            </ModalFooter>
         </ModalCardContainer>
     )
 }
