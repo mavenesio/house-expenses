@@ -24,7 +24,7 @@ const HeaderText = styled.div`
 `;
 const LogOutButton = styled(PowerOff)`
     align-self:center;
-    font-size: 40px;
+    font-size: 30px;
     color: white;
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
