@@ -9,12 +9,14 @@ import TimesCircle from '../Icons/TimesCircle';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import ErrorField from '../ErrorField/ErrorField';
+import Spinner from '../Spinner/Spinner';
 
 const CrossButton = styled(TimesCircle)`
     align-self:center;
     font-size: 20px;
     color: black;
     margin: 0rem 1rem 0rem 1rem;
+    cursor: pointer;
     &:hover{
         color: ${props => props.theme.color.primaryLightColor};
     }
@@ -25,15 +27,14 @@ const CreateUserCardContainer = styled.div`
     align-self:center;
     background-color:white;
     border-radius:5px;
-    width:78%;
+    width:50vw;
+    min-width:300px;
 `;
 const ModalHeader = styled.div`
     display:flex;
     flex-direction:row;
     justify-content:space-between;
-    padding:1rem;
     margin:1rem;
-    height:5%;
     border-bottom: 2px solid ${props => props.theme.color.primaryLightColor};
 `;
 const ModalHeaderText = styled.div`
@@ -75,6 +76,7 @@ const ADD_USER = gql`
 
 const CreateUserCard = ({changeVisibility}) => {
     const [ErrorMessage, setErrorMessage] = useState(null);
+    const [Loading, setLoading] = useState(false);
     const [addUser] = useMutation(ADD_USER);
     const formik = useFormik({
         initialValues: {
@@ -87,10 +89,12 @@ const CreateUserCard = ({changeVisibility}) => {
             firstName: Yup.string().required('El nombre es obligatorio'),
             lastName: Yup.string().required('El apellido es obligatorio'),
             createEmail: Yup.string().email('El email no es valido').required('Email es obligatorio'),
-            createPassword: Yup.string().required('password no puede ser vacio').min(6, 'password no puede tener menos de 6 caracteres')
+            createPassword: Yup.string().required('password no puede ser vacio')
+                                        .min(6, 'password no puede tener menos de 6 caracteres')
         }),
         onSubmit: async values => {
             try {
+                setLoading(true);
                 const {firstName, lastName, createPassword, createEmail} = values;
                 const {data} = await addUser({
                     variables: {
@@ -103,7 +107,9 @@ const CreateUserCard = ({changeVisibility}) => {
                     }
                 });
                 changeVisibility();
+                setLoading(false);
             } catch (err) {
+                setLoading(false);
                 const message = err.message.replace('GraphQL error:', '');
                 setErrorMessage(message);
                 setTimeout( () => {
@@ -118,7 +124,7 @@ const CreateUserCard = ({changeVisibility}) => {
         <CreateUserCardContainer>
             <ModalHeader>
                 <ModalHeaderText>
-                    Nuevo Usuario
+                    New user
                 </ModalHeaderText>
                 <CrossButton onClick={changeVisibility}/>
             </ModalHeader>
@@ -133,7 +139,7 @@ const CreateUserCard = ({changeVisibility}) => {
                             onBlur={formik.handleBlur}
                             value={formik.values.firstName}
                         />
-                        <label>firstName</label>
+                        <label>First name</label>
                         <ErrorField errorMessage={formik.errors.firstName} touched={formik.touched.firstName} />
                     </InputContainer>
                     <InputContainer>
@@ -145,7 +151,7 @@ const CreateUserCard = ({changeVisibility}) => {
                             onBlur={formik.handleBlur}
                             value={formik.values.lastName}
                         />
-                        <label>lastName</label>
+                        <label>Last name</label>
                         <ErrorField errorMessage={formik.errors.lastName} touched={formik.touched.lastName} />
                     </InputContainer>
                 <InputContainer>
@@ -158,7 +164,7 @@ const CreateUserCard = ({changeVisibility}) => {
                         value={formik.values.createEmail}
                     />
                     <label>Email</label>
-                    <ErrorField errorMessage={formik.errors.email} touched={formik.touched.email} />
+                    <ErrorField errorMessage={formik.errors.createEmail} touched={formik.touched.createEmail} />
                 </InputContainer>
                 <InputContainer>
                     <Input
@@ -169,12 +175,13 @@ const CreateUserCard = ({changeVisibility}) => {
                         value={formik.values.createPassword}
                     />
                     <label>Password</label>
-                    <ErrorField errorMessage={formik.errors.password} touched={formik.touched.password} />
+                    <ErrorField errorMessage={formik.errors.createPassword} touched={formik.touched.createPassword} />
                 </InputContainer>
                 <InputContainer>
-                    <CustomButton type='submit' form='createForm' >Crate User</CustomButton>
+                    <CustomButton type='submit' form='createForm' >Crate user</CustomButton>
                 </InputContainer>
             </ModalBody>
+            <Spinner loadring={Loading}/>
         </CreateUserCardContainer>
     )
 }
