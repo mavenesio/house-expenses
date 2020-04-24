@@ -15,6 +15,7 @@ const GET_USER_EXPENSES = gql`
         id
         name
         amount
+        paid
       }
     }
 `;

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import pen from '../Icons/Pen';
 import Card from '../Card/Card';
 import Checkbox from '../CheckBox/Checkbox';
+import {useMutation, gql} from'@apollo/client';
 
 
 const ExpensesTableContainer = styled.div`
@@ -36,9 +37,6 @@ const Row = styled.div`
     display:flex;
     flex-direction:row;
     justify-content:center;
-    & > div{
-        padding:0.5rem 0rem 0.5rem 0rem;
-    }
     &:hover{
         background-color:lightgray;
         border-radius:8px;
@@ -77,9 +75,47 @@ const IconCell = styled.div`
     width:5%;
     margin-left:1rem;
 `;
+const PAID_EXPENSE = gql`
+    mutation payExpense($input:payExpenseInput!){
+        payExpense(input: $input){
+            id,
+            name,
+            paid,
+            amount
+        }
+    }
+`;
+const TotalPay = styled.div`
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    justify-content:flex-end;
+    color: red;
+    text-decoration: ${props => props.paySome ? 'line-through' : 'none'};
+`;
+const Paid = styled.div`
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-end;
+    flex-wrap:nowrap;
+    color: green;
+
+`;
 
 const ExpensesTable = (props) => {
     const {dataTable} = props;
+    const [payExpense] = useMutation(PAID_EXPENSE);
+    const paidExpense = useCallback(
+        async (expenseId, paid) => {
+            try {
+                const {data} = await payExpense({
+                    variables: { input: {expenseId: expenseId, paid: !paid }}
+                });
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    )
 
     const renderRows = useCallback(
         (data) => {
@@ -93,7 +129,7 @@ const ExpensesTable = (props) => {
                                             <HorizonalLine isvisible={row.paid}/>
                                         </AmoutCell>
                                         <IconCell>
-                                            <Checkbox title='' checked={row.paid} onCheck={console.log}/>
+                                            <Checkbox title='' checked={row.paid} onCheck={() => paidExpense(row.id,row.paid)}/>
                                         </IconCell>
                                         <IconCell>
                                             <PenButton disabled={row.paid}  onClick={() => {setCurrentExpense(row); setModalIsVisible(true)}}/>
@@ -102,24 +138,25 @@ const ExpensesTable = (props) => {
 
         }, [])
     const getFooter = useCallback(
-        (data) => {
-            return (<Row>
-                        <NameCell>
-                        <FooterLine />
-                            Total
-                        </NameCell>
-                        <AmoutCell>
-                            <FooterLine />
-                            {data.reduce((a,b) => {return a + b.amount},0)}
-                        </AmoutCell>
-                        <IconCell>
-                        </IconCell>
-                        <IconCell>
-                        </IconCell>
-                    </Row>)
+        (totalToPay, paid) => {
+
+            return (
+                    <>
+                    <Row><NameCell><FooterLine/>Total a pagar</NameCell><AmoutCell>
+                        <FooterLine /><TotalPay paySome={paid !== 0}>{totalToPay}</TotalPay>
+                    </AmoutCell><IconCell></IconCell><IconCell></IconCell></Row>
+                    <Row><NameCell>Pagado</NameCell><AmoutCell>
+                        <Paid>{paid}</Paid>
+                    </AmoutCell><IconCell></IconCell><IconCell></IconCell></Row>
+                    <Row><NameCell>Falta</NameCell><AmoutCell>
+                        <TotalPay paySome={false}>{totalToPay-paid}</TotalPay>
+                    </AmoutCell><IconCell></IconCell><IconCell></IconCell></Row>
+                    </>)
         }
 
     )
+    const getTotal = useCallback( (data) => data.reduce((accumulator, expense) => accumulator + expense.amount, 0));
+    const getTotalPaid = useCallback( (data) => data.reduce((accumulator, expense) => accumulator + (expense.paid ? expense.amount : 0), 0));
 
     return (
         <>
@@ -128,7 +165,7 @@ const ExpensesTable = (props) => {
                     ?
                     <Table>
                         {renderRows(dataTable)}
-                        {getFooter(dataTable)}
+                        {getFooter(getTotal(dataTable), getTotalPaid(dataTable))}
                     </Table>
                     :
                     <Card><p>No hay gastos</p></Card>

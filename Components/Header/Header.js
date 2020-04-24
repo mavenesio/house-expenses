@@ -43,8 +43,11 @@ const Header = (props) => {
                 </HeaderText>
             </Link>
             {
-                (router.pathname !== './' && router.pathname !== './index') &&
+                (router.pathname !== './' && router.pathname !== './index') 
+                ?
                 <LogOutButton onClick={() => {localStorage.removeItem('token'); router.push('/')}} />
+                :
+                null
             }
         </HeaderContainer>
     )
