@@ -14,26 +14,25 @@ import {YearOptions, MonthOptions, NumberOfMonthOptions} from '../../constants/c
 
 const CrossButton = styled(TimesCircle)`
     align-self:center;
-    font-size: 20px;
+    font-size: 25px;
     color: black;
-    margin: 0rem 1rem 0rem 1rem;
+    margin: 0rem 1rem 1rem 1rem;
+    cursor: pointer;
     &:hover{
         color: ${props => props.theme.color.primaryLightColor};
     }
 `;
-const ModalCardContainer = styled.form`
+const CreateExpenseCardContainer = styled.form`
     z-index:5;
     position:relative;
     align-self:center;
     background-color:white;
     border-radius:5px;
-    width:78%;
 `;
 const ModalHeader = styled.div`
     display:flex;
     flex-direction:row;
     justify-content:space-between;
-    padding:1rem;
     margin:1rem;
     height:10%;
     border-bottom: 2px solid ${props => props.theme.color.primaryLightColor};
@@ -75,6 +74,15 @@ const Row = styled.div`
     justify-content:space-between;
     margin-top:1rem;
 `;
+const CustomButton = styled(Button)`
+  margin:1rem 0rem 1rem 0rem;
+  width:50%;
+  @media screen {
+    width:100%;
+  }
+  cursor: pointer;
+`;
+
 const ADD_RANGE_EXPENSES = gql`
     mutation addRangeExpenses($input:RangeExpenseInput!){
         addRangeExpenses(input: $input){
@@ -83,7 +91,7 @@ const ADD_RANGE_EXPENSES = gql`
     }
 `;
 
-const ModalCard = (props) => {
+const CreateExpenseCard = (props) => {
     const {changeVisibility} = props;
     const [ErrorMessage, setErrorMessage] = useState(null);
     const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES);
@@ -129,7 +137,7 @@ const ModalCard = (props) => {
     const handleNumberOfMonthSelect = useCallback((value) => setFieldValue('numberOfMonth', value), [handleChange]);
 
     return (
-        <ModalCardContainer onSubmit={formik.handleSubmit} id='expenseForm'>
+        <CreateExpenseCardContainer onSubmit={formik.handleSubmit} id='expenseForm'>
             <ModalHeader>
                 <ModalHeaderText>
                     Nuevo gasto
@@ -197,12 +205,12 @@ const ModalCard = (props) => {
                 </Row>
                 <Row>
                     <ButtonContainer>
-                        <Button type='submit' form='expenseForm' >Agregar!</Button>
+                        <CustomButton type='submit' form='expenseForm' >Agregar!</CustomButton>
                     </ButtonContainer>
                 </Row>
             </ModalBody>
-        </ModalCardContainer>
+        </CreateExpenseCardContainer>
     )
 }
 
-export default ModalCard;
+export default CreateExpenseCard;
