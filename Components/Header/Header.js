@@ -33,7 +33,7 @@ const LogOutButton = styled(PowerOff)`
 `;
 
 const Header = (props) => {
-    const {title} = props;
+    const {title, logOutVisible} = props;
     const router = useRouter();
     return (
         <HeaderContainer>
@@ -43,11 +43,7 @@ const Header = (props) => {
                 </HeaderText>
             </Link>
             {
-                (router.pathname !== './' && router.pathname !== './index') 
-                ?
-                <LogOutButton onClick={() => {localStorage.removeItem('token'); router.push('/')}} />
-                :
-                null
+                logOutVisible && <LogOutButton onClick={() => {localStorage.removeItem('token'); router.push('/')}} />
             }
         </HeaderContainer>
     )
