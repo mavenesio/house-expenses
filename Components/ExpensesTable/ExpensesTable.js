@@ -1,10 +1,13 @@
 // @ts-nocheck
 import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
+
 import pen from '../Icons/Pen';
 import Card from '../Card/Card';
 import Checkbox from '../CheckBox/Checkbox';
 import {useMutation, gql} from'@apollo/client';
+import Modal from '../Modal/Modal';
+import UpdateExpenseCard from '../Modal/UpdateExpenseCard';
 
 
 const ExpensesTableContainer = styled.div`
@@ -12,6 +15,8 @@ const ExpensesTableContainer = styled.div`
     height:100%;
     font-family: ${props => props.theme.font.family}, cursive;
     font-size:25px;
+    display: flex;
+    justify-content: center;
 `;
 const PenButton = styled(pen)`
     align-self:center;
@@ -32,6 +37,9 @@ const Table = styled.div`
     display:flex;
     flex-direction:column;
     justify-content:center;
+    align-self:flex-start;
+    width: 60%;
+    min-width:300px;
 `;
 const Row = styled.div`
     display:flex;
@@ -60,30 +68,21 @@ const FooterLine = styled.div`
 `;
 
 
-const AmoutCell = styled.div`
-    text-align:end;
-    width:15%;
-    position:relative;
-`;
 const NameCell = styled.div`
     text-align:start;
-    width:30%;
     position:relative;
+    width: 70%;
+`;
+const AmoutCell = styled.div`
+    text-align:end;
+    position:relative;
+    width: 20%;
+    
 `;
 const IconCell = styled.div`
     text-align:start;
-    width:5%;
+    width:10%;
     margin-left:1rem;
-`;
-const PAID_EXPENSE = gql`
-    mutation payExpense($input:payExpenseInput!){
-        payExpense(input: $input){
-            id,
-            name,
-            paid,
-            amount
-        }
-    }
 `;
 const TotalPay = styled.div`
     display:flex;
@@ -101,16 +100,26 @@ const Paid = styled.div`
     color: green;
 
 `;
+const PAID_EXPENSE = gql`
+    mutation payExpense($input:payExpenseInput!){
+        payExpense(input: $input){
+            id,
+            name,
+            paid,
+            amount
+        }
+    }
+`;
 
 const ExpensesTable = (props) => {
-    const {dataTable} = props;
+    const {dataTable, updateDataTable, onEdit} = props;
+    const [UpdateExpenseModalIsVisible, setUpdateExpenseModalIsVisible] = useState(false);
     const [payExpense] = useMutation(PAID_EXPENSE);
     const paidExpense = useCallback(
         async (expenseId, paid) => {
             try {
-                const {data} = await payExpense({
-                    variables: { input: {expenseId: expenseId, paid: !paid }}
-                });
+                const {data} = await payExpense({variables: { input: {expenseId: expenseId, paid: !paid }}});
+                updateDataTable();
             } catch (err) {
                 console.log(err);
             }
@@ -132,7 +141,7 @@ const ExpensesTable = (props) => {
                                             <Checkbox title='' checked={row.paid} onCheck={() => paidExpense(row.id,row.paid)}/>
                                         </IconCell>
                                         <IconCell>
-                                            <PenButton disabled={row.paid}  onClick={() => {setCurrentExpense(row); setModalIsVisible(true)}}/>
+                                            <PenButton disabled={row.paid}  onClick={() => setUpdateExpenseModalIsVisible(!UpdateExpenseModalIsVisible)}/>
                                         </IconCell>
                                     </Row>)
 
@@ -142,15 +151,15 @@ const ExpensesTable = (props) => {
 
             return (
                     <>
-                    <Row><NameCell><FooterLine/>Total a pagar</NameCell><AmoutCell>
-                        <FooterLine /><TotalPay paySome={paid !== 0}>{totalToPay}</TotalPay>
-                    </AmoutCell><IconCell></IconCell><IconCell></IconCell></Row>
-                    <Row><NameCell>Pagado</NameCell><AmoutCell>
-                        <Paid>{paid}</Paid>
-                    </AmoutCell><IconCell></IconCell><IconCell></IconCell></Row>
-                    <Row><NameCell>Falta</NameCell><AmoutCell>
-                        <TotalPay paySome={false}>{totalToPay-paid}</TotalPay>
-                    </AmoutCell><IconCell></IconCell><IconCell></IconCell></Row>
+                        <Row><NameCell><FooterLine/>Total a pagar</NameCell><AmoutCell>
+                            <FooterLine /><TotalPay paySome={paid !== 0}>{totalToPay}</TotalPay>
+                        </AmoutCell><IconCell></IconCell><IconCell></IconCell></Row>
+                        <Row><NameCell>Pagado</NameCell><AmoutCell>
+                            <Paid>{paid}</Paid>
+                        </AmoutCell><IconCell></IconCell><IconCell></IconCell></Row>
+                        <Row><NameCell>Falta</NameCell><AmoutCell>
+                            <TotalPay paySome={false}>{totalToPay-paid}</TotalPay>
+                        </AmoutCell><IconCell></IconCell><IconCell></IconCell></Row>
                     </>)
         }
 
@@ -171,6 +180,9 @@ const ExpensesTable = (props) => {
                     <Card><p>No hay gastos</p></Card>
                 }
             </ExpensesTableContainer>
+            <Modal isVisible={UpdateExpenseModalIsVisible} changeVisibility={() => setUpdateExpenseModalIsVisible(!UpdateExpenseModalIsVisible)}>
+                <UpdateExpenseCard changeVisibility={() => {setUpdateExpenseModalIsVisible(!UpdateExpenseModalIsVisible); refetch()}}/>
+            </Modal>
         </>
     )
 
