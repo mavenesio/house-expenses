@@ -7,36 +7,34 @@ import * as Yup from 'yup';
 import {gql, useMutation} from '@apollo/client';
 
 import Input from '../Components/Input/Input';
-import Button from '../Components/Button/Button';
+import Button, {SecondaryButton} from '../Components/Button/Button';
 import Modal from '../Components/Modal/Modal';
 import CreateUserCard from '../Components/Modal/CreateUserCard';
 import Header from '../Components/Header/Header';
 import ErrorField from '../Components/ErrorField/ErrorField';
+import Spinner from '../Components/Spinner/Spinner';
+
 
 const LoginContainer = styled.form`
-  position: relative;
   width: 100%;
   height: 90%;
+  display:flex;
+  justify-content:center;
 `;
-
 const LoginBox = styled.div`
   display:flex;
   flex-direction:column;
+  align-self:center;
   border:2px solid ${props => props.theme.color.primaryDarkColor};
   border-radius: 8px;
-  width:70%;
+  top:20%;
   position:absolute;
-  top:calc(15%);
-  left:calc(15%);
 `;
 const ButtonContainer = styled.div`
   margin:1rem;
   display:flex;
   flex-direction:row;
-  justify-content: flex-end;
-  @media screen {
-    flex-direction:column-reverse;
-  }
+  justify-content: space-between;
 `;
 const InputContainer = styled.div`
     margin:1rem;
@@ -48,14 +46,24 @@ const InputContainer = styled.div`
     font-weight: ${props => props.theme.font.weight.bold};
 `;
 const CustomButton = styled(Button)`
+  white-space:nowrap;
   margin:0.5rem;
-  width:50%;
+  width:45%;
   @media screen {
-    width:100%;
     margin:0.5rem 0rem 0.5rem 0rem;
   }
-  cursor: pointer;
 `;
+const CustomSecondaryButton = styled(SecondaryButton)`
+white-space:nowrap;
+  margin:0.5rem;
+  width:45%;
+  @media screen {
+    margin:0.5rem 0rem 0.5rem 0rem;
+  }
+
+`
+
+
 const AUTHOTIZATION_USER = gql`
   mutation userAuthorization($input: AuthorizationInput){
     userAuthorization(input: $input){
@@ -64,37 +72,34 @@ const AUTHOTIZATION_USER = gql`
   }
 `;
 
-function Login() {
+function Login(props) {
   const [ModalIsVisible, setModalIsVisible] = useState(false);
   const [ErrorMessage, setErrorMessage] = useState(null);
+  const [Loading, setLoading] = useState(false);
   const router = useRouter();
   const [AuthorizationInput] = useMutation(AUTHOTIZATION_USER);
   const formik = useFormik({
     initialValues: {email: '', password: ''},
     validationSchema: Yup.object({
-      email: Yup.string().email('El email no es valido').required('Email es obligatorio'),
-      password: Yup.string()
-                  .required('password no puede ser vacio')
-                  .min(6, 'password no puede tener menos de 6 caracteres')
-
+      email: Yup.string().email('Invalid email').required('Email is required'),
+      password: Yup.string().required('password is required')
     }),
+
     onSubmit: async values => {
       const {email, password} = values;
       try {
+        setLoading(true);
         const {data} = await AuthorizationInput({
           variables: {
             input:{email, password}
           }
         });
-        
         const {token} = data.userAuthorization;
         localStorage.setItem('token', token);
+        setLoading(false);
         router.push('/Homepage')
-
-
-
-
       } catch (err) {
+        setLoading(false);
         const message = err.message.replace('GraphQL error:', '');
         setErrorMessage(message);
         setTimeout( () => {
@@ -105,9 +110,11 @@ function Login() {
   })
   return (
     <>
-      <Header title='LOGIN' />
+      <Header title='LOGIN' logOutVisible={false}/>
       <LoginContainer onSubmit={formik.handleSubmit} id='loginForm'>
+        {console.log(props)}
         <LoginBox>
+          <ErrorField errorMessage={ErrorMessage} touched={true}/>
           <InputContainer>
               <Input
                   name='email'
@@ -132,19 +139,19 @@ function Login() {
               <ErrorField errorMessage={formik.errors.password} touched={formik.errors.password } />
             </InputContainer>
           <ButtonContainer>
-            <ErrorField errorMessage={ErrorMessage} touched={true}/>
-            <CustomButton onClick={() => {setModalIsVisible(true)}} >Sign In</CustomButton>
-            <CustomButton type='submit' form='loginForm' >Log In</CustomButton>
+            <CustomButton onClick={() => {setModalIsVisible(true)}} >Sign up</CustomButton>
+            <CustomSecondaryButton type='submit' form='loginForm' >Log in</CustomSecondaryButton>
           </ButtonContainer>
         </LoginBox>
       </LoginContainer>
-      <Modal
-          isVisible={ModalIsVisible} 
-          changeVisibility={() => setModalIsVisible(!ModalIsVisible)}>
-              <CreateUserCard changeVisibility={() => setModalIsVisible(!ModalIsVisible)} />
+      <Spinner loading={Loading} />
+      <Modal isVisible={ModalIsVisible} changeVisibility={() => setModalIsVisible(!ModalIsVisible)}>
+        <CreateUserCard changeVisibility={() => setModalIsVisible(!ModalIsVisible)} />
       </Modal>
     </>
   )
+
 }
 
-export default Login
+export default (Login)
+ 
