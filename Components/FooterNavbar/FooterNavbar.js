@@ -2,9 +2,10 @@
 import React, {useState} from 'react';
 import {useRouter} from 'next/router';
 import styled from 'styled-components';
-import PlusSquare from '../Icons/PlusSquare';
 import ChartBar from '../Icons/ChartBar';
 import FileRegular from '../Icons/FileRegular';
+import Clipboard from '../Icons/Clipboard';
+import Home from '../Icons/Home';
 
 const FooterNavbarContainer = styled.div`
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
@@ -20,7 +21,7 @@ const FooterNavbarContainer = styled.div`
     flex-direction:row;
     justify-content:center;
 `;
-const PlusButton = styled(PlusSquare)`
+const RecordButton = styled(Clipboard)`
     align-self:center;
     font-size: 40px;
     color: black;
@@ -47,16 +48,27 @@ const ChartButton = styled(ChartBar)`
         color: ${props => props.theme.color.primaryLightColor};
     }
 `;
+const HomeButton = styled(Home)`
+    align-self:center;
+    font-size: 40px;
+    color: black;
+    margin: 0rem 1rem 0rem 1rem;
+    &:hover{
+        color: ${props => props.theme.color.primaryLightColor};
+    }
+`;
 
 
 const FooterNavbar = () => {
+    const router = useRouter();
 
-    return (<>
-                <FooterNavbarContainer>
-                    <HistoryButton onClick={() => console.log('2222')}/>
-                    <ChartButton onClick={() => console.log('3333')}/>
-                </FooterNavbarContainer>
-            </>
+    return (
+            <FooterNavbarContainer>
+                <HomeButton onClick={() => router.push('/Homepage')} />
+                <RecordButton onClick={() => router.push('/ExpenseHistory')}/>
+                <HistoryButton onClick={() => router.push('/ExpenseTracking')}/>
+                <ChartButton onClick={() => router.push('/ExpenseReport')}/>
+            </FooterNavbarContainer>
             )
 }
 
