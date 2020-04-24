@@ -112,7 +112,6 @@ function Login(props) {
     <>
       <Header title='LOGIN' logOutVisible={false}/>
       <LoginContainer onSubmit={formik.handleSubmit} id='loginForm'>
-        {console.log(props)}
         <LoginBox>
           <ErrorField errorMessage={ErrorMessage} touched={true}/>
           <InputContainer>
