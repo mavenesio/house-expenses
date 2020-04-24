@@ -13,9 +13,9 @@ import Spinner from '../Spinner/Spinner';
 
 const CrossButton = styled(TimesCircle)`
     align-self:center;
-    font-size: 20px;
+    font-size: 25px;
     color: black;
-    margin: 0rem 1rem 0rem 1rem;
+    margin: 0rem 1rem 1rem 1rem;
     cursor: pointer;
     &:hover{
         color: ${props => props.theme.color.primaryLightColor};
