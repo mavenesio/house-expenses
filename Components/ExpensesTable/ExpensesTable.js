@@ -3,7 +3,7 @@ import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
 
 import pen from '../Icons/Pen';
-import Card from '../Card/Card';
+import PaperCard from '../Card/PaperCard';
 import Checkbox from '../CheckBox/Checkbox';
 import {useMutation, gql} from'@apollo/client';
 import Modal from '../Modal/Modal';
@@ -45,6 +45,7 @@ const Row = styled.div`
     display:flex;
     flex-direction:row;
     justify-content:center;
+    padding: 0rem.6rem 0rem .6rem;
     &:hover{
         background-color:lightgray;
         border-radius:8px;
@@ -97,6 +98,7 @@ const Paid = styled.div`
     flex-direction:row;
     justify-content:flex-end;
     flex-wrap:nowrap;
+    padding: 0.5rem;
     color: green;
 
 `;
@@ -112,8 +114,9 @@ const PAID_EXPENSE = gql`
 `;
 
 const ExpensesTable = (props) => {
-    const {dataTable, updateDataTable, onEdit} = props;
-    const [UpdateExpenseModalIsVisible, setUpdateExpenseModalIsVisible] = useState(false);
+    const {dataTable, updateDataTable} = props;
+    const [SelectedRow, setSelectedRow] = useState(null)
+    const [UpdateModalVisibility, setUpdateModalVisibility] = useState(false);
     const [payExpense] = useMutation(PAID_EXPENSE);
     const paidExpense = useCallback(
         async (expenseId, paid) => {
@@ -128,60 +131,49 @@ const ExpensesTable = (props) => {
 
     const renderRows = useCallback(
         (data) => {
-            return data.map(row => <Row key={row.id}>
-                                        <NameCell>
-                                            {row.name}
-                                            <HorizonalLine isvisible={row.paid}/>
-                                        </NameCell>
-                                        <AmoutCell> 
-                                            {row.amount}
-                                            <HorizonalLine isvisible={row.paid}/>
-                                        </AmoutCell>
-                                        <IconCell>
-                                            <Checkbox title='' checked={row.paid} onCheck={() => paidExpense(row.id,row.paid)}/>
-                                        </IconCell>
-                                        <IconCell>
-                                            <PenButton disabled={row.paid}  onClick={() => setUpdateExpenseModalIsVisible(!UpdateExpenseModalIsVisible)}/>
-                                        </IconCell>
-                                    </Row>)
-
-        }, [])
-    const getFooter = useCallback(
-        (totalToPay, paid) => {
-
-            return (
-                    <>
-                        <Row><NameCell><FooterLine/>Total a pagar</NameCell><AmoutCell>
-                            <FooterLine /><TotalPay paySome={paid !== 0}>{totalToPay}</TotalPay>
-                        </AmoutCell><IconCell></IconCell><IconCell></IconCell></Row>
-                        <Row><NameCell>Pagado</NameCell><AmoutCell>
-                            <Paid>{paid}</Paid>
-                        </AmoutCell><IconCell></IconCell><IconCell></IconCell></Row>
-                        <Row><NameCell>Falta</NameCell><AmoutCell>
-                            <TotalPay paySome={false}>{totalToPay-paid}</TotalPay>
-                        </AmoutCell><IconCell></IconCell><IconCell></IconCell></Row>
-                    </>)
-        }
-
-    )
-    const getTotal = useCallback( (data) => data.reduce((accumulator, expense) => accumulator + expense.amount, 0));
-    const getTotalPaid = useCallback( (data) => data.reduce((accumulator, expense) => accumulator + (expense.paid ? expense.amount : 0), 0));
-
+            return data.map(
+                row => 
+                <Row key={row.id}>
+                    <NameCell>
+                        {row.name}
+                        <HorizonalLine isvisible={row.paid}/>
+                    </NameCell>
+                    <AmoutCell> 
+                        {row.amount}
+                        <HorizonalLine isvisible={row.paid}/>
+                    </AmoutCell>
+                    <IconCell>
+                        <Checkbox title='' checked={row.paid} onCheck={() => paidExpense(row.id,row.paid)}/>
+                    </IconCell>
+                    <IconCell>
+                        <PenButton disabled={row.paid}  onClick={() => {setSelectedRow(row); setUpdateModalVisibility(!UpdateModalVisibility)}}/>
+                    </IconCell>
+                </Row>
+                )}, [])
     return (
         <>
             <ExpensesTableContainer>
                 {dataTable && dataTable.length > 0
                     ?
-                    <Table>
-                        {renderRows(dataTable)}
-                        {getFooter(getTotal(dataTable), getTotalPaid(dataTable))}
-                    </Table>
+                    <PaperCard>
+                        <Table>
+                            {renderRows(dataTable)}
+                            <Row>
+                                <NameCell><FooterLine/>Total a pagar</NameCell>
+                                <AmoutCell><FooterLine/>{dataTable.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</AmoutCell>
+                                <IconCell/>
+                                <IconCell/>
+                            </Row>
+                        </Table>
+                    </PaperCard>
                     :
-                    <Card><p>No hay gastos</p></Card>
+                    <PaperCard><p>No hay gastos</p></PaperCard>
                 }
             </ExpensesTableContainer>
-            <Modal isVisible={UpdateExpenseModalIsVisible} changeVisibility={() => setUpdateExpenseModalIsVisible(!UpdateExpenseModalIsVisible)}>
-                <UpdateExpenseCard changeVisibility={() => {setUpdateExpenseModalIsVisible(!UpdateExpenseModalIsVisible); refetch()}}/>
+            <Modal isVisible={UpdateModalVisibility} changeVisibility={() => setUpdateModalVisibility(false)}>
+                <UpdateExpenseCard
+                    expense={SelectedRow}
+                    changeVisibility={() => {setUpdateModalVisibility(false);}}/>
             </Modal>
         </>
     )
