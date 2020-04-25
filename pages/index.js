@@ -138,8 +138,8 @@ function Login(props) {
               <ErrorField errorMessage={formik.errors.password} touched={formik.errors.password } />
             </InputContainer>
           <ButtonContainer>
-            <CustomButton onClick={() => {setModalIsVisible(true)}} >Sign up</CustomButton>
             <CustomSecondaryButton type='submit' form='loginForm' >Log in</CustomSecondaryButton>
+            <CustomButton onClick={() => {setModalIsVisible(true)}} >Sign up</CustomButton>
           </ButtonContainer>
         </LoginBox>
       </LoginContainer>

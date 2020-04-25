@@ -5,10 +5,6 @@ import styled from 'styled-components';
 import pen from '../Icons/Pen';
 import PaperCard from '../Card/PaperCard';
 import Checkbox from '../CheckBox/Checkbox';
-import {useMutation, gql} from'@apollo/client';
-import Modal from '../Modal/Modal';
-import UpdateExpenseCard from '../Modal/UpdateExpenseCard';
-
 
 const ExpensesTableContainer = styled.div`
     width:100%;
@@ -85,49 +81,9 @@ const IconCell = styled.div`
     width:10%;
     margin-left:1rem;
 `;
-const TotalPay = styled.div`
-    display:flex;
-    flex-direction:row;
-    flex-wrap:nowrap;
-    justify-content:flex-end;
-    color: red;
-    text-decoration: ${props => props.paySome ? 'line-through' : 'none'};
-`;
-const Paid = styled.div`
-    display:flex;
-    flex-direction:row;
-    justify-content:flex-end;
-    flex-wrap:nowrap;
-    padding: 0.5rem;
-    color: green;
-
-`;
-const PAID_EXPENSE = gql`
-    mutation payExpense($input:payExpenseInput!){
-        payExpense(input: $input){
-            id,
-            name,
-            paid,
-            amount
-        }
-    }
-`;
 
 const ExpensesTable = (props) => {
-    const {dataTable, updateDataTable} = props;
-    const [SelectedRow, setSelectedRow] = useState(null)
-    const [UpdateModalVisibility, setUpdateModalVisibility] = useState(false);
-    const [payExpense] = useMutation(PAID_EXPENSE);
-    const paidExpense = useCallback(
-        async (expenseId, paid) => {
-            try {
-                const {data} = await payExpense({variables: { input: {expenseId: expenseId, paid: !paid }}});
-                updateDataTable();
-            } catch (err) {
-                console.log(err);
-            }
-        }
-    )
+    const {dataTable, onEdit, onCheck} = props;
 
     const renderRows = useCallback(
         (data) => {
@@ -143,13 +99,13 @@ const ExpensesTable = (props) => {
                         <HorizonalLine isvisible={row.paid}/>
                     </AmoutCell>
                     <IconCell>
-                        <Checkbox title='' checked={row.paid} onCheck={() => paidExpense(row.id,row.paid)}/>
+                        <Checkbox title='' checked={row.paid} onCheck={() => onCheck(row.id,row.paid)}/>
                     </IconCell>
                     <IconCell>
-                        <PenButton disabled={row.paid}  onClick={() => {setSelectedRow(row); setUpdateModalVisibility(!UpdateModalVisibility)}}/>
+                        <PenButton disabled={row.paid}  onClick={() => onEdit(row)}/>
                     </IconCell>
                 </Row>
-                )}, [])
+                )}, []);
     return (
         <>
             <ExpensesTableContainer>
@@ -170,16 +126,8 @@ const ExpensesTable = (props) => {
                     <PaperCard><p>No hay gastos</p></PaperCard>
                 }
             </ExpensesTableContainer>
-            <Modal isVisible={UpdateModalVisibility} changeVisibility={() => setUpdateModalVisibility(false)}>
-                <UpdateExpenseCard
-                    expense={SelectedRow}
-                    changeVisibility={() => {setUpdateModalVisibility(false);}}/>
-            </Modal>
         </>
     )
-
-
 }
-
 
 export default ExpensesTable;
