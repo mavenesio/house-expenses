@@ -71,7 +71,7 @@ const ButtonContainer = styled.div`
 const Row = styled.div`
     display:flex;
     flex-direction:row;
-    justify-content:space-between;
+    justify-content:space-between;    
     margin-top:1rem;
 `;
 const CustomButton = styled(Button)`
@@ -117,9 +117,7 @@ const CreateExpenseCard = (props) => {
                                 startMonth: parseInt(startMonth.value),
                                 startYear: parseInt(startYear.value),
                                 monthAmount: parseInt(numberOfMonth.value)};
-                const {data} = await addRangeExpenses({
-                    variables: { input: {...inp}}
-                });
+                await addRangeExpenses({variables: { input: {...inp}}});
                 changeVisibility();
             } catch (err) {
                 const message = err.message.replace('GraphQL error:', '');
@@ -128,13 +126,14 @@ const CreateExpenseCard = (props) => {
                   setErrorMessage(null);
                 },3000);
             }
+            formik.resetForm();
         }
-    })
+    });
 
-    const { handleChange,setFieldValue } = formik;
-    const handleStartMonthSelect = useCallback((value) => setFieldValue('startMonth', value), [handleChange]);
-    const handleStartYearSelect = useCallback((value) => setFieldValue('startYear', value), [handleChange]);
-    const handleNumberOfMonthSelect = useCallback((value) => setFieldValue('numberOfMonth', value), [handleChange]);
+    const { setFieldValue } = formik;
+    const handleStartMonthSelect = useCallback((value) => setFieldValue('startMonth', value), [setFieldValue]);
+    const handleStartYearSelect = useCallback((value) => setFieldValue('startYear', value), [setFieldValue]);
+    const handleNumberOfMonthSelect = useCallback((value) => setFieldValue('numberOfMonth', value), [setFieldValue]);
 
     return (
         <CreateExpenseCardContainer onSubmit={formik.handleSubmit} id='expenseForm'>

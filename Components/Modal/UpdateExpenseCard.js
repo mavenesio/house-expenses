@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useState, useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -89,12 +89,12 @@ const CustomButton = styled(Button)`
   cursor: pointer;
 `;
 const UpdateExpenseCard = (props) => {
-    const {changeVisibility} = props;
+    const {changeVisibility, expense} = props;
     const [ErrorMessage, setErrorMessage] = useState(null);
     const formik = useFormik({
         initialValues: {
-            name: '',
-            amount: 0,
+            name: (expense !== null) ? expense.name : '',
+            amount: (expense !== null) ? expense.amount : '',
         },
         validationSchema: Yup.object({
             name: Yup.string('Debe ser string').required('Campo requerido.'),
@@ -102,12 +102,19 @@ const UpdateExpenseCard = (props) => {
         }),
         onSubmit: async values => {
             try {
-                changeVisibility();
+                console.log(values);
+                //changeVisibility();
             } catch (err) {
 
             }
         }
-    })
+    });
+    const { setFieldValue } = formik;
+    useEffect(() => {
+        console.log(expense);
+        setFieldValue('name', (expense) ? expense.name : '');
+        setFieldValue('amount', (expense) ? expense.amount : '');
+    }, [expense])
 
     return (
         <UpdateExpenseCardContainer onSubmit={formik.handleSubmit} id='updateExpenseForm'>
@@ -146,11 +153,9 @@ const UpdateExpenseCard = (props) => {
                     <ErrorField errorMessage={formik.errors.amount} touched={formik.touched.amount} />
                     </InputContainer>
                 </Row>
-                <Row>
-                    <ButtonContainer>
-                        <CustomButton type='submit' form='updateExpenseForm' >Actualizar!</CustomButton>
-                    </ButtonContainer>
-                </Row>
+                <ButtonContainer>
+                    <CustomButton type='submit' form='updateExpenseForm' >Actualizar!</CustomButton>
+                </ButtonContainer>
             </ModalBody>
         </UpdateExpenseCardContainer>
     )

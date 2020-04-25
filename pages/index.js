@@ -145,7 +145,7 @@ function Login(props) {
       </LoginContainer>
       <Spinner loading={Loading} />
       <Modal isVisible={ModalIsVisible} changeVisibility={() => setModalIsVisible(!ModalIsVisible)}>
-        <CreateUserCard changeVisibility={() => setModalIsVisible(!ModalIsVisible)} />
+        <CreateUserCard changeVisibility={() => setModalIsVisible(false)} />
       </Modal>
     </>
   )
