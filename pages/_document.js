@@ -23,9 +23,11 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-            <title>Expenses</title>
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet" />
+            {/*
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"></link>
+            */}
             {this.props.styleTags}
         </Head>
         <body>

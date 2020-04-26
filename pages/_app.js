@@ -5,6 +5,7 @@ import styled, { ThemeProvider } from "styled-components";
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import {ApolloProvider} from '@apollo/client';
+import ExpenseState from '../context/expenses/ExpenseState';
 import client from '../config/apollo';
 
 import theme from '../constants/Theme';
@@ -28,14 +29,19 @@ const MyApp = ({Component, pageProps})=>  {
     return (
       <ThemeProvider theme={theme}>
         <ApolloProvider client={client}>
-          <PageContainer>
-            <Body fullBody={router.pathname === '/' || router.pathname === '/Index'}>
-                  <Component {...pageProps} />
-            </Body>
-            {
-              (router.pathname !== '/' && router.pathname !== '/Index') && <FooterNavbar />
-            }
-          </PageContainer>
+          <Head>
+            <title>Expenses</title>
+          </Head>
+          <ExpenseState>
+            <PageContainer>
+              <Body fullBody={router.pathname === '/' || router.pathname === '/Index'}>
+                    <Component {...pageProps} />
+              </Body>
+              {
+                (router.pathname !== '/' && router.pathname !== '/Index') && <FooterNavbar />
+              }
+            </PageContainer>
+          </ExpenseState>
         </ApolloProvider>
       </ThemeProvider>
     )
