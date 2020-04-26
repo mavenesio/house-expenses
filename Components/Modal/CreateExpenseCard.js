@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback,useContext} from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -11,6 +11,7 @@ import Button from '../Button/Button';
 import ErrorField from '../ErrorField/ErrorField';
 import StyledSelect from '../StyledSelect/StyledSelect';
 import {YearOptions, MonthOptions, NumberOfMonthOptions} from '../../constants/constants';
+import ExpenseContext from '../../context/expenses/ExpenseContext';
 
 const CrossButton = styled(TimesCircle)`
     align-self:center;
@@ -86,7 +87,10 @@ const CustomButton = styled(Button)`
 const ADD_RANGE_EXPENSES = gql`
     mutation addRangeExpenses($input:RangeExpenseInput!){
         addRangeExpenses(input: $input){
-            id
+            id,
+            name, 
+            amount,
+            paid,
         }
     }
 `;
@@ -95,6 +99,7 @@ const CreateExpenseCard = (props) => {
     const {changeVisibility} = props;
     const [ErrorMessage, setErrorMessage] = useState(null);
     const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES);
+    const expenseContext = useContext(ExpenseContext);
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -114,10 +119,11 @@ const CreateExpenseCard = (props) => {
                 const {name, amount, startMonth, startYear, numberOfMonth} = values;
                 const inp = {   name,
                                 amount: parseFloat(amount),
-                                startMonth: parseInt(startMonth.value),
+                                startMonth: parseInt(startMonth.value)-1,
                                 startYear: parseInt(startYear.value),
                                 monthAmount: parseInt(numberOfMonth.value)};
-                await addRangeExpenses({variables: { input: {...inp}}});
+                const {data} = await addRangeExpenses({variables: { input: {...inp}}});
+                expenseContext.addExpense(data.addRangeExpenses);
                 changeVisibility();
             } catch (err) {
                 const message = err.message.replace('GraphQL error:', '');

@@ -1,15 +1,14 @@
 // @ts-nocheck
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {useMutation, gql} from'@apollo/client';
-
+import ExpenseContext from '../../context/expenses/ExpenseContext';
 import TimesCircle from '../Icons/TimesCircle';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import ErrorField from '../ErrorField/ErrorField';
-import Spinner from '../Spinner/Spinner';
 
 const CrossButton = styled(TimesCircle)`
     align-self:center;
@@ -95,8 +94,8 @@ const UPDATE_EXPENSE = gql`
 const UpdateExpenseCard = (props) => {
     const {changeVisibility, expense} = props;
     const [ErrorMessage, setErrorMessage] = useState(null);
-    const [Loading, setLoading] = useState(false);
     const [updateExpense] = useMutation(UPDATE_EXPENSE);
+    const expenseContext = useContext(ExpenseContext);
     const formik = useFormik({
         initialValues: {
             updateName: (expense !== null) ? expense.name : '',
@@ -107,16 +106,19 @@ const UpdateExpenseCard = (props) => {
             updateAmount: Yup.number('Debe ser numero').min(0, 'monto mayor a 0.').required('Campo requerido.'),
         }),
         onSubmit: async values => {
-            setLoading(true);
             const {updateAmount} = values;
             const {id} = expense;
             try {
                 const {data} = await updateExpense({variables: { input: {expenseId: id, amount: parseFloat(updateAmount) }}});
+                expenseContext.updateExpense(data.updateExpense);
                 changeVisibility();
             } catch (err) {
-                console.log(err);
+                const message = err.message.replace('GraphQL error:', '');
+                setErrorMessage(message);
+                setTimeout( () => {
+                  setErrorMessage(null);
+                },4000);
             }
-            setLoading(false);
             } 
         });
 
@@ -128,7 +130,6 @@ const UpdateExpenseCard = (props) => {
 
     return (
         <UpdateExpenseCardContainer onSubmit={formik.handleSubmit} id='updateExpenseForm'>
-            <Spinner loading={Loading}/>
             <ModalHeader>
                 <ModalHeaderText>
                     Actualizar gasto

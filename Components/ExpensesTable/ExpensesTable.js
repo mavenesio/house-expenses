@@ -66,6 +66,9 @@ const FooterLine = styled.div`
 
 
 const NameCell = styled.div`
+    cursor: default;
+    overflow:hidden;
+    white-space:nowrap;
     text-align:start;
     position:relative;
     width: 70%;
@@ -86,10 +89,11 @@ const ExpensesTable = (props) => {
     const {dataTable, onEdit, onCheck} = props;
 
     const renderRows = useCallback(
+        
         (data) => {
             return data.map(
                 row => 
-                <Row key={row.id}>
+                <Row key={row.name}>
                     <NameCell>
                         {row.name}
                         <HorizonalLine isvisible={row.paid}/>

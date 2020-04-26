@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import {useRouter} from 'next/router';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ import UpdateExpenseCard from '../Components/Modal/UpdateExpenseCard';
 import CreateExpenseCard from '../Components/Modal/CreateExpenseCard';
 import PlusSquare from '../Components/Icons/PlusSquare';
 import { MonthOptions } from '../constants/constants';
-import {route} from 'next/dist/next-server/server/router';
+import ExpenseContext from '../context/expenses/ExpenseContext';
 
 const GET_USER_EXPENSES = gql`
     query getExpenses{
@@ -52,25 +52,24 @@ const PlusButton = styled(PlusSquare)`
 `;
 
 const Homepage = () => {
-  const {data, loading, error, refetch} = useQuery(GET_USER_EXPENSES);
+  const {data, loading, error} = useQuery(GET_USER_EXPENSES);
   const [payExpense] = useMutation(PAID_EXPENSE);
   const [SelectedRow, setSelectedRow] = useState(null);
   const [CreateModalVisibility, setCreateModalVisibility] = useState(false);
   const [UpdateModalVisibility, setUpdateModalVisibility] = useState(false);
-  const [Data, setData] = useState(null);
+  const expenseContext = useContext(ExpenseContext);
   const router = useRouter();
+  useEffect(() => { if(data){expenseContext.setExpenses(data.getExpenses)}}, [data]);
+  useEffect(() => {if(!loading && data === undefined) router.push('/')}, [loading]);
   const paidExpense =  useCallback(
     async (expenseId, paid) => {
       try {
-        const expenseUpdate = await payExpense({variables: { input: {expenseId: expenseId, paid: !paid }}});
+        const {data} = await payExpense({variables: { input: {expenseId: expenseId, paid: !paid }}});
+        expenseContext.updateExpense(data.payExpense);
       } catch (err) {
         console.log(err);
       }
     });
-    useEffect(() => { data ? setData(data.getExpenses) : setData(null)}, [data]);
-    useEffect(() => { (!loading && data === undefined) ? router.push('/') : console.log('valid user')}, [loading]);
-    
-  
 
   return (
     <>
@@ -80,16 +79,16 @@ const Homepage = () => {
         <PlusButton onClick={() => setCreateModalVisibility(!CreateModalVisibility)}/>
       </IconContainer>
       <ExpensesTable 
-        dataTable={Data}
+        dataTable={expenseContext.expenses}
         onCheck={(id, paid) => paidExpense(id, paid)}
         onEdit={(value) => {setUpdateModalVisibility(!UpdateModalVisibility); setSelectedRow(value)}}
         setSelectedRow/>
 
       <Modal isVisible={CreateModalVisibility} changeVisibility={() => setCreateModalVisibility(!CreateModalVisibility)}>
-        <CreateExpenseCard changeVisibility={() => {setCreateModalVisibility(!CreateModalVisibility); refetch()}}/>
+        <CreateExpenseCard changeVisibility={() => {setCreateModalVisibility(!CreateModalVisibility)}}/>
       </Modal>
       <Modal isVisible={UpdateModalVisibility} changeVisibility={() => setUpdateModalVisibility(false)}>
-        <UpdateExpenseCard expense={SelectedRow} changeVisibility={() => {setUpdateModalVisibility(false); refetch()}}/>
+        <UpdateExpenseCard expense={SelectedRow} changeVisibility={() => {setUpdateModalVisibility(false)}}/>
       </Modal>
     </>
   )
