@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import Card from '../Components/Card/Card';
+import PaperCard from '../Components/Card/PaperCard';
 
 const  MonthlyServices = (props) => {
   return (
-    <Card>
+    <PaperCard>
         <p>MonthlyServices ! !</p>
-    </Card>
+    </PaperCard>
 
   )
 }
