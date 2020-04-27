@@ -23,6 +23,7 @@ const LoginContainer = styled.form`
 `;
 const LoginBox = styled.div`
   display:flex;
+  min-width: 350px;
   flex-direction:column;
   align-self:center;
   border:2px solid ${props => props.theme.color.primaryDarkColor};
@@ -49,12 +50,14 @@ const CustomButton = styled(Button)`
   white-space:nowrap;
   margin:0.5rem;
   width:45%;
+  font-family: ${props => props.theme.font.family};
   @media screen {
     margin:0.5rem 0rem 0.5rem 0rem;
   }
 `;
 const CustomSecondaryButton = styled(SecondaryButton)`
-white-space:nowrap;
+  font-family: ${props => props.theme.font.family};
+  white-space:nowrap;
   margin:0.5rem;
   width:45%;
   @media screen {

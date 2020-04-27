@@ -13,7 +13,7 @@ const theme = {
       white: 'white',
     },
     font: {
-        family: 'Patrick Hand', //'Indie Flower',
+        family: 'Raleway', //'Indie Flower',
         size: {
             title:'50px',
             subTitle:'25px',

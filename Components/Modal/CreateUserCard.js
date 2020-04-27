@@ -40,6 +40,7 @@ const ModalHeader = styled.div`
 const ModalHeaderText = styled.div`
     font-family:${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.subTitle};
+    font-weight:800;
 `;
 const ModalBody = styled.form`
     display:flex;

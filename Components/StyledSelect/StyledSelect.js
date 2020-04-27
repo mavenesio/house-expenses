@@ -7,7 +7,7 @@ import {SelectColourStyles} from '../../constants/constants';
 const InputContainer = styled.div`
     font-family: ${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.text};
-    font-weight: ${props => props.theme.font.weight.bold};
+    font-weight: 500;
     margin:0.1rem 1rem 0.1rem 1rem;
     width:100%;
     position:relative;
@@ -20,8 +20,9 @@ const CustomSelect = styled(Select)`
         color:${props => props.theme.color.primaryDarkColor};
         font-family: ${props => props.theme.font.family};
         font-size: 14px;
-        position:absolute;
-        top:0px;
+        position:absolute;    
+        font-weight: 400;
+        top: 4px;
         left:10px;
     }
 `;

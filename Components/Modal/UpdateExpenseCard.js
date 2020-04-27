@@ -39,6 +39,7 @@ const ModalHeader = styled.div`
 const ModalHeaderText = styled.div`
     font-family:${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.subTitle};
+    font-weight: 800;
 `;
 const ModalBody = styled.div`
     display:flex;
@@ -132,7 +133,7 @@ const UpdateExpenseCard = (props) => {
         <UpdateExpenseCardContainer onSubmit={formik.handleSubmit} id='updateExpenseForm'>
             <ModalHeader>
                 <ModalHeaderText>
-                    Actualizar gasto
+                    Update expense
                 </ModalHeaderText>
                 <CrossButton onClick={changeVisibility}/>
             </ModalHeader>
@@ -148,7 +149,7 @@ const UpdateExpenseCard = (props) => {
                             id='updateName'
                             disabled={true}
                         />
-                        <label>Nombre</label>
+                        <label>Name</label>
                     <ErrorField errorMessage={formik.errors.updateName} touched={formik.touched.updateName} />
                     </InputContainer>
                     <InputContainer>
@@ -159,12 +160,12 @@ const UpdateExpenseCard = (props) => {
                             name='updateAmount'
                             id='updateAmount'
                         />
-                        <label>Monto</label>
+                        <label>Amount</label>
                     <ErrorField errorMessage={formik.errors.updateAmount} touched={formik.touched.updateAmount} />
                     </InputContainer>
                 </Row>
                 <ButtonContainer>
-                    <CustomButton type='submit' form='updateExpenseForm' >Actualizar!</CustomButton>
+                    <CustomButton type='submit' form='updateExpenseForm' >Update!</CustomButton>
                 </ButtonContainer>
             </ModalBody>
         </UpdateExpenseCardContainer>

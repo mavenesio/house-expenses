@@ -19,8 +19,9 @@ const Input = styled.input`
         color:${props => props.theme.color.primaryDarkColor};
         font-family: ${props => props.theme.font.family};
         font-size: 14px;
-        position:absolute;
-        top:0px;
+        position:absolute;    
+        font-weight: 400;
+        top: 4px;
         left:10px;
     }
 `;

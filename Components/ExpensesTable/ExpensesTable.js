@@ -34,7 +34,6 @@ const Table = styled.div`
     flex-direction:column;
     justify-content:center;
     align-self:flex-start;
-    width: 60%;
     min-width:300px;
 `;
 const Row = styled.div`
@@ -47,23 +46,29 @@ const Row = styled.div`
         border-radius:8px;
     }
 `;
+const FooterRow = styled.div`
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    padding: 1rem.6rem 1rem .6rem;
+    border-top:  1.5px solid ${props => props.theme.color.primaryColor};
+    &:hover{
+        background-color:lightgray;
+        border-radius:8px;
+    }
+`;
 const HorizonalLine = styled.div`
     height:0px;
     border: 1.5px solid ${props => props.theme.color.primaryColor};
     position:absolute;
-    top:calc(50%);
+    top:calc(40%);
     width:100%;
     display: ${props => props.isvisible ? 'block' : 'none' };
+    @media (max-width: 800px) {
+        top:calc(30%);
+        border: 1px solid ${props => props.theme.color.primaryColor};
+    }
 `;
-const FooterLine = styled.div`
-    height:0px;
-    border: 1.5px solid ${props => props.theme.color.primaryColor};
-    position:absolute;
-    top:0px;
-    width:100%;
-    display:block;
-`;
-
 
 const NameCell = styled.div`
     cursor: default;
@@ -72,11 +77,19 @@ const NameCell = styled.div`
     text-align:start;
     position:relative;
     width: 70%;
+    font-size:20px;
+    @media (max-width: 800px) {
+        font-size:15px;
+    }
 `;
 const AmoutCell = styled.div`
     text-align:end;
     position:relative;
     width: 20%;
+    font-size:20px;
+    @media (max-width: 800px) {
+        font-size:15px;
+    }
     
 `;
 const IconCell = styled.div`
@@ -118,12 +131,12 @@ const ExpensesTable = (props) => {
                     <PaperCard>
                         <Table>
                             {renderRows(dataTable)}
-                            <Row>
-                                <NameCell><FooterLine/>Total a pagar</NameCell>
-                                <AmoutCell><FooterLine/>{dataTable.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</AmoutCell>
+                            <FooterRow>
+                                <NameCell>Total a pagar</NameCell>
+                                <AmoutCell>{dataTable.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</AmoutCell>
                                 <IconCell/>
                                 <IconCell/>
-                            </Row>
+                            </FooterRow>
                         </Table>
                     </PaperCard>
                     :

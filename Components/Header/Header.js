@@ -21,6 +21,7 @@ const HeaderContainer = styled.div`
 const HeaderText = styled.div`
     align-self:center;
     padding-left: 1rem;
+    font-weight:800;
 `;
 const LogOutButton = styled(PowerOff)`
     align-self:center;

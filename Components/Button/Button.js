@@ -11,6 +11,7 @@ const Button = styled.button`
     font-size: ${props => props.theme.font.size.text};
     font-weight:${props => props.theme.font.weight.bold};
     color:white;
+    font-weight:800;
     &:hover{
         background-color: ${props => props.theme.color.primaryDarkColor};
         color: ${props => props.theme.color.primaryLightColor};
@@ -34,6 +35,9 @@ export const SecondaryButton = styled.button`
     background-color: white;
     font-size: ${props => props.theme.font.size.text};
     font-weight:${props => props.theme.font.weight.bold};
+    & > * {
+        font-weight:800;
+    }
     &:hover{
         background-color: ${props => props.theme.color.primaryDarkColor};
         color: ${props => props.theme.color.primaryLightColor};

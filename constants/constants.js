@@ -8,6 +8,7 @@ export const SelectColourStyles = {
         borderRadius: '8px',
         padding: '10px',
         color: `${theme.color.primaryDarkColor}`,
+        weight: 500,
         border: isFocused ? `2px solid ${theme.color.primaryDarkColor}` : `2px solid ${theme.color.primaryLightColor}`,
         boxShadow: isFocused ? 0 : 0,
         '&:hover': {
@@ -18,6 +19,7 @@ export const SelectColourStyles = {
       return {
         ...styles,
         color: 'black',
+        weight: 500,
         backgroundColor: isFocused ? '#e6e6e6' : isSelected ? '#e6e6e6' : 'white',
 
       };

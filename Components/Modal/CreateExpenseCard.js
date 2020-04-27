@@ -41,6 +41,7 @@ const ModalHeader = styled.div`
 const ModalHeaderText = styled.div`
     font-family:${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.subTitle};
+    font-weight:800;
 `;
 const ModalBody = styled.div`
     display:flex;
@@ -145,7 +146,7 @@ const CreateExpenseCard = (props) => {
         <CreateExpenseCardContainer onSubmit={formik.handleSubmit} id='expenseForm'>
             <ModalHeader>
                 <ModalHeaderText>
-                    Nuevo gasto
+                    New expense
                 </ModalHeaderText>
                 <CrossButton onClick={changeVisibility}/>
             </ModalHeader>
@@ -161,7 +162,7 @@ const CreateExpenseCard = (props) => {
                             id='name'
                             type='name'
                         />
-                        <label>Nombre</label>
+                        <label>Name</label>
                     <ErrorField errorMessage={formik.errors.name} touched={formik.touched.name} />
                     </InputContainer>
                     <InputContainer>
@@ -173,7 +174,7 @@ const CreateExpenseCard = (props) => {
                             id='amount'
                             type='amount'
                         />
-                        <label>Monto</label>
+                        <label>Amount</label>
                     <ErrorField errorMessage={formik.errors.amount} touched={formik.touched.amount} />
                     </InputContainer>
                 </Row>
@@ -184,7 +185,7 @@ const CreateExpenseCard = (props) => {
                         name='startMonth'
                         type='startMonth'
                         options={MonthOptions}
-                        label='Mes de comienzo'
+                        label='Start monht'
                     />
                     <StyledSelect
                         options={YearOptions}
@@ -192,7 +193,7 @@ const CreateExpenseCard = (props) => {
                         onChange={handleStartYearSelect}
                         name='startYear'
                         type='startYear'
-                        label='Año de comienzo'
+                        label='Start year'
                     />
                     <ErrorField errorMessage={formik.errors.startMonth} touched={formik.touched.startMonth} />
                     <ErrorField errorMessage={formik.errors.startYear} touched={formik.touched.startYear} />
@@ -204,13 +205,13 @@ const CreateExpenseCard = (props) => {
                         onChange={handleNumberOfMonthSelect}
                         name='numberOfMonth'
                         type='numberOfMonth'
-                        label='Cantidad de meses'
+                        label='Amount of payments'
                     />
                     <ErrorField errorMessage={formik.errors.numberOfMonth} touched={formik.touched.numberOfMonth} />
                 </Row>
                 <Row>
                     <ButtonContainer>
-                        <CustomButton type='submit' form='expenseForm' >Agregar!</CustomButton>
+                        <CustomButton type='submit' form='expenseForm' >Add!</CustomButton>
                     </ButtonContainer>
                 </Row>
             </ModalBody>
