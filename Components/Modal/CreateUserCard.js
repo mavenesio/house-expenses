@@ -179,7 +179,7 @@ const CreateUserCard = ({changeVisibility}) => {
                     <ErrorField errorMessage={formik.errors.createPassword} touched={formik.touched.createPassword} />
                 </InputContainer>
                 <InputContainer>
-                    <CustomButton type='submit' form='createForm' >Crate user</CustomButton>
+                    <CustomButton type='submit' form='createForm' >Create user!</CustomButton>
                 </InputContainer>
             </ModalBody>
             <Spinner loadring={Loading}/>
