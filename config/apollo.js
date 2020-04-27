@@ -3,7 +3,8 @@ import fetch from 'node-fetch';
 import {setContext} from 'apollo-link-context';
 
 const httpLink = createHttpLink({
-    uri: 'http://localhost:4000/',
+    uri: 'https://obscure-plateau-48683.herokuapp.com/',
+    //uri: 'http://localhost:4000/',
     // @ts-ignore
     fetch
 });

@@ -53,14 +53,14 @@ const PlusButton = styled(PlusSquare)`
 
 const Homepage = () => {
   const {data, loading, error} = useQuery(GET_USER_EXPENSES);
-  const [payExpense] = useMutation(PAID_EXPENSE);
+  const expenseContext = useContext(ExpenseContext);
   const [SelectedRow, setSelectedRow] = useState(null);
   const [CreateModalVisibility, setCreateModalVisibility] = useState(false);
   const [UpdateModalVisibility, setUpdateModalVisibility] = useState(false);
-  const expenseContext = useContext(ExpenseContext);
   const router = useRouter();
   useEffect(() => { if(data){expenseContext.setExpenses(data.getExpenses)}}, [data]);
   useEffect(() => {if(!loading && data === undefined) router.push('/')}, [loading]);
+  const [payExpense] = useMutation(PAID_EXPENSE);
   const paidExpense =  useCallback(
     async (expenseId, paid) => {
       try {
@@ -75,9 +75,11 @@ const Homepage = () => {
     <>
       <Spinner loading={loading}/>
       <Header title={`A PAGAR EN ${(MonthOptions[(new Date()).getMonth()].label).toUpperCase()}`} logOutVisible={true}/>
+      
       <IconContainer>
         <PlusButton onClick={() => setCreateModalVisibility(!CreateModalVisibility)}/>
       </IconContainer>
+      
       <ExpensesTable 
         dataTable={expenseContext.expenses}
         onCheck={(id, paid) => paidExpense(id, paid)}
