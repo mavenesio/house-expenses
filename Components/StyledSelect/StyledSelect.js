@@ -15,6 +15,10 @@ const InputContainer = styled.div`
 const CustomSelect = styled(Select)`
     & > div{
         padding-bottom:unset;
+        height:55px;
+        & > div > div {
+            top:60%;
+        }
     }
     & ~ label{
         color:${props => props.theme.color.primaryDarkColor};
