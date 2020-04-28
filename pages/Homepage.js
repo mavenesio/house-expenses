@@ -24,9 +24,9 @@ const GET_USER_EXPENSES = gql`
       }
     }
 `;
-const PAID_EXPENSE = gql`
-    mutation payExpense($input:payExpenseInput!){
-        payExpense(input: $input){
+const UPDATE_EXPENSE = gql`
+    mutation updateExpense($input:updateExpenseInput!){
+        updateExpense(input: $input){
             id,
             name,
             paid,
@@ -54,12 +54,12 @@ const Homepage = () => {
   const router = useRouter();
   useEffect(() => { if(data){expenseContext.setExpenses(data.getExpenses)}}, [data]);
   useEffect(() => {if(!loading && data === undefined) router.push('/')}, [loading]);
-  const [payExpense] = useMutation(PAID_EXPENSE);
+  const [updateExpense] = useMutation(UPDATE_EXPENSE);
   const paidExpense =  useCallback(
     async (expenseId, paid) => {
       try {
-        const {data} = await payExpense({variables: { input: {expenseId: expenseId, paid: !paid }}});
-        expenseContext.updateExpense(data.payExpense);
+        const {data} = await updateExpense({variables: { input: {expenseId: expenseId, paid: !paid }}});
+        expenseContext.updateExpense(data.updateExpense);
       } catch (err) {
         console.log(err);
       }

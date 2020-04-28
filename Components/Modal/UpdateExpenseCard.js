@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useCallback} from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -98,6 +98,7 @@ const UpdateExpenseCard = (props) => {
     const [ErrorMessage, setErrorMessage] = useState(null);
     const [updateExpense] = useMutation(UPDATE_EXPENSE);
     const expenseContext = useContext(ExpenseContext);
+    const removeWhiteSpaces = useCallback((value) => value.toString().trim());
     const formik = useFormik({
         initialValues: {
             updateName: (expense !== null) ? expense.name : '',
@@ -107,13 +108,13 @@ const UpdateExpenseCard = (props) => {
             updateAmount: Yup.number('Must be number')
                             .required('Amount is required.')
                             .min(0, 'Amount greater than 0.')
-                            .max(10,'Amount must be lower than 10 characters'),
+                            .max(9999999,'Amount must be lower than 9999999 characters'),
         }),
         onSubmit: async values => {
             const {updateAmount} = values;
             const {id} = expense;
             try {
-                const {data} = await updateExpense({variables: { input: {expenseId: id, amount: parseFloat(updateAmount) }}});
+                const {data} = await updateExpense({variables: { input: {expenseId: id, amount: parseFloat(updateAmount)}}});
                 expenseContext.updateExpense(data.updateExpense);
                 changeVisibility();
             } catch (err) {
@@ -157,7 +158,7 @@ const UpdateExpenseCard = (props) => {
                     </InputContainer>
                     <InputContainer>
                         <Input
-                            value={formik.values.updateAmount}
+                            value={removeWhiteSpaces(formik.values.updateAmount)}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             name='updateAmount'

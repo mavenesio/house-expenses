@@ -102,7 +102,7 @@ const CreateExpenseCard = (props) => {
     const [ErrorMessage, setErrorMessage] = useState(null);
     const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES);
     const expenseContext = useContext(ExpenseContext);
-    const removeWhiteSpaces = useCallback((value) => parseFloat((value.toString()).replace(' ', '')));
+    const removeWhiteSpaces = useCallback((value) => value.toString().trim());
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -117,7 +117,7 @@ const CreateExpenseCard = (props) => {
             amount: Yup.number('Must be number')
                         .required('Amount is required.')
                         .min(0, 'Amount greater than 0.')
-                        .max(10,'Amount must be lower than 10 characters'),
+                        .max(9999999,'Amount must be lower than $9999999 characters'),
             startMonth: Yup.object().required('Start month is required.'),
             startYear: Yup.object().required('Start year is required.'),
             type: Yup.object().required('Type is required.'),
