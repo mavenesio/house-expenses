@@ -127,7 +127,7 @@ function Login(props) {
                   value={formik.values.email}
               />
               <label>Email</label>
-              <ErrorField errorMessage={formik.errors.email} touched={formik.errors.email }/>
+              <ErrorField errorMessage={formik.errors.email} touched={formik.touched.email }/>
           </InputContainer>
           <InputContainer>
               <Input
@@ -135,10 +135,11 @@ function Login(props) {
                   id='password'
                   type='password'
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   value={formik.values.password}
               />
               <label>Password</label>
-              <ErrorField errorMessage={formik.errors.password} touched={formik.errors.password } />
+              <ErrorField errorMessage={formik.errors.password} touched={formik.touched.password } />
             </InputContainer>
           <ButtonContainer>
             <CustomSecondaryButton type='submit' form='loginForm' >Log in</CustomSecondaryButton>
