@@ -20,7 +20,8 @@ const GET_USER_EXPENSES = gql`
         id
         name
         amount
-        paid
+        paid,
+        type
       }
     }
 `;
@@ -30,7 +31,8 @@ const PAID_EXPENSE = gql`
             id,
             name,
             paid,
-            amount
+            amount,
+            type
         }
     }
 `;

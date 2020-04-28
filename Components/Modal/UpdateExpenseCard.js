@@ -88,7 +88,8 @@ const UPDATE_EXPENSE = gql`
             id,
             name,
             paid,
-            amount
+            amount,
+            type
         }
     }
 `;
