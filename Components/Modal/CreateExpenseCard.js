@@ -10,7 +10,7 @@ import Input from '../Input/Input';
 import Button from '../Button/Button';
 import ErrorField from '../ErrorField/ErrorField';
 import StyledSelect from '../StyledSelect/StyledSelect';
-import {YearOptions, MonthOptions, NumberOfMonthOptions} from '../../constants/constants';
+import {YearOptions, MonthOptions, NumberOfMonthOptions, ExpenseTypeOptions} from '../../constants/constants';
 import ExpenseContext from '../../context/expenses/ExpenseContext';
 
 const CrossButton = styled(TimesCircle)`
@@ -92,6 +92,7 @@ const ADD_RANGE_EXPENSES = gql`
             name, 
             amount,
             paid,
+            type,
         }
     }
 `;
@@ -108,21 +109,24 @@ const CreateExpenseCard = (props) => {
             startMonth: MonthOptions[(new Date()).getMonth()],
             startYear: YearOptions[0],
             numberOfMonth: NumberOfMonthOptions[0],
+            type: ExpenseTypeOptions[0],
         },
         validationSchema: Yup.object({
             name: Yup.string('Debe ser string').required('Campo requerido.'),
             amount: Yup.number('Debe ser numero').min(0, 'monto mayor a 0.').required('Campo requerido.'),
             startMonth: Yup.object().required('Campo requerido.'),
-            startYear: Yup.object().required('Campo requerido.')
+            startYear: Yup.object().required('Campo requerido.'),
+            type: Yup.object().required('Campo requerido.'),
         }),
         onSubmit: async values => {
             try {
-                const {name, amount, startMonth, startYear, numberOfMonth} = values;
+                const {name, amount, startMonth, startYear, numberOfMonth, type} = values;
                 const inp = {   name,
                                 amount: parseFloat(amount),
                                 startMonth: parseInt(startMonth.value)-1,
                                 startYear: parseInt(startYear.value),
-                                monthAmount: parseInt(numberOfMonth.value)};
+                                monthAmount: parseInt(numberOfMonth.value),
+                                type:type.value};
                 const {data} = await addRangeExpenses({variables: { input: {...inp}}});
                 expenseContext.addExpense(data.addRangeExpenses);
                 changeVisibility();
@@ -141,6 +145,7 @@ const CreateExpenseCard = (props) => {
     const handleStartMonthSelect = useCallback((value) => setFieldValue('startMonth', value), [setFieldValue]);
     const handleStartYearSelect = useCallback((value) => setFieldValue('startYear', value), [setFieldValue]);
     const handleNumberOfMonthSelect = useCallback((value) => setFieldValue('numberOfMonth', value), [setFieldValue]);
+    const handleTypeSelect = useCallback((value) => setFieldValue('type', value), [setFieldValue]);
 
     return (
         <CreateExpenseCardContainer onSubmit={formik.handleSubmit} id='expenseForm'>
@@ -207,7 +212,15 @@ const CreateExpenseCard = (props) => {
                         type='numberOfMonth'
                         label='Amount of payments'
                     />
-                    <ErrorField errorMessage={formik.errors.numberOfMonth} touched={formik.touched.numberOfMonth} />
+                    <StyledSelect
+                        options={ExpenseTypeOptions}
+                        value={formik.values.type}
+                        onChange={handleTypeSelect}
+                        name='type'
+                        type='type'
+                        label='Type'
+                    />
+                    <ErrorField errorMessage={formik.errors.type} touched={formik.touched.type} />
                 </Row>
                 <Row>
                     <ButtonContainer>

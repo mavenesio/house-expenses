@@ -1,5 +1,13 @@
+// @ts-nocheck
 
 import theme from './Theme';
+import Styled from 'styled-components';
+import CreditCard from '../Components/Icons/CreditCard';
+import Home from '../Components/Icons/Home';
+import Cash from '../Components/Icons/Cash';
+import ShoppingCart from '../Components/Icons/ShoppingCart';
+import Important from '../Components/Icons/Important';
+import styled from 'styled-components';
 
 export const SelectColourStyles = {
     control: (styles, { isFocused }) => {
@@ -56,4 +64,35 @@ export const NumberOfMonthOptions = [
     { value: '6', label: '6' },
     { value: '12', label: '12' },
     { value: '18', label: '18' },
+];
+
+const IconContainer = Styled.div`
+  color:${props => props.iconcolor};
+  margin-right:10px;
+`;
+const IconWrapper = Styled.div`
+  color:${props => props.iconcolor};
+  margin-right:10px;
+  font-size:15px;
+  
+`;
+const Label = styled.div`
+  display:flex;
+  flex-direction:row;
+`;
+
+export const ExpenseTypeOptions = [
+  { value: 'House', label: <Label><IconContainer iconcolor='#0062ff'><Home /></IconContainer> House </Label>},
+  { value: 'Market', label: <Label><IconContainer iconcolor='green'><ShoppingCart /></IconContainer> Market</Label>},
+  { value: 'CreditCard', label: <Label><IconContainer iconcolor='violet'><CreditCard /></IconContainer> Credit Card </Label>},
+  { value: 'Cash', label: <Label><IconContainer iconcolor='orange'><Cash /></IconContainer> Cash </Label>},
+  { value: 'Important', label: <Label><IconContainer iconcolor='red'><Important /></IconContainer> Important </Label>},
+];
+
+export const ExpenseTypes = [
+  { key: 'House', value: <IconWrapper iconcolor='#0062ff'><Home /></IconWrapper>},
+  { key: 'Market', value: <IconWrapper iconcolor='green'><ShoppingCart /></IconWrapper>},
+  { key: 'CreditCard', value: <IconWrapper iconcolor='violet'><CreditCard /></IconWrapper>},
+  { key: 'Cash', value: <IconWrapper iconcolor='orange'><Cash /></IconWrapper>},
+  { key: 'Important', value: <IconWrapper iconcolor='red'><Important /></IconWrapper>},
 ];

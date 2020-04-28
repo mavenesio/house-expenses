@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import client from '../../config/apollo';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import PowerOff from '../Icons/PowerOff';
@@ -44,7 +45,7 @@ const Header = (props) => {
                 </HeaderText>
             </Link>
             {
-                logOutVisible && <LogOutButton onClick={() => {localStorage.removeItem('token'); router.push('/')}} />
+                logOutVisible && <LogOutButton onClick={() => {localStorage.removeItem('token');client.cache.reset(); router.push('/')}} />
             }
         </HeaderContainer>
     )

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import pen from '../Icons/Pen';
 import PaperCard from '../Card/PaperCard';
 import Checkbox from '../CheckBox/Checkbox';
+import {ExpenseTypes} from '../../constants/constants';
 
 const ExpensesTableContainer = styled.div`
     width:100%;
@@ -100,6 +101,13 @@ const IconCell = styled.div`
 
 const ExpensesTable = (props) => {
     const {dataTable, onEdit, onCheck} = props;
+    const renderIcon = useCallback(
+        (rowType) => {
+            const icon = ExpenseTypes.find(type => type.key === rowType);
+            if (icon !== undefined) return icon.value;
+            return ExpenseTypes.find(type => type.key === 'Market').value
+        }
+    )
 
     const renderRows = useCallback(
         
@@ -107,6 +115,7 @@ const ExpensesTable = (props) => {
             return data.map(
                 row => 
                 <Row key={row.name}>
+                    {renderIcon(row.type)}
                     <NameCell>
                         {row.name}
                         <HorizonalLine isvisible={row.paid}/>
