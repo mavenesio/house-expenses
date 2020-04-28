@@ -24,7 +24,7 @@ const FooterNavbarContainer = styled.div`
 const RecordButton = styled(Clipboard)`
     align-self:center;
     font-size: 40px;
-    color: black;
+    color: ${props => props.theme.color.white};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
         color: ${props => props.theme.color.primaryLightColor};
@@ -33,7 +33,7 @@ const RecordButton = styled(Clipboard)`
 const HistoryButton = styled(FileRegular)`
     align-self:center;
     font-size: 40px;
-    color: black;
+    color: ${props => props.theme.color.white};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
         color: ${props => props.theme.color.primaryLightColor};
@@ -42,7 +42,7 @@ const HistoryButton = styled(FileRegular)`
 const ChartButton = styled(ChartBar)`
     align-self:center;
     font-size: 40px;
-    color: black;
+    color: ${props => props.theme.color.white};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
         color: ${props => props.theme.color.primaryLightColor};
@@ -51,7 +51,7 @@ const ChartButton = styled(ChartBar)`
 const HomeButton = styled(Home)`
     align-self:center;
     font-size: 40px;
-    color: black;
+    color: ${props => props.theme.color.white};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
         color: ${props => props.theme.color.primaryLightColor};

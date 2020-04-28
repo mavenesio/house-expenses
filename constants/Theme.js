@@ -10,7 +10,7 @@ const theme = {
       gray: '#b2b2b2',
       darkGray: '#202124',
       black: 'black',
-      white: 'white',
+      white: '#f7f7f7',
     },
     font: {
         family: 'Raleway', //'Indie Flower',

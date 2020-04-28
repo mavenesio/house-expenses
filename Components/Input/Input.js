@@ -10,6 +10,7 @@ const Input = styled.input`
     box-sizing: border-box;
     line-height: 1.2em;
     height:55px;
+    background-color: ${props => props.theme.color.white};
     outline: unset;
     &:focus {
         outline: none;

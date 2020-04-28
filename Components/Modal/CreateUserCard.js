@@ -25,7 +25,7 @@ const CreateUserCardContainer = styled.div`
     z-index:5;
     position:relative;
     align-self:center;
-    background-color:white;
+    background-color:${props => props.theme.color.white};
     border-radius:5px;
     width:50vw;
     min-width:300px;

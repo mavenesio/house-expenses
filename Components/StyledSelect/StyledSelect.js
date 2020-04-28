@@ -15,6 +15,7 @@ const InputContainer = styled.div`
 const CustomSelect = styled(Select)`
     & > div{
         padding-bottom:unset;
+        background-color: ${props => props.theme.color.white};
         height:55px;
         & > div > div {
             top:60%;
