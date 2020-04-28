@@ -15,12 +15,18 @@ const {
     console.log(`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging}`)
   
     const env = {
-        BASE_URL: (() => {
-            if (isDev) return 'http://localhost:3000/'
-            if (isProd) return 'http://localhost:3000/'
-            if (isStaging) return 'http://localhost:3000/'
-        return 'BASE_URL:not (isDev,isProd && !isStaging,isProd && isStaging)'
-      })(),
+      BASE_URL: (() => {
+          if (isDev) return 'http://localhost:3000/'
+          if (isProd) return 'http://localhost:3000/'
+          if (isStaging) return 'http://localhost:3000/'
+      return 'BASE_URL:not (isDev,isProd && !isStaging,isProd && isStaging)'
+    })(),
+      URI: (() => {       
+          if (isDev) return 'http://localhost:4000/'
+          if (isProd) return 'https://obscure-plateau-48683.herokuapp.com/'
+          if (isStaging) return 'https://obscure-plateau-48683.herokuapp.com/'
+      return 'URI:not (isDev,isProd && !isStaging,isProd && isStaging)'
+    })(),
     }
   
     // next.config.js object
