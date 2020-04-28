@@ -15,7 +15,7 @@ const Paper = styled.div`
 
 `;
 
-const PaperCard = ({children}) => {
+const Card = ({children}) => {
     const renderCardChildComponents = useCallback(
         (ch) => {
             return React.Children.map(ch, (child) => {
@@ -30,4 +30,4 @@ const PaperCard = ({children}) => {
     );
 }
 
-export default PaperCard;
+export default Card;

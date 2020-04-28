@@ -3,7 +3,7 @@ import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
 
 import pen from '../Icons/Pen';
-import PaperCard from '../Card/PaperCard';
+import Card from '../Card/Card';
 import Checkbox from '../CheckBox/Checkbox';
 import {ExpenseTypes} from '../../constants/constants';
 
@@ -142,7 +142,7 @@ const ExpensesTable = (props) => {
             <ExpensesTableContainer>
                 {dataTable && dataTable.length > 0
                     ?
-                    <PaperCard>
+                    <Card>
                         <Table>
                             {renderRows(dataTable)}
                             <FooterRow>
@@ -152,9 +152,9 @@ const ExpensesTable = (props) => {
                                 <IconCell/>
                             </FooterRow>
                         </Table>
-                    </PaperCard>
+                    </Card>
                     :
-                    <PaperCard><p>No hay gastos</p></PaperCard>
+                    <Card><p>No hay gastos</p></Card>
                 }
             </ExpensesTableContainer>
         </>
