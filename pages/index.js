@@ -65,6 +65,14 @@ const CustomSecondaryButton = styled(SecondaryButton)`
     margin:0.5rem 0rem 0.5rem 0rem;
   }
 `;
+const SuccessMessage = styled.div`
+  color: ${props => props.theme.color.pimaryColor};
+  font-size: 15px;
+  font-weight: 800;
+  font-family: ${props => props.theme.font.family};
+  margin: 0.5rem;
+  text-align:center;
+`;
 
 
 const AUTHOTIZATION_USER = gql`
@@ -78,6 +86,7 @@ const AUTHOTIZATION_USER = gql`
 function Login(props) {
   const [ModalIsVisible, setModalIsVisible] = useState(false);
   const [ErrorMessage, setErrorMessage] = useState(null);
+  const [SignUpSuccess, setSignUpSuccess] = useState(false);
   const [Loading, setLoading] = useState(false);
   const router = useRouter();
   const [AuthorizationInput] = useMutation(AUTHOTIZATION_USER);
@@ -105,7 +114,8 @@ function Login(props) {
         const {token} = data.userAuthorization;
         localStorage.setItem('token', token);
         setLoading(false);
-        router.push('/Homepage')
+        router.push('/Homepage');
+        setSignUpSuccess(false);
       } catch (err) {
         setLoading(false);
         const message = err.message.replace('GraphQL error:', '');
@@ -121,6 +131,7 @@ function Login(props) {
       <Header title='LOGIN' logOutVisible={false}/>
       <LoginContainer onSubmit={formik.handleSubmit} id='loginForm'>
         <LoginBox>
+          <SuccessMessage> {SignUpSuccess && 'Welcome! ! ! !'}</SuccessMessage> 
           <ErrorField errorMessage={ErrorMessage} touched={true}/>
           <InputContainer>
               <Input
@@ -154,7 +165,7 @@ function Login(props) {
       </LoginContainer>
       <Spinner loading={Loading} />
       <Modal isVisible={ModalIsVisible} changeVisibility={() => setModalIsVisible(!ModalIsVisible)}>
-        <CreateUserCard changeVisibility={() => setModalIsVisible(false)} />
+        <CreateUserCard changeVisibility={() => setModalIsVisible(false)} setSignUpSuccess={() => setSignUpSuccess(true)} />
       </Modal>
     </>
   )

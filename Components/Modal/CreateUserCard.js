@@ -32,8 +32,7 @@ const CreateUserCardContainer = styled.div`
 `;
 const ModalHeader = styled.div`
     display:flex;
-    flex-direction:row;
-    justify-content:space-between;
+    flex-direction:column;
     margin:1rem;
     border-bottom: 2px solid ${props => props.theme.color.primaryLightColor};
 `;
@@ -65,6 +64,11 @@ const CustomButton = styled(Button)`
   }
   cursor: pointer;
 `;
+const Row = styled.div`
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+`;
 
 const ADD_USER = gql`
     mutation addUser($input: UserInput!) {
@@ -75,7 +79,7 @@ const ADD_USER = gql`
     }
 `;
 
-const CreateUserCard = ({changeVisibility}) => {
+const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
     const [ErrorMessage, setErrorMessage] = useState(null);
     const [Loading, setLoading] = useState(false);
     const [addUser] = useMutation(ADD_USER);
@@ -116,6 +120,7 @@ const CreateUserCard = ({changeVisibility}) => {
                 });
                 changeVisibility();
                 setLoading(false);
+                setSignUpSuccess();
             } catch (err) {
                 setLoading(false);
                 const message = err.message.replace('GraphQL error:', '');
@@ -131,12 +136,16 @@ const CreateUserCard = ({changeVisibility}) => {
     return (
         <CreateUserCardContainer>
             <ModalHeader>
-                <ModalHeaderText>
-                    New user
-                </ModalHeaderText>
-                <CrossButton onClick={changeVisibility}/>
+                <Row>
+                    <ModalHeaderText>
+                        New user
+                    </ModalHeaderText>
+                    <CrossButton onClick={changeVisibility}/>
+                </Row>
+                <Row>
+                    <ErrorField errorMessage={ErrorMessage} touched={true}/>
+                </Row>
             </ModalHeader>
-            <ErrorField errorMessage={ErrorMessage} touched={true}/>
             <ModalBody  onSubmit={formik.handleSubmit} id='createForm'>
                     <InputContainer>
                         <Input
