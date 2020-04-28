@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useState, useCallback,useContext} from 'react';
+import React, {useState, useCallback, useContext} from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -102,6 +102,7 @@ const CreateExpenseCard = (props) => {
     const [ErrorMessage, setErrorMessage] = useState(null);
     const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES);
     const expenseContext = useContext(ExpenseContext);
+    const removeWhiteSpaces = useCallback((value) => parseFloat((value.toString()).replace(' ', '')));
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -112,8 +113,11 @@ const CreateExpenseCard = (props) => {
             type: ExpenseTypeOptions[0],
         },
         validationSchema: Yup.object({
-            name: Yup.string('Must be string').required('Name is required.'),
-            amount: Yup.number('Must be number').min(0, 'Amount greater than 0.').required('Amount is required.'),
+            name: Yup.string('Must be string').required('Name is required.').max(20,'Name must be lower than 20 characters'),
+            amount: Yup.number('Must be number')
+                        .required('Amount is required.')
+                        .min(0, 'Amount greater than 0.')
+                        .max(10,'Amount must be lower than 10 characters'),
             startMonth: Yup.object().required('Start month is required.'),
             startYear: Yup.object().required('Start year is required.'),
             type: Yup.object().required('Type is required.'),
@@ -172,7 +176,7 @@ const CreateExpenseCard = (props) => {
                     </InputContainer>
                     <InputContainer>
                         <Input
-                            value={formik.values.amount}
+                            value={removeWhiteSpaces(formik.values.amount)}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             name='amount'
@@ -190,7 +194,7 @@ const CreateExpenseCard = (props) => {
                         name='startMonth'
                         type='startMonth'
                         options={MonthOptions}
-                        label='Start monht'
+                        label='Start month'
                     />
                     <StyledSelect
                         options={YearOptions}

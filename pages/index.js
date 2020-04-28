@@ -81,11 +81,16 @@ function Login(props) {
   const [Loading, setLoading] = useState(false);
   const router = useRouter();
   const [AuthorizationInput] = useMutation(AUTHOTIZATION_USER);
+  const removeWhiteSpaces = useCallback((value) => value.replace(' ', ''));
   const formik = useFormik({
     initialValues: {email: '', password: ''},
     validationSchema: Yup.object({
-      email: Yup.string().email('Invalid email').required('Email is required'),
-      password: Yup.string().required('password is required')
+      email: Yup.string()
+                .email('Invalid email')
+                .required('Email is required')
+                .max(35,'Email must be lower than 35 characters')
+                .trim('dont be allow spaces'),
+      password: Yup.string().required('password is required').max(35,'Password must be lower than 35 characters'),
     }),
 
     onSubmit: async values => {
@@ -124,7 +129,7 @@ function Login(props) {
                   type='email'
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.email}
+                  value={removeWhiteSpaces(formik.values.email)}
               />
               <label>Email</label>
               <ErrorField errorMessage={formik.errors.email} touched={formik.touched.email }/>
@@ -136,7 +141,7 @@ function Login(props) {
                   type='password'
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.password}
+                  value={removeWhiteSpaces(formik.values.password)}
               />
               <label>Password</label>
               <ErrorField errorMessage={formik.errors.password} touched={formik.touched.password } />

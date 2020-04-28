@@ -104,7 +104,10 @@ const UpdateExpenseCard = (props) => {
             updateAmount: (expense !== null) ? expense.amount : '',
         },
         validationSchema: Yup.object({
-            updateAmount: Yup.number('Must be number').min(0, 'Amount greater than 0.').required('Amount is required.'),
+            updateAmount: Yup.number('Must be number')
+                            .required('Amount is required.')
+                            .min(0, 'Amount greater than 0.')
+                            .max(10,'Amount must be lower than 10 characters'),
         }),
         onSubmit: async values => {
             const {updateAmount} = values;
@@ -159,6 +162,7 @@ const UpdateExpenseCard = (props) => {
                             onBlur={formik.handleBlur}
                             name='updateAmount'
                             id='updateAmount'
+                            type='number'
                         />
                         <label>Amount</label>
                     <ErrorField errorMessage={formik.errors.updateAmount} touched={formik.touched.updateAmount} />

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -79,6 +79,7 @@ const CreateUserCard = ({changeVisibility}) => {
     const [ErrorMessage, setErrorMessage] = useState(null);
     const [Loading, setLoading] = useState(false);
     const [addUser] = useMutation(ADD_USER);
+    const removeWhiteSpaces = useCallback((value) => value.replace(' ', ''));
     const formik = useFormik({
         initialValues: {
             firstName: '',
@@ -87,12 +88,16 @@ const CreateUserCard = ({changeVisibility}) => {
             createPassword: ''
         },
         validationSchema: Yup.object({
-            firstName: Yup.string().required('First name is required'),
-            lastName: Yup.string().required('Last name is required'),
-            createEmail: Yup.string().email('Invalid Email').required('Email is required'),
+            firstName: Yup.string().required('First name is required').max(25,'First name must be lower than 25 characters'),
+            lastName: Yup.string().required('Last name is required').max(25,'Last name must be lower than 25 characters'),
+            createEmail: Yup.string()
+                            .required('Email is required')
+                            .email('Invalid Email')
+                            .max(35,'Email must be lower than 35 characters'),
             createPassword: Yup.string()
                                .required('Password is required')
                                .min(6, 'Password must have more than 6 caracteres')
+                               .max(35,'Password must be lower than 35 characters'),
                                //.matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,'Invalid')
         }),
         onSubmit: async values => {
@@ -164,7 +169,7 @@ const CreateUserCard = ({changeVisibility}) => {
                         type='email'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.createEmail}
+                        value={removeWhiteSpaces(formik.values.createEmail)}
                     />
                     <label>Email</label>
                     <ErrorField errorMessage={formik.errors.createEmail} touched={formik.touched.createEmail} />
@@ -176,7 +181,7 @@ const CreateUserCard = ({changeVisibility}) => {
                         type='password'
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.createPassword}
+                        value={removeWhiteSpaces(formik.values.createPassword)}
                     />
                     <label>Password</label>
                     <ErrorField errorMessage={formik.errors.createPassword} touched={formik.touched.createPassword} />
