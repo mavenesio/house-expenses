@@ -4,7 +4,6 @@ import {setContext} from 'apollo-link-context';
 
 const httpLink = createHttpLink({
     uri: process.env.URI,
-    //uri: 'http://localhost:4000/',
     // @ts-ignore
     fetch
 });
