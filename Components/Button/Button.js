@@ -10,7 +10,7 @@ const Button = styled.button`
     background-color: ${props => props.theme.color.primaryColor};
     font-size: ${props => props.theme.font.size.text};
     font-weight:${props => props.theme.font.weight.bold};
-    color:white;
+    color: ${props => props.theme.color.darkGray};
     font-weight:800;
     &:hover{
         background-color: ${props => props.theme.color.primaryDarkColor};
@@ -32,7 +32,7 @@ export const SecondaryButton = styled.button`
     border-radius: 8px;
     color: ${props => props.theme.color.primaryDarkColor};
     border: 2px solid ${props => props.theme.color.primaryDarkColor};
-    background-color: white;
+    background-color: ${props => props.theme.color.white};
     font-size: ${props => props.theme.font.size.text};
     font-weight:${props => props.theme.font.weight.bold};
     & > * {

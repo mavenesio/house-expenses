@@ -12,7 +12,7 @@ const HeaderContainer = styled.div`
     flex-direction:row;
     justify-content:space-between;
     width:100%;
-    height:10%;
+    height:4rem;
     background-color:${props => props.theme.color.primaryDarkColor};
     grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
     font-family: ${props => props.theme.font.family};

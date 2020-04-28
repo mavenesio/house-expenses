@@ -36,6 +36,9 @@ const PAID_EXPENSE = gql`
         }
     }
 `;
+const HomepageContainer = styled.div`
+  background-color:${props => props.theme.color.darkGray};
+`;
 const IconContainer = styled.div`
   display:flex; 
   flex-direction:row;
@@ -74,7 +77,7 @@ const Homepage = () => {
     });
 
   return (
-    <>
+    <HomepageContainer>
       <Spinner loading={loading}/>
       <Header title={`A PAGAR EN ${(MonthOptions[(new Date()).getMonth()].label).toUpperCase()}`} logOutVisible={true}/>
       
@@ -94,7 +97,7 @@ const Homepage = () => {
       <Modal isVisible={UpdateModalVisibility} changeVisibility={() => setUpdateModalVisibility(false)}>
         <UpdateExpenseCard expense={SelectedRow} changeVisibility={() => {setUpdateModalVisibility(false)}}/>
       </Modal>
-    </>
+    </HomepageContainer>
   )
 
 }

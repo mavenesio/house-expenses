@@ -5,38 +5,14 @@ const Paper = styled.div`
     background: #fff;
     padding: 20px;
     position: relative;
-    border: 1px solid gray;
     min-width:300px;
-    &:before{
-        box-shadow: 1px 1px 1px rgba(0,0,0,0.25);
-        border: 1px solid #bbb;
-        content: "";
-        position: absolute;
-        height: 95%;
-        width: 99%;
-        background-color: #eee;
-        right: 15px;
-        top: -20px;
-        transform: rotate(-3deg);
-        z-index: -1;
-        border: 1px solid gray;
-        background-color:#616161;
-    }
-    &:after{
-        box-shadow: 1px 1px 1px rgba(0,0,0,0.25);
-        border: 1px solid #bbb;
-        content: "";
-        position: absolute;
-        height: 95%;
-        width: 99%;
-        background-color: #eee;
-        top: -15px;
-        right: -5px;
-        transform: rotate(3deg);
-        z-index: -2;
-        border: 1px solid gray;
-        background-color:#9d9e9d;
-    }
+    background-color:${props => props.theme.color.darkGray};
+    color:${props => props.theme.color.white};
+    border: 1px solid ${props => props.theme.color.gray};
+    border-radius:8px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5);
+    padding: 2rem;
+
 `;
 
 const PaperCard = ({children}) => {

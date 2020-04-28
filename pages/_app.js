@@ -19,8 +19,10 @@ const PageContainer = styled.div`
   height:100%;
 `;
 const Body = styled.div`
+  background-color:${props => props.theme.color.darkGray};
   overflow-x:scroll;
   height:${props => props.fullBody ? '100%' : '90%'};
+  overflow-x: hidden;
 `;
 
 const MyApp = ({Component, pageProps})=>  {

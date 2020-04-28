@@ -8,7 +8,7 @@ const theme = {
       secondaryLightColor: '#f9683a',
       lightgrey:'#e4e4e4',
       gray: '#b2b2b2',
-      darkGray: '#838383',
+      darkGray: '#202124',
       black: 'black',
       white: 'white',
     },

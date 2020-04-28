@@ -38,12 +38,15 @@ const Table = styled.div`
     min-width:300px;
 `;
 const Row = styled.div`
+    background-color:${props => props.theme.color.darkGray};
+    border: 1px solid ${props => props.theme.color.darkGray};
+    color:${props => props.theme.color.white};
     display:flex;
     flex-direction:row;
     justify-content:center;
     padding: 0rem.6rem 0rem .6rem;
     &:hover{
-        background-color:lightgray;
+        border: 1px solid ${props => props.theme.color.gray};
         border-radius:8px;
     }
 `;
@@ -53,8 +56,9 @@ const FooterRow = styled.div`
     justify-content:center;
     padding: 1rem.6rem 1rem .6rem;
     border-top:  1.5px solid ${props => props.theme.color.primaryColor};
+        border: 1px solid ${props => props.theme.color.darkGray};
     &:hover{
-        background-color:lightgray;
+        border: 1px solid ${props => props.theme.color.gray};
         border-radius:8px;
     }
 `;
@@ -84,6 +88,7 @@ const NameCell = styled.div`
     }
 `;
 const AmoutCell = styled.div`
+    cursor: default;
     text-align:end;
     position:relative;
     width: 20%;
