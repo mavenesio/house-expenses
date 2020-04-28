@@ -3,6 +3,7 @@ import {
     ADD_EXPENSE,
     SET_EXPENSE,
     UPDATE_EXPENSE,
+    DELETE_EXPENSE
 } from '../../types';
 
 
@@ -29,6 +30,12 @@ export default (state, action) => {
             return {
                 ...state,
                 expenses: state.expenses.concat(action.payload)
+            }
+        case DELETE_EXPENSE:
+            console.log('delete');
+            return {
+                ...state,
+                expenses: state.expenses.filter(expense => expense.id !== action.payload)
             }
     
         default:

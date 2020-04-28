@@ -7,6 +7,7 @@ import {
     ADD_EXPENSE,
     SET_EXPENSE,
     UPDATE_EXPENSE,
+    DELETE_EXPENSE
 } from '../../types';
 import ExpenseReducer from './ExpenseReducer';
 
@@ -39,7 +40,14 @@ const ExpenseState = ({children}) => {
             type:ADD_EXPENSE,
             payload: newExpense
         })
-    }
+    };
+    const deleteExpense = expenseId => {
+        console.log(expenseId);
+        dispatch({
+            type:DELETE_EXPENSE,
+            payload: expenseId
+        })
+    };
 
     return (
         <ExpenseContext.Provider
@@ -47,7 +55,8 @@ const ExpenseState = ({children}) => {
                 expenses: state.expenses,
                 updateExpense,
                 setExpenses,
-                addExpense
+                addExpense,
+                deleteExpense
             }}
         >
             {children}
