@@ -83,7 +83,7 @@ const CustomButton = styled(Button)`
 `;
 
 const UPDATE_EXPENSE = gql`
-    mutation updateExpense($input:updateExpenseInput!){
+    mutation updateExpense($input:UpdateExpenseInput!){
         updateExpense(input: $input){
             id,
             name,
@@ -111,20 +111,20 @@ const UpdateExpenseCard = (props) => {
                             .max(9999999,'Amount must be lower than 9999999 characters'),
         }),
         onSubmit: async values => {
-            const {updateAmount} = values;
-            const {id} = expense;
-            try {
-                const {data} = await updateExpense({variables: { input: {expenseId: id, amount: parseFloat(updateAmount)}}});
-                expenseContext.updateExpense(data.updateExpense);
-                changeVisibility();
-            } catch (err) {
-                const message = err.message.replace('GraphQL error:', '');
-                setErrorMessage(message);
-                setTimeout( () => {
-                  setErrorMessage(null);
-                },4000);
-            }
-            } 
+                const {updateAmount} = values;
+                const {id} = expense;
+                try {
+                    const {data} = await updateExpense({variables: { input: {expenseId: id, amount: parseFloat(updateAmount)}}});
+                    expenseContext.updateExpense(data.updateExpense);
+                    changeVisibility();
+                } catch (err) {
+                    const message = err.message.replace('GraphQL error:', '');
+                    setErrorMessage(message);
+                    setTimeout( () => {
+                    setErrorMessage(null);
+                    },4000);
+                }
+            }    
         });
 
     const { setFieldValue } = formik;

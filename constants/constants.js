@@ -73,7 +73,7 @@ const IconContainer = Styled.div`
 const IconWrapper = Styled.div`
   color:${props => props.iconcolor};
   margin-right:10px;
-  font-size:15px;
+  font-size: 20px;
   
 `;
 const Label = styled.div`
