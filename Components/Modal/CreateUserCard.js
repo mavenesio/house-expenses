@@ -87,11 +87,13 @@ const CreateUserCard = ({changeVisibility}) => {
             createPassword: ''
         },
         validationSchema: Yup.object({
-            firstName: Yup.string().required('El nombre es obligatorio'),
-            lastName: Yup.string().required('El apellido es obligatorio'),
-            createEmail: Yup.string().email('El email no es valido').required('Email es obligatorio'),
-            createPassword: Yup.string().required('password no puede ser vacio')
-                                        .min(6, 'password no puede tener menos de 6 caracteres')
+            firstName: Yup.string().required('First name is required'),
+            lastName: Yup.string().required('Last name is required'),
+            createEmail: Yup.string().email('Invalid Email').required('Email is required'),
+            createPassword: Yup.string()
+                               .required('Password is required')
+                               .min(6, 'Password must have more than 6 caracteres')
+                               //.matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,'Invalid')
         }),
         onSubmit: async values => {
             try {
@@ -173,6 +175,7 @@ const CreateUserCard = ({changeVisibility}) => {
                         id='createPassword'
                         type='password'
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                         value={formik.values.createPassword}
                     />
                     <label>Password</label>

@@ -112,11 +112,11 @@ const CreateExpenseCard = (props) => {
             type: ExpenseTypeOptions[0],
         },
         validationSchema: Yup.object({
-            name: Yup.string('Debe ser string').required('Campo requerido.'),
-            amount: Yup.number('Debe ser numero').min(0, 'monto mayor a 0.').required('Campo requerido.'),
-            startMonth: Yup.object().required('Campo requerido.'),
-            startYear: Yup.object().required('Campo requerido.'),
-            type: Yup.object().required('Campo requerido.'),
+            name: Yup.string('Must be string').required('Name is required.'),
+            amount: Yup.number('Must be number').min(0, 'Amount greater than 0.').required('Amount is required.'),
+            startMonth: Yup.object().required('Start month is required.'),
+            startYear: Yup.object().required('Start year is required.'),
+            type: Yup.object().required('Type is required.'),
         }),
         onSubmit: async values => {
             try {

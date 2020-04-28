@@ -104,8 +104,7 @@ const UpdateExpenseCard = (props) => {
             updateAmount: (expense !== null) ? expense.amount : '',
         },
         validationSchema: Yup.object({
-            updateName: Yup.string('Debe ser string').required('Campo requerido.'),
-            updateAmount: Yup.number('Debe ser numero').min(0, 'monto mayor a 0.').required('Campo requerido.'),
+            updateAmount: Yup.number('Must be number').min(0, 'Amount greater than 0.').required('Amount is required.'),
         }),
         onSubmit: async values => {
             const {updateAmount} = values;
