@@ -2,14 +2,14 @@
 import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
 
-import pen from '../Icons/Pen';
 import Card from '../Card/Card';
 import Checkbox from '../CheckBox/Checkbox';
 import {ExpenseTypes} from '../../constants/constants';
 
 import Modal from '../Modal/Modal';
-import CreateExpenseCard from '../Modal/CreateExpenseCard';
 import PlusSquare from '../Icons/PlusSquare';
+import Trash from '../Icons/Trash';
+import Pen from '../Icons/Pen';
 
 const ExpensesTableContainer = styled.div`
     height:100%;
@@ -18,7 +18,22 @@ const ExpensesTableContainer = styled.div`
     display: flex;
     justify-content: center;
 `;
-const PenButton = styled(pen)`
+const PenButton = styled(Pen)`
+    align-self:center;
+    font-size: 20px;
+    color: black;
+    margin: 0rem 1rem 0rem 1rem;
+    pointer-events: ${props => props.disabled ? 'none': 'unset'};
+    cursor:${props => props.disabled ? 'not-allowed': 'pointer'};
+    color: ${props => props.disabled ? 'gray' : props.theme.color.primaryDarkColor};
+    &:hover{
+        color: ${props => props.disabled ? 'gray' : props.theme.color.primaryLightColor};
+    }
+    &:active{
+        color: ${props => props.disabled ? 'gray' : props.theme.color.primaryLightColor};
+    }
+`;
+const TrashButton = styled(Trash)`
     align-self:center;
     font-size: 20px;
     color: black;
@@ -119,12 +134,10 @@ const PlusButton = styled(PlusSquare)`
 const IconCell = styled.div`
     text-align:start;
     width:10%;
-    margin-left:1rem;
+    margin-left:0.2rem;
 `;
 
-const ExpensesTable = (props) => {
-    const {dataTable, onEdit, onCheck} = props;
-    const [CreateModalVisibility, setCreateModalVisibility] = useState(false);
+const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
     const renderIcon = useCallback(
         (rowType) => {
             const icon = ExpenseTypes.find(type => type.key === rowType);
@@ -148,12 +161,21 @@ const ExpensesTable = (props) => {
                         {row.amount}
                         <HorizonalLine isvisible={row.paid}/>
                     </AmoutCell>
-                    <IconCell>
-                        <Checkbox title='' checked={row.paid} onCheck={() => onCheck(row.id,row.paid)}/>
-                    </IconCell>
-                    <IconCell>
-                        <PenButton disabled={row.paid}  onClick={() => onEdit(row)}/>
-                    </IconCell>
+                    {onCheck &&
+                        <IconCell>
+                            <Checkbox title='' checked={row.paid} onCheck={() => onCheck(row.id,row.paid)}/>
+                        </IconCell>
+                    }
+                    {onEdit &&
+                        <IconCell>
+                            <PenButton disabled={row.paid}  onClick={() => onEdit(row)}/>
+                        </IconCell>
+                    }
+                    {onDelete &&
+                        <IconCell>
+                            <TrashButton disabled={row.paid}  onClick={() => onDelete(row)} />
+                        </IconCell>
+                    }
                 </Row>
                 )}, []);
     return (
@@ -169,17 +191,15 @@ const ExpensesTable = (props) => {
                                     <AmoutCell>{dataTable.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</AmoutCell>
                                     <IconCell/>
                                     <IconCell/>
+                                    <IconCell/>
                                 </FooterRow>
                             </Table>
                         :
                     <p>No expenses</p>
                     }
-                    <PlusButton onClick={() => setCreateModalVisibility(!CreateModalVisibility)}/>
+                    {onCreate && <PlusButton onClick={onCreate}/>}
                 </Card>
             </ExpensesTableContainer>
-            <Modal isVisible={CreateModalVisibility} changeVisibility={() => setCreateModalVisibility(!CreateModalVisibility)}>
-                <CreateExpenseCard changeVisibility={() => {setCreateModalVisibility(!CreateModalVisibility)}}/>
-            </Modal>
         </>
     )
 }
