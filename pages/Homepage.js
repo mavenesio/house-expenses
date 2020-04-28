@@ -7,9 +7,11 @@ import styled from 'styled-components';
 import Header from '../Components/Header/Header';
 import ExpensesTable from '../Components/ExpensesTable/ExpensesTable';
 import Spinner from '../Components/Spinner/Spinner';
-import Modal from '../Components/Modal/Modal';
-import UpdateExpenseCard from '../Components/Modal/UpdateExpenseCard';
-import PlusSquare from '../Components/Icons/PlusSquare';
+
+import UpdateExpenseModal from '../Components/Modal/UpdateExpenseModal';
+import DeleteExpenseModal from '../Components/Modal/DeleteExpenseModal';
+import CreateExpenseModal from '../Components/Modal/CreateExpenseModal';
+
 import { MonthOptions } from '../constants/constants';
 import ExpenseContext from '../context/expenses/ExpenseContext';
 
@@ -25,7 +27,7 @@ const GET_USER_EXPENSES = gql`
     }
 `;
 const UPDATE_EXPENSE = gql`
-    mutation updateExpense($input:updateExpenseInput!){
+    mutation updateExpense($input:UpdateExpenseInput!){
         updateExpense(input: $input){
             id,
             name,
@@ -35,6 +37,7 @@ const UPDATE_EXPENSE = gql`
         }
     }
 `;
+
 const HomepageContainer = styled.div`
   background-color:${props => props.theme.color.darkGray};
 `;
@@ -51,6 +54,8 @@ const Homepage = () => {
   const expenseContext = useContext(ExpenseContext);
   const [SelectedRow, setSelectedRow] = useState(null);
   const [UpdateModalVisibility, setUpdateModalVisibility] = useState(false);
+  const [DeleteModalVisibility, setDeleteModalVisibility] = useState(false);
+  const [CreateModalVisibility, setCreateModalVisibility] = useState(false);
   const router = useRouter();
   useEffect(() => { if(data){expenseContext.setExpenses(data.getExpenses)}}, [data]);
   useEffect(() => {if(!loading && data === undefined) router.push('/')}, [loading]);
@@ -69,18 +74,18 @@ const Homepage = () => {
     <HomepageContainer>
       <Spinner loading={loading}/>
       <Header title={`A PAGAR EN ${(MonthOptions[(new Date()).getMonth()].label).toUpperCase()}`} logOutVisible={true}/>
-      
-      
       <TableContainer>
         <ExpensesTable 
           dataTable={expenseContext.expenses}
           onCheck={(id, paid) => paidExpense(id, paid)}
           onEdit={(value) => {setUpdateModalVisibility(!UpdateModalVisibility); setSelectedRow(value)}}
+          onDelete={(value) => {setDeleteModalVisibility(!DeleteModalVisibility); setSelectedRow(value)}}
+          onCreate={() => setCreateModalVisibility(!DeleteModalVisibility)}
           setSelectedRow/>
       </TableContainer>
-      <Modal isVisible={UpdateModalVisibility} changeVisibility={() => setUpdateModalVisibility(false)}>
-        <UpdateExpenseCard expense={SelectedRow} changeVisibility={() => {setUpdateModalVisibility(false)}}/>
-      </Modal>
+      <DeleteExpenseModal visibility={DeleteModalVisibility} setVisibility={() => setDeleteModalVisibility(!DeleteModalVisibility)} expense={SelectedRow}/>
+      <UpdateExpenseModal visibility={UpdateModalVisibility} setVisibility={() => setUpdateModalVisibility(!UpdateModalVisibility)} expense={SelectedRow}/>
+      <CreateExpenseModal visibility={CreateModalVisibility} setVisibility={() => setCreateModalVisibility(!CreateModalVisibility)}/>
     </HomepageContainer>
   )
 

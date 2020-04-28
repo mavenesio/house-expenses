@@ -9,7 +9,7 @@ import {gql, useMutation} from '@apollo/client';
 import Input from '../Components/Input/Input';
 import Button, {SecondaryButton} from '../Components/Button/Button';
 import Modal from '../Components/Modal/Modal';
-import CreateUserCard from '../Components/Modal/CreateUserCard';
+import CreateUserCard from '../Components/CardModal/CreateUserCard';
 import Header from '../Components/Header/Header';
 import ErrorField from '../Components/ErrorField/ErrorField';
 import Spinner from '../Components/Spinner/Spinner';
