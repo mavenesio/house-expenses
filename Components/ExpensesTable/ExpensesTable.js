@@ -159,23 +159,23 @@ const ExpensesTable = (props) => {
     return (
         <>
             <ExpensesTableContainer>
-                {dataTable && dataTable.length > 0
-                    ?
-                    <Card>
-                        <Table>
-                            {renderRows(dataTable)}
-                            <FooterRow>
-                                <NameCell>Total </NameCell>
-                                <AmoutCell>{dataTable.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</AmoutCell>
-                                <IconCell/>
-                                <IconCell/>
-                            </FooterRow>
-                        </Table>
-                        <PlusButton onClick={() => setCreateModalVisibility(!CreateModalVisibility)}/>
-                    </Card>
-                    :
-                    <Card><p>No hay gastos</p></Card>
-                }
+                <Card>
+                    {dataTable && dataTable.length > 0
+                        ?
+                            <Table>
+                                {renderRows(dataTable)}
+                                <FooterRow>
+                                    <NameCell>Total </NameCell>
+                                    <AmoutCell>{dataTable.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</AmoutCell>
+                                    <IconCell/>
+                                    <IconCell/>
+                                </FooterRow>
+                            </Table>
+                        :
+                    <p>No expenses</p>
+                    }
+                    <PlusButton onClick={() => setCreateModalVisibility(!CreateModalVisibility)}/>
+                </Card>
             </ExpensesTableContainer>
             <Modal isVisible={CreateModalVisibility} changeVisibility={() => setCreateModalVisibility(!CreateModalVisibility)}>
                 <CreateExpenseCard changeVisibility={() => {setCreateModalVisibility(!CreateModalVisibility)}}/>
