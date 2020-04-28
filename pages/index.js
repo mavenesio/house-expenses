@@ -63,8 +63,7 @@ const CustomSecondaryButton = styled(SecondaryButton)`
   @media screen {
     margin:0.5rem 0rem 0.5rem 0rem;
   }
-
-`
+`;
 
 
 const AUTHOTIZATION_USER = gql`
@@ -142,7 +141,7 @@ function Login(props) {
             </InputContainer>
           <ButtonContainer>
             <CustomSecondaryButton type='submit' form='loginForm' >Log in</CustomSecondaryButton>
-            <CustomButton onClick={() => {setModalIsVisible(true)}} >Sign up</CustomButton>
+            <CustomButton type='button' onClick={() => {setModalIsVisible(true)}} >Sign up</CustomButton>
           </ButtonContainer>
         </LoginBox>
       </LoginContainer>
