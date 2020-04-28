@@ -7,8 +7,11 @@ import Card from '../Card/Card';
 import Checkbox from '../CheckBox/Checkbox';
 import {ExpenseTypes} from '../../constants/constants';
 
+import Modal from '../Modal/Modal';
+import CreateExpenseCard from '../Modal/CreateExpenseCard';
+import PlusSquare from '../Icons/PlusSquare';
+
 const ExpensesTableContainer = styled.div`
-    width:100%;
     height:100%;
     font-family: ${props => props.theme.font.family}, cursive;
     font-size:25px;
@@ -98,6 +101,21 @@ const AmoutCell = styled.div`
     }
     
 `;
+const PlusButton = styled(PlusSquare)`
+    position:absolute;
+    top: -33px;
+    right: -48px;
+    align-self:flex-start;
+    padding:0.5rem;
+    cursor: pointer;
+    font-size: 50px;
+    background-color: ${props => props.theme.color.darkGray};
+    color: ${props => props.theme.color.primaryLightColor};
+    margin: 0rem 1rem 0rem 1rem;
+    &:hover{
+        color: ${props => props.theme.color.lightGray};
+    }
+`;
 const IconCell = styled.div`
     text-align:start;
     width:10%;
@@ -106,6 +124,7 @@ const IconCell = styled.div`
 
 const ExpensesTable = (props) => {
     const {dataTable, onEdit, onCheck} = props;
+    const [CreateModalVisibility, setCreateModalVisibility] = useState(false);
     const renderIcon = useCallback(
         (rowType) => {
             const icon = ExpenseTypes.find(type => type.key === rowType);
@@ -146,17 +165,21 @@ const ExpensesTable = (props) => {
                         <Table>
                             {renderRows(dataTable)}
                             <FooterRow>
-                                <NameCell>Total a pagar</NameCell>
+                                <NameCell>Total </NameCell>
                                 <AmoutCell>{dataTable.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</AmoutCell>
                                 <IconCell/>
                                 <IconCell/>
                             </FooterRow>
                         </Table>
+                        <PlusButton onClick={() => setCreateModalVisibility(!CreateModalVisibility)}/>
                     </Card>
                     :
                     <Card><p>No hay gastos</p></Card>
                 }
             </ExpensesTableContainer>
+            <Modal isVisible={CreateModalVisibility} changeVisibility={() => setCreateModalVisibility(!CreateModalVisibility)}>
+                <CreateExpenseCard changeVisibility={() => {setCreateModalVisibility(!CreateModalVisibility)}}/>
+            </Modal>
         </>
     )
 }
