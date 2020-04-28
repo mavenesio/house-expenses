@@ -17,12 +17,6 @@ const ConstructionIcon = styled(Construction)`
 const ExpenseTrackingContainer = styled.div`
   padding:5rem;
 `;
-const ConstructionIcon = styled(Construction)`
-  margin-left:1rem;
-  font-size:5rem;
-  color:orange;
-
-`;
 
 const ExpenseTracking = () => {
 
