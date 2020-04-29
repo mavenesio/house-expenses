@@ -95,7 +95,7 @@ const DeleteExpenseCard = ({changeVisibility, expense}) => {
 
     return (
         <DeleteExpenseCardContainer onSubmit={formik.handleSubmit} id='delelteExpenseForm'>
-            <ModalHeader title={`Delete ${expense !== null ? expense.name : ''}`}/>
+            <ModalHeader title={`Delete ${expense !== null ? expense.name : ''}`} onClose={changeVisibility}/>
             <ErrorField ErrorMessage={ErrorMessage} touched={true} />
             <ModalBody>
                 <Row>
@@ -105,20 +105,20 @@ const DeleteExpenseCard = ({changeVisibility, expense}) => {
                         vertical={true}>
                         <RadioButton 
                             value="One"
-                            pointColor={theme.color.primaryDarkColor}
-                            rootColor={theme.color.secondaryColor}>           
+                            pointColor={theme.color.secondaryColor}
+                            rootColor={theme.color.primaryDarkColor}>           
                             This expense
                         </RadioButton>
                         <RadioButton
                             value="allNonPayments"
-                            pointColor={theme.color.primaryDarkColor}
-                            rootColor={theme.color.secondaryColor}> 
+                            pointColor={theme.color.secondaryColor}
+                            rootColor={theme.color.primaryDarkColor}> 
                             All non-payments &nbsp;
                         </RadioButton>
                         <RadioButton
                             value="All"
-                            pointColor={theme.color.primaryDarkColor}
-                            rootColor={theme.color.secondaryColor}> 
+                            pointColor={theme.color.secondaryColor}
+                            rootColor={theme.color.primaryDarkColor}> 
                             All expenses
                         </RadioButton>
                     </RadioGroup>
