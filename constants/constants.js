@@ -17,7 +17,7 @@ export const SelectColourStyles = {
         padding: '10px',
         color: `${theme.color.primaryDarkColor}`,
         weight: 500,
-        border: isFocused ? `2px solid ${theme.color.primaryDarkColor}` : `2px solid ${theme.color.primaryLightColor}`,
+        border: isFocused ? `2px solid ${theme.color.primaryDarkColor}` : `2px solid ${theme.color.primaryColor}`,
         boxShadow: isFocused ? 0 : 0,
         '&:hover': {
         }

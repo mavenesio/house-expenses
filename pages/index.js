@@ -26,7 +26,7 @@ const LoginBox = styled.div`
   min-width: 350px;
   flex-direction:column;
   align-self:center;
-  border:2px solid ${props => props.theme.color.primaryLightColor};
+  border:2px solid ${props => props.theme.color.primaryColor};
   background-color: ${props => props.theme.color.white};
   border-radius: 8px;
   top:20%;
