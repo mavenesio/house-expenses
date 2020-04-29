@@ -1,14 +1,14 @@
 const theme = {
     color:{
-      primaryColor: '#006064',
-      primaryDarkColor: '#00363a',
-      primaryLightColor: '#428e92',
+      primaryColor: '#84B2C2',
+      primaryDarkColor: '#5e6f7c',
+      primaryLightColor: '#FFFFFF',
       secondaryColor: '#009688',
       secondaryDarkColor: '#00675b',
       secondaryLightColor: '#52c7b8',
       lightgrey:'#e4e4e4',
       gray: '#b2b2b2',
-      darkGray: '#202124',
+      darkGray: '#42404d',
       black: 'black',
       white: '#f7f7f7', //marfil '#FFFFF0',
     },
