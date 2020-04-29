@@ -1,6 +1,6 @@
 import React, {useCallback, useState, useEffect} from 'react';
 import Modal from './Modal';
-import CreateExpenseCard from '../CardModal/CreateExpenseCard';
+import CreateExpenseCard from './ModalCard/CreateExpenseCard';
 
 const CreateExpenseModal = ({visibility, setVisibility}) => {
 

@@ -8,11 +8,10 @@ import {gql, useMutation} from '@apollo/client';
 
 import Input from '../Components/Input/Input';
 import Button, {SecondaryButton} from '../Components/Button/Button';
-import Modal from '../Components/Modal/Modal';
-import CreateUserCard from '../Components/CardModal/CreateUserCard';
 import Header from '../Components/Header/Header';
 import ErrorField from '../Components/ErrorField/ErrorField';
 import Spinner from '../Components/Spinner/Spinner';
+import CreateUserModal from '../Components/Modal/CreateUserModal';
 
 
 const LoginContainer = styled.form`
@@ -166,9 +165,7 @@ function Login(props) {
         </LoginBox>
       </LoginContainer>
       <Spinner loading={loading} />
-      <Modal isVisible={ModalIsVisible} changeVisibility={() => setModalIsVisible(!ModalIsVisible)}>
-        <CreateUserCard changeVisibility={() => setModalIsVisible(false)} setSignUpSuccess={() => setSignUpSuccess(true)} />
-      </Modal>
+      <CreateUserModal visibility={ModalIsVisible} setVisibility={() => setModalIsVisible(false)} setSignUpSuccess={() => setSignUpSuccess(true)} />
     </>
   )
 

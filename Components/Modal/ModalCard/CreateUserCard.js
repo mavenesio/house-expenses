@@ -5,22 +5,12 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {useMutation, gql} from'@apollo/client';
 
-import TimesCircle from '../Icons/TimesCircle';
-import Input from '../Input/Input';
-import Button from '../Button/Button';
-import ErrorField from '../ErrorField/ErrorField';
-import Spinner from '../Spinner/Spinner';
+import Input from '../../Input/Input';
+import Button from '../../Button/Button';
+import ErrorField from '../../ErrorField/ErrorField';
+import Spinner from '../../Spinner/Spinner';
+import ModalHeader from '../ModalHeader/ModalHeader';
 
-const CrossButton = styled(TimesCircle)`
-    align-self:center;
-    font-size: 25px;
-    color: ${props => props.theme.color.primaryDarkColor};
-    margin: 0rem 1rem 1rem 1rem;
-    cursor: pointer;
-    &:hover{
-        color: ${props => props.theme.color.secondaryColor};
-    }
-`;
 const CreateUserCardContainer = styled.div`
     z-index:5;
     position:relative;
@@ -29,19 +19,6 @@ const CreateUserCardContainer = styled.div`
     border-radius:5px;
     width:50vw;
     min-width:300px;
-`;
-const ModalHeader = styled.div`
-    display:flex;
-    flex-direction:column;
-    margin:1rem;
-    color: ${props => props.theme.color.primaryDarkColor};
-    cursor:default;
-    border-bottom: 2px solid ${props => props.theme.color.secondaryColor};
-`;
-const ModalHeaderText = styled.div`
-    font-family:${props => props.theme.font.family};
-    font-size: ${props => props.theme.font.size.subTitle};
-    font-weight:800;
 `;
 const ModalBody = styled.form`
     display:flex;
@@ -65,11 +42,6 @@ const CustomButton = styled(Button)`
     width:100%;
   }
   cursor: pointer;
-`;
-const Row = styled.div`
-    display:flex;
-    flex-direction:row;
-    justify-content:space-between;
 `;
 
 const ADD_USER = gql`
@@ -137,17 +109,8 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
 
     return (
         <CreateUserCardContainer>
-            <ModalHeader>
-                <Row>
-                    <ModalHeaderText>
-                        New user
-                    </ModalHeaderText>
-                    <CrossButton onClick={changeVisibility}/>
-                </Row>
-                <Row>
-                    <ErrorField errorMessage={ErrorMessage} touched={true}/>
-                </Row>
-            </ModalHeader>
+            <ModalHeader title='New user' onClose={changeVisibility}/>
+            <ErrorField errorMessage={ErrorMessage} touched={true}/>
             <ModalBody  onSubmit={formik.handleSubmit} id='createForm'>
                     <InputContainer>
                         <Input

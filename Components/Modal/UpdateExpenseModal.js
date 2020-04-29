@@ -1,6 +1,6 @@
-import React, {useCallback, useState, useEffect} from 'react';
+import React from 'react';
 import Modal from './Modal';
-import UpdateExpenseCard from '../CardModal/UpdateExpenseCard';
+import UpdateExpenseCard from './ModalCard/UpdateExpenseCard';
 
 const UpdateExpenseModal = ({visibility, setVisibility, expense}) => {
 

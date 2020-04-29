@@ -4,46 +4,20 @@ import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {useMutation, gql} from'@apollo/client';
-import ExpenseContext from '../../context/expenses/ExpenseContext';
-import TimesCircle from '../Icons/TimesCircle';
-import Input from '../Input/Input';
-import Button from '../Button/Button';
-import ErrorField from '../ErrorField/ErrorField';
-import StyledSelect from '../StyledSelect/StyledSelect';
-import {ExpenseTypeOptions} from '../../constants/constants';
+import ExpenseContext from '../../../context/expenses/ExpenseContext';
+import ModalHeader from '../ModalHeader/ModalHeader';
+import Input from '../../Input/Input';
+import Button from '../../Button/Button';
+import ErrorField from '../../ErrorField/ErrorField';
+import StyledSelect from '../../StyledSelect/StyledSelect';
+import {ExpenseTypeOptions} from '../../../constants/constants';
 
-const CrossButton = styled(TimesCircle)`
-    align-self:center;
-    font-size: 20px;
-    color: ${props => props.theme.color.primaryDarkColor};
-    margin: 0rem 1rem 0rem 1rem;
-    cursor: pointer;
-    &:hover{
-        color: ${props => props.theme.color.secondaryColor};
-    }
-`;
 const UpdateExpenseCardContainer = styled.form`
     z-index:5;
     position:relative;
     align-self:center;
     background-color:${props => props.theme.color.white};
     border-radius:5px;
-`;
-const ModalHeader = styled.div`
-    display:flex;
-    flex-direction:row;
-    justify-content:space-between;
-    padding:1rem;
-    margin:1rem;
-    height:10%;
-    cursor:default;
-    color: ${props => props.theme.color.primaryDarkColor};
-    border-bottom: 2px solid ${props => props.theme.color.secondaryColor};
-`;
-const ModalHeaderText = styled.div`
-    font-family:${props => props.theme.font.family};
-    font-size: ${props => props.theme.font.size.subTitle};
-    font-weight: 800;
 `;
 const ModalBody = styled.div`
     display:flex;
@@ -150,12 +124,7 @@ const UpdateExpenseCard = (props) => {
 
     return (
         <UpdateExpenseCardContainer onSubmit={formik.handleSubmit} id='updateExpenseForm'>
-            <ModalHeader>
-                <ModalHeaderText>
-                    Update {expense !== null ? expense.name : ''}
-                </ModalHeaderText>
-                <CrossButton onClick={changeVisibility}/>
-            </ModalHeader>
+            <ModalHeader title={`Update ${expense !== null ? expense.name : ''}`} onClose={changeVisibility}/>
             <ErrorField ErrorMessage={ErrorMessage} touched={true} />
             <ModalBody >
                 <Row>

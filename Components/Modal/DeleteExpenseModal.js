@@ -1,7 +1,7 @@
-import React, {useCallback, useState, useEffect} from 'react';
+import React from 'react';
 import Styled from 'styled-components';
 import Modal from './Modal';
-import DeleteExpenseCard from '../CardModal/DeleteExpenseCard';
+import DeleteExpenseCard from './ModalCard/DeleteExpenseCard';
 
 const DeleteExpenseModal = ({visibility, setVisibility, expense}) => {
 

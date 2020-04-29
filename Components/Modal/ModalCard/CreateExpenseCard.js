@@ -5,45 +5,20 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {useMutation, gql} from'@apollo/client';
 
-import TimesCircle from '../Icons/TimesCircle';
-import Input from '../Input/Input';
-import Button from '../Button/Button';
-import ErrorField from '../ErrorField/ErrorField';
-import StyledSelect from '../StyledSelect/StyledSelect';
-import {YearOptions, MonthOptions, NumberOfMonthOptions, ExpenseTypeOptions} from '../../constants/constants';
-import ExpenseContext from '../../context/expenses/ExpenseContext';
+import ModalHeader from '../ModalHeader/ModalHeader';
+import Input from '../../Input/Input';
+import Button from '../../Button/Button';
+import ErrorField from '../../ErrorField/ErrorField';
+import StyledSelect from '../../StyledSelect/StyledSelect';
+import {YearOptions, MonthOptions, NumberOfMonthOptions, ExpenseTypeOptions} from '../../../constants/constants';
+import ExpenseContext from '../../../context/expenses/ExpenseContext';
 
-const CrossButton = styled(TimesCircle)`
-    align-self:center;
-    font-size: 25px;
-    color: ${props => props.theme.color.primaryDarkColor};
-    margin: 0rem 1rem 1rem 1rem;
-    cursor: pointer;
-    &:hover{
-        color: ${props => props.theme.color.secondaryColor};
-    }
-`;
 const CreateExpenseCardContainer = styled.form`
     z-index:5;
     position:relative;
     align-self:center;
     background-color:${props => props.theme.color.white};
     border-radius:5px;
-`;
-const ModalHeader = styled.div`
-    display:flex;
-    flex-direction:row;
-    justify-content:space-between;
-    margin:1rem;
-    height:10%;
-    cursor:default;
-    border-bottom: 2px solid ${props => props.theme.color.secondaryColor};
-    color: ${props => props.theme.color.primaryDarkColor};
-`;
-const ModalHeaderText = styled.div`
-    font-family:${props => props.theme.font.family};
-    font-size: ${props => props.theme.font.size.subTitle};
-    font-weight:800;
 `;
 const ModalBody = styled.div`
     display:flex;
@@ -190,14 +165,9 @@ const CreateExpenseCard = (props) => {
 
     return (
         <CreateExpenseCardContainer onSubmit={formik.handleSubmit} id='expenseForm'>
-            <ModalHeader>
-                <ModalHeaderText>
-                    New expense
-                </ModalHeaderText>
-                <CrossButton onClick={changeVisibility}/>
-            </ModalHeader>
+            <ModalHeader title='New expense' onClose={changeVisibility} />
             <ErrorField ErrorMessage={ErrorMessage} touched={true} />
-            <ModalBody >
+            <ModalBody>
                 <Row>
                     <InputContainer>
                         <Input
