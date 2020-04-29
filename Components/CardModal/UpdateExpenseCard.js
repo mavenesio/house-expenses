@@ -9,6 +9,8 @@ import TimesCircle from '../Icons/TimesCircle';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import ErrorField from '../ErrorField/ErrorField';
+import StyledSelect from '../StyledSelect/StyledSelect';
+import {ExpenseTypeOptions} from '../../constants/constants';
 
 const CrossButton = styled(TimesCircle)`
     align-self:center;
@@ -101,20 +103,29 @@ const UpdateExpenseCard = (props) => {
     const removeWhiteSpaces = useCallback((value) => value.toString().trim());
     const formik = useFormik({
         initialValues: {
-            updateName: (expense !== null) ? expense.name : '',
-            updateAmount: (expense !== null) ? expense.amount : '',
+            updateAmount: (expense) ? expense.amount : '',
+            updateType: (expense) ? ExpenseTypeOptions.find(option => option.value === expense.type) : ExpenseTypeOptions[0],
         },
         validationSchema: Yup.object({
             updateAmount: Yup.number('Must be number')
                             .required('Amount is required.')
                             .min(0, 'Amount greater than 0.')
                             .max(9999999,'Amount must be lower than 9999999 characters'),
+            updateType: Yup.object().required('Type is required.'),
         }),
         onSubmit: async values => {
-                const {updateAmount} = values;
+                const {updateAmount, updateType} = values;
                 const {id} = expense;
                 try {
-                    const {data} = await updateExpense({variables: { input: {expenseId: id, amount: parseFloat(updateAmount)}}});
+                    const {data} = await updateExpense({
+                        variables: { 
+                            input: {
+                                expenseId: id, 
+                                amount: parseFloat(updateAmount),
+                                type:updateType.value
+                            }
+                        }
+                    });
                     expenseContext.updateExpense(data.updateExpense);
                     changeVisibility();
                 } catch (err) {
@@ -126,18 +137,20 @@ const UpdateExpenseCard = (props) => {
                 }
             }    
         });
-
+    
     const { setFieldValue } = formik;
     useEffect(() => {
-        setFieldValue('updateName', (expense) ? expense.name : '');
         setFieldValue('updateAmount', (expense) ? expense.amount : '');
-    }, [expense])
+        setFieldValue('updatetype', (expense) ? ExpenseTypeOptions.find(option => option.value === expense.type) : ExpenseTypeOptions[0]);
+    }, [expense]);
+
+    const handleTypeSelect = useCallback((value) => setFieldValue('updateType', value), [setFieldValue]);
 
     return (
         <UpdateExpenseCardContainer onSubmit={formik.handleSubmit} id='updateExpenseForm'>
             <ModalHeader>
                 <ModalHeaderText>
-                    Update expense
+                    Update {expense !== null ? expense.name : ''}
                 </ModalHeaderText>
                 <CrossButton onClick={changeVisibility}/>
             </ModalHeader>
@@ -145,15 +158,13 @@ const UpdateExpenseCard = (props) => {
             <ModalBody >
                 <Row>
                     <InputContainer>
-                        <Input
-                            value={formik.values.updateName}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            name='updateName'
-                            id='updateName'
-                            disabled={true}
-                        />
-                        <label>Name</label>
+                    <StyledSelect
+                        options={ExpenseTypeOptions}
+                        value={formik.values.updateType}
+                        onChange={handleTypeSelect}
+                        name='type'
+                        label='Type'
+                    />
                     <ErrorField errorMessage={formik.errors.updateName} touched={formik.touched.updateName} />
                     </InputContainer>
                     <InputContainer>
@@ -163,7 +174,6 @@ const UpdateExpenseCard = (props) => {
                             onBlur={formik.handleBlur}
                             name='updateAmount'
                             id='updateAmount'
-                            type='number'
                         />
                         <label>Amount</label>
                     <ErrorField errorMessage={formik.errors.updateAmount} touched={formik.touched.updateAmount} />

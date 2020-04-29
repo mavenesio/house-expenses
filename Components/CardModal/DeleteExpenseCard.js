@@ -64,6 +64,7 @@ const Row = styled.div`
     flex-direction:row;
     justify-content:center;
     margin-top:1rem;
+    font-family: ${props => props.theme.font.family};
 `;
 const CustomButton = styled(Button)`
   margin:1rem 0rem 1rem 0rem;
@@ -120,7 +121,7 @@ const DeleteExpenseCard = ({changeVisibility, expense}) => {
         <DeleteExpenseCardContainer onSubmit={formik.handleSubmit} id='delelteExpenseForm'>
             <ModalHeader>
                 <ModalHeaderText>
-                    Delete expense
+                    Delete {expense !== null ? expense.name : ''}
                 </ModalHeaderText>
                 <CrossButton onClick={changeVisibility}/>
             </ModalHeader>
@@ -130,7 +131,7 @@ const DeleteExpenseCard = ({changeVisibility, expense}) => {
                     <RadioGroup
                         value={RemoveType}
                         onChange={ (value) => setRemoveType(value) } 
-                        vertical>
+                        vertical={true}>
                         <RadioButton 
                             value="One"
                             pointColor={theme.color.primaryDarkColor}
@@ -141,7 +142,7 @@ const DeleteExpenseCard = ({changeVisibility, expense}) => {
                             value="allNonPayments"
                             pointColor={theme.color.primaryDarkColor}
                             rootColor={theme.color.primaryLightColor}> 
-                            All non-payments
+                            All non-payments &nbsp;
                         </RadioButton>
                         <RadioButton
                             value="All"
