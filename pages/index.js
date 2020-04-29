@@ -89,7 +89,7 @@ function Login(props) {
   const [SignUpSuccess, setSignUpSuccess] = useState(false);
   const [Loading, setLoading] = useState(false);
   const router = useRouter();
-  const [AuthorizationInput] = useMutation(AUTHOTIZATION_USER);
+  const [AuthorizationInput, {loading}] = useMutation(AUTHOTIZATION_USER);
   const removeWhiteSpaces = useCallback((value) => value.replace(' ', ''));
   const formik = useFormik({
     initialValues: {email: '', password: ''},
@@ -106,6 +106,7 @@ function Login(props) {
       const {email, password} = values;
       try {
         setLoading(true);
+        console.log(loading);
         const {data} = await AuthorizationInput({
           variables: {
             input:{email, password}
@@ -113,6 +114,7 @@ function Login(props) {
         });
         const {token} = data.userAuthorization;
         localStorage.setItem('token', token);
+        console.log(loading);
         setLoading(false);
         router.push('/Homepage');
         setSignUpSuccess(false);
@@ -163,7 +165,7 @@ function Login(props) {
           </ButtonContainer>
         </LoginBox>
       </LoginContainer>
-      <Spinner loading={Loading} />
+      <Spinner loading={loading} />
       <Modal isVisible={ModalIsVisible} changeVisibility={() => setModalIsVisible(!ModalIsVisible)}>
         <CreateUserCard changeVisibility={() => setModalIsVisible(false)} setSignUpSuccess={() => setSignUpSuccess(true)} />
       </Modal>

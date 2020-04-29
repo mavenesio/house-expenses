@@ -30,7 +30,7 @@ const LogOutButton = styled(PowerOff)`
     color: white;
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
-        color: ${props => props.theme.color.primaryLightColor};
+        color: ${props => props.theme.color.secondaryColor};
     }
 `;
 

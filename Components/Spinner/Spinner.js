@@ -7,8 +7,6 @@ import {ClimbingBoxLoader, ClockLoader, DotLoader, HashLoader, PacmanLoader} fro
 
 const SpinnerContainer = styled.div`
     position: absolute;
-    right:0px;
-    top:0px;
     width:100%;
     height:100%;
     z-index:100;
@@ -16,8 +14,8 @@ const SpinnerContainer = styled.div`
 `;
 const SpinnerWrapper = styled.div`
     position:relative;    
-    top: 50vh;
-    left: 40vw;
+    top: 100px;
+    left: calc(50%);
     @media (max-width: 768px) {
         left:0px;
     }

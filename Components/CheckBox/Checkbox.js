@@ -16,20 +16,26 @@ const CheckBoxContainer = styled.label `
   -ms-user-select: none;
   user-select: none;
   font-family: ${props => props.theme.font.family};
-  position:relative;
   margin:0rem 1rem 0rem 1rem;
+  display:flex;
+  justify-content:center
 `;
 const CircleIcon = styled(Circle)`
-    color: ${props =>  props.theme.color.primaryLightColor};
-    position:absolute;
+    align-self:center;
+    color: ${props =>  props.theme.color.secondaryColor};
+    font-size: 20px;
+    position: absolute;
     top:2.5px;
     left:2.5px;
 `;
 const CircleCheck = styled(Check)`
-    color: ${props => props.checked ? props.theme.color.primaryDarkColor :  props.theme.color.primaryLightColor};
+    color: ${props => props.checked ? props.theme.color.primaryDarkColor :  props.theme.color.secondaryColor};
     position:absolute;
-    top:2.5px;
-    left:2.5px;
+    font-size: 22px;
+    align-self:center;
+    position: absolute;
+    top:1.5px;
+    left:1.5px;
 `;
 
 const CheckBoxInput = styled.input.attrs({type: 'checkbox'})`

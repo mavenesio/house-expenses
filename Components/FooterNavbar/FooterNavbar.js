@@ -27,7 +27,7 @@ const RecordButton = styled(Clipboard)`
     color: ${props => props.theme.color.white};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
-        color: ${props => props.theme.color.primaryLightColor};
+        color: ${props => props.theme.color.secondaryColor};
     }
 `;
 const HistoryButton = styled(FileRegular)`
@@ -36,7 +36,7 @@ const HistoryButton = styled(FileRegular)`
     color: ${props => props.theme.color.white};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
-        color: ${props => props.theme.color.primaryLightColor};
+        color: ${props => props.theme.color.secondaryColor};
     }
 `;
 const ChartButton = styled(ChartBar)`
@@ -45,7 +45,7 @@ const ChartButton = styled(ChartBar)`
     color: ${props => props.theme.color.white};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
-        color: ${props => props.theme.color.primaryLightColor};
+        color: ${props => props.theme.color.secondaryColor};
     }
 `;
 const HomeButton = styled(Home)`
@@ -54,7 +54,7 @@ const HomeButton = styled(Home)`
     color: ${props => props.theme.color.white};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
-        color: ${props => props.theme.color.primaryLightColor};
+        color: ${props => props.theme.color.secondaryColor};
     }
 `;
 

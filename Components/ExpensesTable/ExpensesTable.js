@@ -27,10 +27,10 @@ const PenButton = styled(Pen)`
     cursor:${props => props.disabled ? 'not-allowed': 'pointer'};
     color: ${props => props.disabled ? 'gray' : props.theme.color.primaryDarkColor};
     &:hover{
-        color: ${props => props.disabled ? 'gray' : props.theme.color.primaryLightColor};
+        color: ${props => props.disabled ? 'gray' : props.theme.color.secondaryColor};
     }
     &:active{
-        color: ${props => props.disabled ? 'gray' : props.theme.color.primaryLightColor};
+        color: ${props => props.disabled ? 'gray' : props.theme.color.secondaryColor};
     }
 `;
 const TrashButton = styled(Trash)`
@@ -42,10 +42,10 @@ const TrashButton = styled(Trash)`
     cursor:${props => props.disabled ? 'not-allowed': 'pointer'};
     color: ${props => props.disabled ? 'gray' : props.theme.color.primaryDarkColor};
     &:hover{
-        color: ${props => props.disabled ? 'gray' : props.theme.color.primaryLightColor};
+        color: ${props => props.disabled ? 'gray' : props.theme.color.secondaryColor};
     }
     &:active{
-        color: ${props => props.disabled ? 'gray' : props.theme.color.primaryLightColor};
+        color: ${props => props.disabled ? 'gray' : props.theme.color.secondaryColor};
     }
 `;
 const Table = styled.div`
@@ -82,14 +82,14 @@ const FooterRow = styled.div`
 `;
 const HorizonalLine = styled.div`
     height:0px;
-    border: 1.5px solid ${props => props.theme.color.primaryColor};
+    border: 1.5px solid ${props => props.theme.color.secondaryColor};
     position:absolute;
     top:calc(40%);
     width:100%;
     display: ${props => props.isvisible ? 'block' : 'none' };
     @media (max-width: 800px) {
         top:calc(30%);
-        border: 1px solid ${props => props.theme.color.primaryColor};
+        border: 1px solid ${props => props.theme.color.secondaryColor};
     }
 `;
 
@@ -125,7 +125,7 @@ const PlusButton = styled(PlusSquare)`
     cursor: pointer;
     font-size: 50px;
     background-color: ${props => props.theme.color.darkGray};
-    color: ${props => props.theme.color.primaryLightColor};
+    color: ${props => props.theme.color.secondaryColor};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
         color: ${props => props.theme.color.lightGray};

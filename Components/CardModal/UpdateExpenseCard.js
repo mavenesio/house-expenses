@@ -15,11 +15,11 @@ import {ExpenseTypeOptions} from '../../constants/constants';
 const CrossButton = styled(TimesCircle)`
     align-self:center;
     font-size: 20px;
-    color: black;
+    color: ${props => props.theme.color.primaryDarkColor};
     margin: 0rem 1rem 0rem 1rem;
     cursor: pointer;
     &:hover{
-        color: ${props => props.theme.color.primaryLightColor};
+        color: ${props => props.theme.color.secondaryColor};
     }
 `;
 const UpdateExpenseCardContainer = styled.form`
@@ -36,7 +36,9 @@ const ModalHeader = styled.div`
     padding:1rem;
     margin:1rem;
     height:10%;
-    border-bottom: 2px solid ${props => props.theme.color.primaryLightColor};
+    cursor:default;
+    color: ${props => props.theme.color.primaryDarkColor};
+    border-bottom: 2px solid ${props => props.theme.color.secondaryColor};
 `;
 const ModalHeaderText = styled.div`
     font-family:${props => props.theme.font.family};

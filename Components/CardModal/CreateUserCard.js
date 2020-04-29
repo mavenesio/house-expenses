@@ -14,11 +14,11 @@ import Spinner from '../Spinner/Spinner';
 const CrossButton = styled(TimesCircle)`
     align-self:center;
     font-size: 25px;
-    color: black;
+    color: ${props => props.theme.color.primaryDarkColor};
     margin: 0rem 1rem 1rem 1rem;
     cursor: pointer;
     &:hover{
-        color: ${props => props.theme.color.primaryLightColor};
+        color: ${props => props.theme.color.secondaryColor};
     }
 `;
 const CreateUserCardContainer = styled.div`
@@ -34,7 +34,9 @@ const ModalHeader = styled.div`
     display:flex;
     flex-direction:column;
     margin:1rem;
-    border-bottom: 2px solid ${props => props.theme.color.primaryLightColor};
+    color: ${props => props.theme.color.primaryDarkColor};
+    cursor:default;
+    border-bottom: 2px solid ${props => props.theme.color.secondaryColor};
 `;
 const ModalHeaderText = styled.div`
     font-family:${props => props.theme.font.family};

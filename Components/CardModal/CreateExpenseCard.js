@@ -16,11 +16,11 @@ import ExpenseContext from '../../context/expenses/ExpenseContext';
 const CrossButton = styled(TimesCircle)`
     align-self:center;
     font-size: 25px;
-    color: black;
+    color: ${props => props.theme.color.primaryDarkColor};
     margin: 0rem 1rem 1rem 1rem;
     cursor: pointer;
     &:hover{
-        color: ${props => props.theme.color.primaryLightColor};
+        color: ${props => props.theme.color.secondaryColor};
     }
 `;
 const CreateExpenseCardContainer = styled.form`
@@ -36,7 +36,9 @@ const ModalHeader = styled.div`
     justify-content:space-between;
     margin:1rem;
     height:10%;
-    border-bottom: 2px solid ${props => props.theme.color.primaryLightColor};
+    cursor:default;
+    border-bottom: 2px solid ${props => props.theme.color.secondaryColor};
+    color: ${props => props.theme.color.primaryDarkColor};
 `;
 const ModalHeaderText = styled.div`
     font-family:${props => props.theme.font.family};

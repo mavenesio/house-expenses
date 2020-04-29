@@ -14,14 +14,14 @@ const Button = styled.button`
     font-weight:800;
     &:hover{
         background-color: ${props => props.theme.color.primaryDarkColor};
-        color: ${props => props.theme.color.primaryLightColor};
+        color: ${props => props.theme.color.secondaryColor};
     }
     &:focus {
         outline: unset;
     }
     &:disabled {
         background-color: ${props => props.theme.color.primaryDarkColor};
-        color: ${props => props.theme.color.primaryLightColor};
+        color: ${props => props.theme.color.secondaryColor};
     }
 `;
 export const SecondaryButton = styled.button`
@@ -40,14 +40,14 @@ export const SecondaryButton = styled.button`
     }
     &:hover{
         background-color: ${props => props.theme.color.primaryDarkColor};
-        color: ${props => props.theme.color.primaryLightColor};
+        color: ${props => props.theme.color.secondaryColor};
     }
     &:focus {
         outline: unset;
     }
     &:disabled {
         background-color: ${props => props.theme.color.primaryDarkColor};
-        color: ${props => props.theme.color.primaryLightColor};
+        color: ${props => props.theme.color.secondaryColor};
     }
 `;
 export default Button;
