@@ -85,6 +85,17 @@ const CustomButton = styled(Button)`
   cursor: pointer;
 `;
 
+const GET_USER_EXPENSES = gql`
+    query getExpenses($input: GetExpensesInput!){
+      getExpenses(input: $input){
+        id
+        name
+        amount
+        paid,
+        type
+      }
+    }
+`;
 const ADD_RANGE_EXPENSES = gql`
     mutation addRangeExpenses($input:RangeExpenseInput!){
         addRangeExpenses(input: $input){
@@ -100,7 +111,31 @@ const ADD_RANGE_EXPENSES = gql`
 const CreateExpenseCard = (props) => {
     const {changeVisibility} = props;
     const [ErrorMessage, setErrorMessage] = useState(null);
-    const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES);
+    const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES, {
+        update(cache, { data: { addRangeExpenses } } ) {
+            const { getExpenses } = cache.readQuery({ query: GET_USER_EXPENSES, variables:{ 
+                input: {
+                  month: parseInt((new Date()).getMonth()),
+                  year: parseInt((new Date()).getFullYear()) 
+                }
+              }});
+              console.log('getExpenses: ',getExpenses);
+              console.log('addRangeExpenses: ',addRangeExpenses)
+            cache.writeQuery({
+                query: GET_USER_EXPENSES, 
+                variables:{ 
+                    input: {
+                      month: parseInt((new Date()).getMonth()),
+                      year: parseInt((new Date()).getFullYear()) 
+                    }
+                  },
+                data: {
+                    getExpenses : [...getExpenses, addRangeExpenses ]
+                }
+            })
+        }
+    });
+
     const expenseContext = useContext(ExpenseContext);
     const removeWhiteSpaces = useCallback((value) => value.toString().trim());
     const formik = useFormik({
@@ -131,7 +166,7 @@ const CreateExpenseCard = (props) => {
                                 startYear: parseInt(startYear.value),
                                 monthAmount: parseInt(numberOfMonth.value),
                                 type:type.value};
-                const {data} = await addRangeExpenses({variables: { input: {...inp}}});
+                const {data} = await addRangeExpenses( { variables: { input: {...inp}}});
                 expenseContext.addExpense(data.addRangeExpenses);
                 changeVisibility();
             } catch (err) {

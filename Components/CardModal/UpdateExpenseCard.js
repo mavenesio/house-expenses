@@ -162,8 +162,8 @@ const UpdateExpenseCard = (props) => {
                         options={ExpenseTypeOptions}
                         value={formik.values.updateType}
                         onChange={handleTypeSelect}
-                        name='type'
-                        label='Type'
+                        name='updateType'
+                        label='updateType'
                     />
                     <ErrorField errorMessage={formik.errors.updateName} touched={formik.touched.updateName} />
                     </InputContainer>

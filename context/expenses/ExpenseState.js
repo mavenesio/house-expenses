@@ -15,8 +15,6 @@ const ExpenseState = ({children}) => {
 
     const initialState = {
         expenses: [],
-        total:'',
-        user: {}
     };
 
     const [state, dispatch] = useReducer(ExpenseReducer, initialState);
@@ -42,7 +40,6 @@ const ExpenseState = ({children}) => {
         })
     };
     const deleteExpense = expenseId => {
-        console.log(expenseId);
         dispatch({
             type:DELETE_EXPENSE,
             payload: expenseId

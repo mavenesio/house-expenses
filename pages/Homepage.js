@@ -16,8 +16,8 @@ import { MonthOptions } from '../constants/constants';
 import ExpenseContext from '../context/expenses/ExpenseContext';
 
 const GET_USER_EXPENSES = gql`
-    query getExpenses{
-      getExpenses{
+    query getExpenses($input: GetExpensesInput!){
+      getExpenses(input: $input){
         id
         name
         amount
@@ -50,14 +50,21 @@ const TableContainer = styled.div`
 `;
 
 const Homepage = () => {
-  const {data, loading, error} = useQuery(GET_USER_EXPENSES);
+  const {data, loading, error} = useQuery(GET_USER_EXPENSES,{
+    variables:{ 
+      input: {
+        month: parseInt((new Date()).getMonth()),
+        year: parseInt((new Date()).getFullYear()) 
+      }
+    }
+  });
   const expenseContext = useContext(ExpenseContext);
   const [SelectedRow, setSelectedRow] = useState(null);
   const [UpdateModalVisibility, setUpdateModalVisibility] = useState(false);
   const [DeleteModalVisibility, setDeleteModalVisibility] = useState(false);
   const [CreateModalVisibility, setCreateModalVisibility] = useState(false);
   const router = useRouter();
-  useEffect(() => { if(data){expenseContext.setExpenses(data.getExpenses)}}, [data]);
+  useEffect(() => { console.log('data ',data); if(data){expenseContext.setExpenses(data.getExpenses)}}, [loading]);
   useEffect(() => {if(!loading && data === undefined) router.push('/')}, [loading]);
   const [updateExpense] = useMutation(UPDATE_EXPENSE);
   const paidExpense =  useCallback(
