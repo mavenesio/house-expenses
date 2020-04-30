@@ -22,14 +22,14 @@ const CheckBoxContainer = styled.label `
 `;
 const CircleIcon = styled(Circle)`
     align-self:center;
-    color: ${props =>  props.theme.color.secondaryColor};
+    color: ${props =>  props.theme.font.color.primary};
     font-size: 20px;
     position: absolute;
     top:2.5px;
     left:2.5px;
 `;
 const CircleCheck = styled(Check)`
-    color: ${props => props.checked ? props.theme.color.primaryDarkColor :  props.theme.color.secondaryColor};
+    color: ${props => props.checked ? props.theme.color.primaryDarkColor : props.theme.font.color.primary };
     position:absolute;
     font-size: 22px;
     align-self:center;

@@ -5,6 +5,7 @@ import {useRouter} from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {gql, useMutation} from '@apollo/client';
+import jwtDecode from 'jwt-decode';
 
 import Input from '../Components/Input/Input';
 import Button, {SecondaryButton} from '../Components/Button/Button';
@@ -105,7 +106,6 @@ function Login(props) {
       const {email, password} = values;
       try {
         setLoading(true);
-        console.log(loading);
         const {data} = await AuthorizationInput({
           variables: {
             input:{email, password}
@@ -113,7 +113,7 @@ function Login(props) {
         });
         const {token} = data.userAuthorization;
         localStorage.setItem('token', token);
-        console.log(loading);
+        localStorage.setItem('mode', jwtDecode(token).mode);
         setLoading(false);
         router.push('/Homepage');
         setSignUpSuccess(false);
@@ -129,7 +129,6 @@ function Login(props) {
   })
   return (
     <>
-      <Header title='LOGIN' logOutVisible={false}/>
       <LoginContainer onSubmit={formik.handleSubmit} id='loginForm'>
         <LoginBox>
           <SuccessMessage> {SignUpSuccess && 'Welcome! ! ! !'}</SuccessMessage> 

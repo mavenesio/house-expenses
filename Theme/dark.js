@@ -1,16 +1,21 @@
-const theme = {
+const dark = {
     color:{
-      primaryColor: '#84B2C2',
-      primaryDarkColor: '#5e6f7c',
-      primaryLightColor: '#84B2C2',
-      secondaryColor: '#c17900',
-      secondaryDarkColor: '#8b4d00',
-      secondaryLightColor: '#f8a83e',
+      backgroundColor: '#42404d',
+
+      primaryColor: '#006064',
+      primaryDarkColor: '#00363a',
+      primaryLightColor: '#428e92',
+
+      secondaryColor: 'orange',
+      secondaryDarkColor: 'orange',
+      secondaryLightColor: 'orange',
+
       lightgrey:'#e4e4e4',
       gray: '#b2b2b2',
       darkGray: '#42404d',
+
       black: 'black',
-      white: '#f7f7f7', //marfil '#FFFFF0',
+      white: '#FFFFF0',
     },
     font: {
         family: 'Raleway', //'Indie Flower',
@@ -18,6 +23,10 @@ const theme = {
             title:'50px',
             subTitle:'25px',
             text:'18px',
+        },
+        color: {
+          primary: '#FFFFF0',
+          secondary: '#4d4840'
         },
         weight: {
           normal: 300,
@@ -29,4 +38,4 @@ const theme = {
     }
   };
 
-export default theme;
+export default dark;

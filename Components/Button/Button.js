@@ -10,18 +10,18 @@ const Button = styled.button`
     background-color: ${props => props.theme.color.primaryColor};
     font-size: ${props => props.theme.font.size.text};
     font-weight:${props => props.theme.font.weight.bold};
-    color: ${props => props.theme.color.darkGray};
+    color: ${props => props.theme.color.black};
     font-weight:800;
     &:hover{
         background-color: ${props => props.theme.color.primaryDarkColor};
-        color: ${props => props.theme.color.secondaryColor};
+        color: ${props => props.theme.color.white};
     }
     &:focus {
         outline: unset;
     }
     &:disabled {
-        background-color: ${props => props.theme.color.primaryDarkColor};
-        color: ${props => props.theme.color.secondaryColor};
+        background-color: ${props => props.theme.color.gray};
+        color: ${props => props.theme.color.darkGray};
     }
 `;
 export const SecondaryButton = styled.button`
@@ -30,7 +30,7 @@ export const SecondaryButton = styled.button`
     margin-top: 1rem;    
     margin-bottom: 1rem;
     border-radius: 8px;
-    color: ${props => props.theme.color.primaryDarkColor};
+    color: ${props => props.theme.color.black};
     border: 2px solid ${props => props.theme.color.primaryDarkColor};
     background-color: ${props => props.theme.color.white};
     font-size: ${props => props.theme.font.size.text};
@@ -40,14 +40,14 @@ export const SecondaryButton = styled.button`
     }
     &:hover{
         background-color: ${props => props.theme.color.primaryDarkColor};
-        color: ${props => props.theme.color.secondaryColor};
+        color: ${props => props.theme.color.white};
     }
     &:focus {
         outline: unset;
     }
     &:disabled {
         background-color: ${props => props.theme.color.primaryDarkColor};
-        color: ${props => props.theme.color.secondaryColor};
+        color: ${props => props.theme.color.primaryColor};
     }
 `;
 export default Button;

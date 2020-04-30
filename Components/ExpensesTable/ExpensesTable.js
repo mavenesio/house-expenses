@@ -21,31 +21,31 @@ const ExpensesTableContainer = styled.div`
 const PenButton = styled(Pen)`
     align-self:center;
     font-size: 20px;
-    color: black;
+    color: ${props => props.theme.font.color.primary};
     margin: 0rem 1rem 0rem 1rem;
     pointer-events: ${props => props.disabled ? 'none': 'unset'};
     cursor:${props => props.disabled ? 'not-allowed': 'pointer'};
-    color: ${props => props.disabled ? 'gray' : props.theme.color.primaryDarkColor};
+    color: ${props => props.disabled ? 'gray' : props.theme.font.color.primary};
     &:hover{
-        color: ${props => props.disabled ? 'gray' : props.theme.color.secondaryColor};
+        color: ${props => props.disabled ? 'gray' : props.theme.color.primaryColor};
     }
     &:active{
-        color: ${props => props.disabled ? 'gray' : props.theme.color.secondaryColor};
+        color: ${props => props.disabled ? 'gray' : props.theme.color.primaryColor};
     }
 `;
 const TrashButton = styled(Trash)`
     align-self:center;
     font-size: 20px;
-    color: black;
+    color: ${props => props.theme.font.color.primary};
     margin: 0rem 1rem 0rem 1rem;
     pointer-events: ${props => props.disabled ? 'none': 'unset'};
     cursor:${props => props.disabled ? 'not-allowed': 'pointer'};
-    color: ${props => props.disabled ? 'gray' : props.theme.color.primaryDarkColor};
+    color: ${props => props.disabled ? 'gray' : props.theme.font.color.primary};
     &:hover{
-        color: ${props => props.disabled ? 'gray' : props.theme.color.secondaryColor};
+        color: ${props => props.disabled ? 'gray' : props.theme.color.primaryColor};
     }
     &:active{
-        color: ${props => props.disabled ? 'gray' : props.theme.color.secondaryColor};
+        color: ${props => props.disabled ? 'gray' : props.theme.color.primaryColor};
     }
 `;
 const Table = styled.div`
@@ -56,8 +56,8 @@ const Table = styled.div`
     min-width:300px;
 `;
 const Row = styled.div`
-    background-color:${props => props.theme.color.darkGray};
-    border: 1px solid ${props => props.theme.color.darkGray};
+    background-color:${props => props.theme.color.backgroundColor};
+    border: 1px solid ${props => props.theme.color.backgroundColor};
     color:${props => props.theme.color.white};
     display:flex;
     flex-direction:row;
@@ -74,7 +74,7 @@ const FooterRow = styled.div`
     justify-content:center;
     padding: 1rem.6rem 1rem .6rem;
     border-top:  1.5px solid ${props => props.theme.color.primaryColor};
-        border: 1px solid ${props => props.theme.color.darkGray};
+    border: 1px solid ${props => props.theme.color.backgroundColor};
     &:hover{
         border: 1px solid ${props => props.theme.color.gray};
         border-radius:8px;
@@ -82,14 +82,14 @@ const FooterRow = styled.div`
 `;
 const HorizonalLine = styled.div`
     height:0px;
-    border: 1.5px solid ${props => props.theme.color.secondaryColor};
+    border: 1.5px solid ${props => props.theme.color.primaryColor};
     position:absolute;
     top:calc(40%);
     width:100%;
     display: ${props => props.isvisible ? 'block' : 'none' };
     @media (max-width: 800px) {
         top:calc(30%);
-        border: 1px solid ${props => props.theme.color.secondaryColor};
+        border: 1px solid ${props => props.theme.color.primaryColor};
     }
 `;
 
@@ -101,6 +101,7 @@ const NameCell = styled.div`
     position:relative;
     width: 70%;
     font-size:20px;
+    color: ${props => props.theme.font.color.primary};
     @media (max-width: 800px) {
         font-size:15px;
     }
@@ -111,6 +112,7 @@ const AmoutCell = styled.div`
     position:relative;
     width: 20%;
     font-size:20px;
+    color: ${props => props.theme.font.color.primary};
     @media (max-width: 800px) {
         font-size:15px;
     }
@@ -124,11 +126,11 @@ const PlusButton = styled(PlusSquare)`
     padding:0.5rem;
     cursor: pointer;
     font-size: 50px;
-    background-color: ${props => props.theme.color.darkGray};
-    color: ${props => props.theme.color.secondaryColor};
+    background-color: ${props => props.theme.color.backgroundColor};
+    color: ${props => props.theme.font.color.primary};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
-        color: ${props => props.theme.color.lightGray};
+        color: ${props => props.theme.color.black};
     }
 `;
 const IconCell = styled.div`

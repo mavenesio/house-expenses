@@ -1,14 +1,17 @@
 // @ts-nocheck
  
-import React from 'react'
+import React, {useState} from 'react'
 import styled, { ThemeProvider } from "styled-components";
+
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import {ApolloProvider} from '@apollo/client';
 import ExpenseState from '../context/expenses/ExpenseState';
 import client from '../config/apollo';
+import Header from '../Components/Header/Header';
 
-import theme from '../constants/Theme';
+import dark from '../Theme/dark';
+import light from '../Theme/light';
 import FooterNavbar from '../Components/FooterNavbar/FooterNavbar';
 
 const PageContainer = styled.div`
@@ -19,7 +22,7 @@ const PageContainer = styled.div`
   height:100%;
 `;
 const Body = styled.div`
-  background-color:${props => props.theme.color.darkGray};
+  background-color:${props => props.theme.color.backgroundColor};
   overflow-x:scroll;
   height:${props => props.fullBody ? '100%' : '90%'};
   overflow-x: hidden;
@@ -27,9 +30,10 @@ const Body = styled.div`
 
 const MyApp = ({Component, pageProps})=>  {
     const router = useRouter();
-
+    const [isDarkMode, setIsDarkMode] = useState(true);
+    
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={isDarkMode ? dark : light}>
         <ApolloProvider client={client}>
           <Head>
             <title>Expenses</title>
@@ -37,7 +41,8 @@ const MyApp = ({Component, pageProps})=>  {
           <ExpenseState>
             <PageContainer>
               <Body fullBody={router.pathname === '/' || router.pathname === '/Index'}>
-                    <Component {...pageProps} />
+              <Header changeMode={() => setIsDarkMode(!isDarkMode)} isDarkMode={isDarkMode} page={router.pathname} />
+                  <Component {...pageProps} />
               </Body>
               {
                 (router.pathname !== '/' && router.pathname !== '/Index') && <FooterNavbar />

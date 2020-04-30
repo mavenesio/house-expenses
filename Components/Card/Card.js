@@ -6,7 +6,7 @@ const Paper = styled.div`
     padding: 20px;
     position: relative;
     min-width:300px;
-    background-color:${props => props.theme.color.darkGray};
+    background-color:${props => props.theme.color.backgroundColor};
     color:${props => props.theme.color.white};
     border: 1px solid ${props => props.theme.color.gray};
     border-radius:8px;

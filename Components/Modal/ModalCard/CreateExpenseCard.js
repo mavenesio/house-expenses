@@ -96,8 +96,6 @@ const CreateExpenseCard = (props) => {
                   year: parseInt((new Date()).getFullYear()) 
                 }
               }});
-              console.log('getExpenses: ',getExpenses);
-              console.log('addRangeExpenses: ',addRangeExpenses)
             cache.writeQuery({
                 query: GET_USER_EXPENSES, 
                 variables:{ 

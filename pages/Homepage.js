@@ -39,7 +39,7 @@ const UPDATE_EXPENSE = gql`
 `;
 
 const HomepageContainer = styled.div`
-  background-color:${props => props.theme.color.darkGray};
+  background-color:${props => props.theme.color.backgroundColor};
 `;
 const TableContainer = styled.div`
   display:flex;
@@ -64,7 +64,7 @@ const Homepage = () => {
   const [DeleteModalVisibility, setDeleteModalVisibility] = useState(false);
   const [CreateModalVisibility, setCreateModalVisibility] = useState(false);
   const router = useRouter();
-  useEffect(() => { console.log('data ',data); if(data){expenseContext.setExpenses(data.getExpenses)}}, [loading]);
+  useEffect(() => { if(data){expenseContext.setExpenses(data.getExpenses)}}, [loading]);
   useEffect(() => {if(!loading && data === undefined) router.push('/')}, [loading]);
   const [updateExpense] = useMutation(UPDATE_EXPENSE);
   const paidExpense =  useCallback(
@@ -80,7 +80,6 @@ const Homepage = () => {
   return (
     <HomepageContainer>
       <Spinner loading={loading}/>
-      <Header title={`A PAGAR EN ${(MonthOptions[(new Date()).getMonth()].label).toUpperCase()}`} logOutVisible={true}/>
       <TableContainer>
         <ExpensesTable 
           dataTable={expenseContext.expenses}

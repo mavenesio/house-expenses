@@ -5,12 +5,9 @@ import TimesCircle from '../../Icons/TimesCircle';
 const CrossButton = styled(TimesCircle)`
     align-self:center;
     font-size: 25px;
-    color: ${props => props.theme.color.primaryDarkColor};
+    color: ${props => props.theme.font.color.secondary};
     margin: 0rem 1rem 1rem 1rem;
     cursor: pointer;
-    &:hover{
-        color: ${props => props.theme.color.secondaryColor};
-    }
 `;
 
 const ModalHeaderContainer = styled.div`
@@ -20,7 +17,7 @@ const ModalHeaderContainer = styled.div`
     margin:1rem;
     height:10%;
     cursor:default;
-    border-bottom: 2px solid ${props => props.theme.color.secondaryColor};
+    border-bottom: 2px solid ${props => props.theme.color.primaryDarkColor};
     color: ${props => props.theme.color.primaryDarkColor};
 `;
 const ModalHeaderText = styled.div`

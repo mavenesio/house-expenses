@@ -1,10 +1,10 @@
 // @ts-nocheck
-import React, {useState, useEffect, useContext, useCallback} from 'react';
+import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {useMutation, gql} from'@apollo/client';
-import theme from '../../../constants/Theme';
+import theme from '../../../Theme/dark';
 import Button from '../../Button/Button';
 import ErrorField from '../../ErrorField/ErrorField';
 import ExpenseContext from '../../../context/expenses/ExpenseContext';
@@ -81,7 +81,6 @@ const DeleteExpenseCard = ({changeVisibility, expense}) => {
                         }
                     });
                     expenseContext.deleteExpense(id);
-                    console.log(data);
                 changeVisibility();
             } catch (err) {
                 const message = err.message.replace('GraphQL error:', '');
@@ -101,24 +100,23 @@ const DeleteExpenseCard = ({changeVisibility, expense}) => {
                 <Row>
                     <RadioGroup
                         value={RemoveType}
-                        onChange={ (value) => setRemoveType(value) } 
-                        vertical={true}>
+                        onChange={ (value) => setRemoveType(value) }>
                         <RadioButton 
                             value="One"
-                            pointColor={theme.color.secondaryColor}
-                            rootColor={theme.color.primaryDarkColor}>           
+                            pointColor={theme.color.primaryDarkColor}
+                            rootColor={theme.color.primaryLightColor}>           
                             This expense
                         </RadioButton>
                         <RadioButton
                             value="allNonPayments"
-                            pointColor={theme.color.secondaryColor}
-                            rootColor={theme.color.primaryDarkColor}> 
+                            pointColor={theme.color.primaryDarkColor}
+                            rootColor={theme.color.primaryLightColor}> 
                             All non-payments &nbsp;
                         </RadioButton>
                         <RadioButton
                             value="All"
-                            pointColor={theme.color.secondaryColor}
-                            rootColor={theme.color.primaryDarkColor}> 
+                            pointColor={theme.color.primaryDarkColor}
+                            rootColor={theme.color.primaryLightColor}> 
                             All expenses
                         </RadioButton>
                     </RadioGroup>

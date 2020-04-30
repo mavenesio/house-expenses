@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import theme from './Theme';
+import theme from '../Theme/dark';
 import Styled from 'styled-components';
 import CreditCard from '../Components/Icons/CreditCard';
 import Home from '../Components/Icons/Home';

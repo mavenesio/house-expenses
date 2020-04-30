@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import styled from 'styled-components';
 import client from '../../config/apollo';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import PowerOff from '../Icons/PowerOff';
+import LightOff from '../Icons/LightOff';
+import LightOn from '../Icons/LightOn';
 
 const HeaderContainer = styled.div`
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
@@ -30,22 +32,60 @@ const LogOutButton = styled(PowerOff)`
     color: white;
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
-        color: ${props => props.theme.color.secondaryColor};
+        color: ${props => props.theme.color.black};
+    }
+`;
+const SwitchContainer = styled.div`
+    align-self:center;
+    margin: 0rem 1rem 0rem 1rem;
+`;
+const LightOnIcon = styled(LightOn)`
+    color: #ffe736;
+    font-size:40px;
+    &:hover{
+        color: #a2a6a6;
+    }
+`;
+const LightOffIcon = styled(LightOff)`
+    color: #a2a6a6;
+    font-size:40px;
+    &:hover{
+        color: #ffe736;
     }
 `;
 
-const Header = (props) => {
-    const {title, logOutVisible} = props;
+const Header = ({page, changeMode, isDarkMode}) => {
     const router = useRouter();
+    const getTitle = useCallback(
+        (page) => {
+            if (page === undefined) return ''
+            switch (page.toLowerCase()) {
+                case '/index': return 'Login';
+                case '/': return 'Login';
+                case '/homepage': return 'This month expenses';
+                default: return '';
+            }
+        },[])
+
     return (
         <HeaderContainer>
             <Link href={'./Homepage'}>
                 <HeaderText>
-                    {title}
+                    {getTitle(page)}
                 </HeaderText>
             </Link>
+            {console.log(page)}
             {
-                logOutVisible && <LogOutButton onClick={() => {localStorage.removeItem('token');client.cache.reset(); router.push('/')}} />
+                
+                (page !== '/' && page !== '/index') &&
+                <SwitchContainer >
+                    {isDarkMode
+                    ?
+                    <LightOffIcon onClick={changeMode} />
+                    :
+                    <LightOnIcon onClick={changeMode}/>}
+                    <LogOutButton onClick={() => {localStorage.removeItem('token');client.cache.reset(); router.push('/')}} />
+                </SwitchContainer> 
             }
         </HeaderContainer>
     )
