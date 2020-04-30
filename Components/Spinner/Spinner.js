@@ -1,7 +1,7 @@
 
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import theme from '../../constants/Theme';
+import theme from '../../Theme/dark';
 
 import {ClimbingBoxLoader, ClockLoader, DotLoader, HashLoader, PacmanLoader} from "react-spinners";
 
