@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useContext, useCallback} from 'react';
 import styled from 'styled-components';
 import {useRouter} from 'next/router';
 import { useFormik } from 'formik';
@@ -7,9 +7,9 @@ import * as Yup from 'yup';
 import {gql, useMutation} from '@apollo/client';
 import jwtDecode from 'jwt-decode';
 
+import UserContext from '../context/user/UserContext';
 import Input from '../Components/Input/Input';
 import Button, {SecondaryButton} from '../Components/Button/Button';
-import Header from '../Components/Header/Header';
 import ErrorField from '../Components/ErrorField/ErrorField';
 import Spinner from '../Components/Spinner/Spinner';
 import CreateUserModal from '../Components/Modal/CreateUserModal';
@@ -87,8 +87,8 @@ function Login(props) {
   const [ModalIsVisible, setModalIsVisible] = useState(false);
   const [ErrorMessage, setErrorMessage] = useState(null);
   const [SignUpSuccess, setSignUpSuccess] = useState(false);
-  const [Loading, setLoading] = useState(false);
   const router = useRouter();
+  const userContext = useContext(UserContext);
   const [AuthorizationInput, {loading}] = useMutation(AUTHOTIZATION_USER);
   const removeWhiteSpaces = useCallback((value) => value.replace(' ', ''));
   const formik = useFormik({
@@ -105,7 +105,6 @@ function Login(props) {
     onSubmit: async values => {
       const {email, password} = values;
       try {
-        setLoading(true);
         const {data} = await AuthorizationInput({
           variables: {
             input:{email, password}
@@ -113,17 +112,16 @@ function Login(props) {
         });
         const {token} = data.userAuthorization;
         localStorage.setItem('token', token);
-        localStorage.setItem('mode', jwtDecode(token).mode);
-        setLoading(false);
+        const decodeToken = jwtDecode(token);
+        userContext.setMode(decodeToken.mode);
         router.push('/Homepage');
         setSignUpSuccess(false);
       } catch (err) {
-        setLoading(false);
-        const message = err.message.replace('GraphQL error:', '');
-        setErrorMessage(message);
-        setTimeout( () => {
-          setErrorMessage(null);
-        },3000);
+          const message = err.message.replace('GraphQL error:', '');
+          setErrorMessage(message);
+          setTimeout( () => {
+            setErrorMessage(null);
+          },3000);
       }
     }
   })

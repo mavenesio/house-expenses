@@ -1,4 +1,5 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useContext} from 'react';
+import {useMutation, gql} from'@apollo/client';
 import styled from 'styled-components';
 import client from '../../config/apollo';
 import Link from 'next/link';
@@ -6,6 +7,8 @@ import {useRouter} from 'next/router';
 import PowerOff from '../Icons/PowerOff';
 import LightOff from '../Icons/LightOff';
 import LightOn from '../Icons/LightOn';
+import UserContext from '../../context/user/UserContext';
+
 
 const HeaderContainer = styled.div`
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
@@ -42,20 +45,28 @@ const SwitchContainer = styled.div`
 const LightOnIcon = styled(LightOn)`
     color: #ffe736;
     font-size:40px;
-    &:hover{
-        color: #a2a6a6;
-    }
 `;
 const LightOffIcon = styled(LightOff)`
     color: #a2a6a6;
     font-size:40px;
-    &:hover{
-        color: #ffe736;
+`;
+
+const SET_USER_PREFERENCE = gql`
+    mutation setUserPreference($input: UserPreferenceInput!) {
+        setUserPreference(input: $input) {
+            key,
+            value
+        }
     }
 `;
 
-const Header = ({page, changeMode, isDarkMode}) => {
+const Header = ({page, setIsDarkMode, IsDarkMode}) => {
     const router = useRouter();
+    const userContext = useContext(UserContext);
+    const [setUserPreference] = useMutation(SET_USER_PREFERENCE);
+    const {toggleMode, mode} = userContext;
+    setIsDarkMode(mode === 'dark');
+    
     const getTitle = useCallback(
         (page) => {
             if (page === undefined) return ''
@@ -65,7 +76,25 @@ const Header = ({page, changeMode, isDarkMode}) => {
                 case '/homepage': return 'This month expenses';
                 default: return '';
             }
-        },[])
+        },[]);
+    const swithTheme = useCallback(
+        async (mode) => {
+            setIsDarkMode(mode === 'dark'); 
+            toggleMode(mode);
+            try {
+                await setUserPreference({variables: { input: { key: 'Mode', value: mode } }});
+            } catch (err) {
+                const message = err.message.replace('GraphQL error:', '');
+                console.log(message);
+            }
+        },[]);
+    const logOut = useCallback(
+        () => {
+            localStorage.removeItem('token');
+            toggleMode('dark');
+            client.cache.reset();
+            router.push('/');
+        },[]);
 
     return (
         <HeaderContainer>
@@ -74,17 +103,15 @@ const Header = ({page, changeMode, isDarkMode}) => {
                     {getTitle(page)}
                 </HeaderText>
             </Link>
-            {console.log(page)}
             {
-                
                 (page !== '/' && page !== '/index') &&
                 <SwitchContainer >
-                    {isDarkMode
-                    ?
-                    <LightOffIcon onClick={changeMode} />
-                    :
-                    <LightOnIcon onClick={changeMode}/>}
-                    <LogOutButton onClick={() => {localStorage.removeItem('token');client.cache.reset(); router.push('/')}} />
+                    {
+                        IsDarkMode
+                        ? <LightOffIcon onClick={() => swithTheme('light')} />
+                        : <LightOnIcon  onClick={() => swithTheme('dark')} />
+                    }
+                    <LogOutButton onClick={logOut} />
                 </SwitchContainer> 
             }
         </HeaderContainer>

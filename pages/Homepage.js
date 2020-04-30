@@ -4,7 +4,6 @@ import {useRouter} from 'next/router';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import styled from 'styled-components';
 
-import Header from '../Components/Header/Header';
 import ExpensesTable from '../Components/ExpensesTable/ExpensesTable';
 import Spinner from '../Components/Spinner/Spinner';
 
@@ -12,7 +11,6 @@ import UpdateExpenseModal from '../Components/Modal/UpdateExpenseModal';
 import DeleteExpenseModal from '../Components/Modal/DeleteExpenseModal';
 import CreateExpenseModal from '../Components/Modal/CreateExpenseModal';
 
-import { MonthOptions } from '../constants/constants';
 import ExpenseContext from '../context/expenses/ExpenseContext';
 
 const GET_USER_EXPENSES = gql`

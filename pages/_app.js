@@ -1,12 +1,13 @@
 // @ts-nocheck
  
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import styled, { ThemeProvider } from "styled-components";
 
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import {ApolloProvider} from '@apollo/client';
 import ExpenseState from '../context/expenses/ExpenseState';
+import UserState from '../context/user/UserState';
 import client from '../config/apollo';
 import Header from '../Components/Header/Header';
 
@@ -30,27 +31,29 @@ const Body = styled.div`
 
 const MyApp = ({Component, pageProps})=>  {
     const router = useRouter();
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [IsDarkMode, setIsDarkMode] = useState(true);
     
     return (
-      <ThemeProvider theme={isDarkMode ? dark : light}>
-        <ApolloProvider client={client}>
-          <Head>
-            <title>Expenses</title>
-          </Head>
+      <ApolloProvider client={client}>
+        <UserState>
           <ExpenseState>
-            <PageContainer>
-              <Body fullBody={router.pathname === '/' || router.pathname === '/Index'}>
-              <Header changeMode={() => setIsDarkMode(!isDarkMode)} isDarkMode={isDarkMode} page={router.pathname} />
+            <ThemeProvider theme={IsDarkMode ? dark : light }>
+              <Head>
+                <title>Expenses</title>
+              </Head>
+              <PageContainer>
+                <Body fullBody={router.pathname === '/' || router.pathname === '/Index'}>
+                  <Header setIsDarkMode={setIsDarkMode} IsDarkMode={IsDarkMode} page={router.pathname} />
                   <Component {...pageProps} />
-              </Body>
-              {
+                </Body>
+                {
                 (router.pathname !== '/' && router.pathname !== '/Index') && <FooterNavbar />
-              }
-            </PageContainer>
+                }
+              </PageContainer>
+            </ThemeProvider>
           </ExpenseState>
-        </ApolloProvider>
-      </ThemeProvider>
+        </UserState>
+      </ApolloProvider>
     )
 }
 

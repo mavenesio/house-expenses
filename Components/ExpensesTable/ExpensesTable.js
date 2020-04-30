@@ -138,6 +138,9 @@ const IconCell = styled.div`
     width:10%;
     margin-left:0.2rem;
 `;
+const NoData = styled.p`
+    color: ${props => props.theme.font.color.primary};
+`;
 
 const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
     const renderIcon = useCallback(
@@ -197,7 +200,7 @@ const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
                                 </FooterRow>
                             </Table>
                         :
-                    <p>No expenses</p>
+                    <NoData>No expenses</NoData>
                     }
                     {onCreate && <PlusButton onClick={onCreate}/>}
                 </Card>
