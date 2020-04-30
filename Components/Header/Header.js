@@ -71,9 +71,12 @@ const Header = ({page, setIsDarkMode, IsDarkMode}) => {
         (page) => {
             if (page === undefined) return ''
             switch (page.toLowerCase()) {
-                case '/index': return 'Login';
+                case '/index':
                 case '/': return 'Login';
                 case '/homepage': return 'This month expenses';
+                case '/ExpenseHistory': return 'EXPENSE HISTORY';
+                case '/ExpenseReports': return 'EXPENSE REPORTS';
+                case '/ExpenseTracking': return 'EXPENSE TRACKING';
                 default: return '';
             }
         },[]);

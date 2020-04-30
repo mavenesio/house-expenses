@@ -22,7 +22,6 @@ const ExpenseTracking = () => {
 
   return (
     <>
-      <Header title={`EXPENSE TRACKING`} logOutVisible={true}/>
       <ExpenseTrackingContainer>
         <Card>
           <h1>
