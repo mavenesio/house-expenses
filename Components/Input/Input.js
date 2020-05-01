@@ -40,16 +40,20 @@ const InputContainer = styled.div`
 
 
 export const StyledInput = ({name, id, type, handleChange, handleBlur, value, errors, touched, label, noWhitesSpaces}) => {
-    const removeWhiteSpaces = useCallback((value , check) => (check) ? value.toString().trim() : value, [value]);
+    const removeWhiteSpaces = useCallback(
+        (value , check) => {
+            if (check) return value.toString().trim()
+            return value
+        }, [value]);
     return (
         <InputContainer>
             <Input
-                name={removeWhiteSpaces(value, noWhitesSpaces)}
+                name={name}
                 id={id}
                 type={type}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={value}
+                value={removeWhiteSpaces(value, noWhitesSpaces)}
             />
             <label>{label}</label>
             <ErrorField errorMessage={errors} touched={touched} />
