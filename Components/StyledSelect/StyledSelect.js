@@ -8,8 +8,8 @@ const InputContainer = styled.div`
     font-family: ${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.text};
     font-weight: 500;
-    margin:0.1rem 1rem 0.1rem 1rem;
     width:100%;
+    margin:0rem 1rem 0rem 1rem;
     position:relative;
 `;
 const CustomSelect = styled(Select)`
