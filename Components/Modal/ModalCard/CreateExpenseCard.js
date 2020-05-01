@@ -64,6 +64,7 @@ const ADD_RANGE_EXPENSES = gql`
     }
 `;
 
+
 const CreateExpenseCard = (props) => {
     const {changeVisibility} = props;
     const [ErrorMessage, setErrorMessage] = useState(null);
@@ -75,18 +76,23 @@ const CreateExpenseCard = (props) => {
                   year: parseInt((new Date()).getFullYear()) 
                 }
               }});
-            cache.writeQuery({
-                query: GET_USER_EXPENSES, 
-                variables:{ 
-                    input: {
-                      month: parseInt((new Date()).getMonth()),
-                      year: parseInt((new Date()).getFullYear()) 
+            const now = new Date();
+            if ( addRangeExpenses.currentMonth === now.getMonth() || addRangeExpenses.currentYear === now.getFullYear()) {
+                console.log(addRangeExpenses.currentMonth, now.getMonth())
+                console.log(addRangeExpenses.currentYear, now.getFullYear())
+                cache.writeQuery({
+                    query: GET_USER_EXPENSES, 
+                    variables:{ 
+                        input: {
+                        month: parseInt((new Date()).getMonth()),
+                        year: parseInt((new Date()).getFullYear()) 
+                        }
+                    },
+                    data: {
+                        getExpenses : [...getExpenses, addRangeExpenses ]
                     }
-                  },
-                data: {
-                    getExpenses : [...getExpenses, addRangeExpenses ]
-                }
-            })
+                })
+            }
         }
     });
 
@@ -115,12 +121,15 @@ const CreateExpenseCard = (props) => {
                 const {name, amount, startMonth, startYear, numberOfMonth, type} = values;
                 const inp = {   name,
                                 amount: parseFloat(amount),
-                                startMonth: parseInt(startMonth.value)-1,
+                                startMonth: parseInt(startMonth.value),
                                 startYear: parseInt(startYear.value),
                                 monthAmount: parseInt(numberOfMonth.value),
                                 type:type.value};
                 const {data} = await addRangeExpenses( { variables: { input: {...inp}}});
-                expenseContext.addExpense(data.addRangeExpenses);
+                const now = new Date();
+                if ( addRangeExpenses.currentMonth === now.getMonth() || addRangeExpenses.currentYear === now.getFullYear()) {
+                    expenseContext.addExpense(data.addRangeExpenses);
+                }
                 changeVisibility();
             } catch (err) {
                 const message = err.message.replace('GraphQL error:', '');
