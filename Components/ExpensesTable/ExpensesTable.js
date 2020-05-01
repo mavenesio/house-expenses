@@ -23,8 +23,7 @@ const PenButton = styled(Pen)`
     font-size: 20px;
     color: ${props => props.theme.font.color.primary};
     margin: 0rem 1rem 0rem 1rem;
-    pointer-events: ${props => props.disabled ? 'none': 'unset'};
-    cursor:${props => props.disabled ? 'not-allowed': 'pointer'};
+    pointer-events:${props => props.disabled ? 'none' : 'unset'};
     color: ${props => props.disabled ? 'gray' : props.theme.font.color.primary};
     &:hover{
         color: ${props => props.disabled ? 'gray' : props.theme.color.primaryColor};
@@ -38,8 +37,7 @@ const TrashButton = styled(Trash)`
     font-size: 20px;
     color: ${props => props.theme.font.color.primary};
     margin: 0rem 1rem 0rem 1rem;
-    pointer-events: ${props => props.disabled ? 'none': 'unset'};
-    cursor:${props => props.disabled ? 'not-allowed': 'pointer'};
+    pointer-events:${props => props.disabled ? 'none' : 'unset'};
     color: ${props => props.disabled ? 'gray' : props.theme.font.color.primary};
     &:hover{
         color: ${props => props.disabled ? 'gray' : props.theme.color.primaryColor};
@@ -137,6 +135,7 @@ const IconCell = styled.div`
     text-align:start;
     width:10%;
     margin-left:0.2rem;
+    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
 `;
 const NoData = styled.p`
     color: ${props => props.theme.font.color.primary};
@@ -172,12 +171,12 @@ const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
                         </IconCell>
                     }
                     {onEdit &&
-                        <IconCell>
+                        <IconCell disabled={row.paid}>
                             <PenButton disabled={row.paid}  onClick={() => onEdit(row)}/>
                         </IconCell>
                     }
                     {onDelete &&
-                        <IconCell>
+                        <IconCell disabled={row.paid}>
                             <TrashButton disabled={row.paid}  onClick={() => onDelete(row)} />
                         </IconCell>
                     }
