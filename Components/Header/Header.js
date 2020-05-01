@@ -70,15 +70,17 @@ const Header = ({page, setIsDarkMode, IsDarkMode}) => {
     const getTitle = useCallback(
         (page) => {
             if (page === undefined) return ''
+            let headerText = '';
             switch (page.toLowerCase()) {
                 case '/index':
                 case '/': return 'Login';
-                case '/homepage': return 'This month expenses';
-                case '/ExpenseHistory': return 'EXPENSE HISTORY';
-                case '/ExpenseReports': return 'EXPENSE REPORTS';
-                case '/ExpenseTracking': return 'EXPENSE TRACKING';
-                default: return '';
+                case '/homepage': headerText = 'This month expenses';break;
+                case '/expensehistory': headerText = 'EXPENSE HISTORY';break;
+                case '/expensereports': headerText = 'EXPENSE REPORTS';break;
+                case '/expensetracking': headerText = 'EXPENSE TRACKING';break;
+                default: headerText = '';
             }
+            return headerText;
         },[]);
     const swithTheme = useCallback(
         async (mode) => {
