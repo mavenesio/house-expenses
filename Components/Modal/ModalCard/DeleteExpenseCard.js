@@ -45,6 +45,17 @@ const CustomRadioButton = styled(RadioGroup)`
     padding:1rem;
 `;
 
+const GET_USER_EXPENSES = gql`
+    query getExpenses($input: GetExpensesInput!){
+      getExpenses(input: $input){
+        id
+        name
+        amount
+        paid
+        type
+      }
+    }
+`;
 const DELETE_EXPENSE = gql`
     mutation deleteExpense($input:DeleteExpenseInput!){
         deleteExpense(input: $input){
@@ -56,7 +67,29 @@ const DeleteExpenseCard = ({changeVisibility, expense}) => {
     const [ErrorMessage, setErrorMessage] = useState(null);
     const [RemoveType, setRemoveType] = useState('One');
     const expenseContext = useContext(ExpenseContext);
-    const [DeleteExpense] = useMutation(DELETE_EXPENSE);
+    const [DeleteExpense] = useMutation(DELETE_EXPENSE, {
+        update(cache, { data: { DeleteExpense } } ) {
+            const { getExpenses } = cache.readQuery({ query: GET_USER_EXPENSES, variables:{ 
+                input: {
+                  month: parseInt((new Date()).getMonth()),
+                  year: parseInt((new Date()).getFullYear()) 
+                }
+              }});
+            const filteredExpenses = getExpenses.filter(expense => expense.id !== expense.id);
+            cache.writeQuery({
+                query: GET_USER_EXPENSES, 
+                variables:{ 
+                    input: {
+                      month: parseInt((new Date()).getMonth()),
+                      year: parseInt((new Date()).getFullYear()) 
+                    }
+                  },
+                data: {
+                    getExpenses : [...filteredExpenses]
+                }
+            })
+        }
+    });
     const formik = useFormik({
         initialValues: {
         },
