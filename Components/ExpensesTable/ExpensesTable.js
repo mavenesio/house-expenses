@@ -193,15 +193,15 @@ const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
                                 <FooterRow>
                                     <NameCell>Total </NameCell>
                                     <AmoutCell>{dataTable.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</AmoutCell>
-                                    <IconCell/>
-                                    <IconCell/>
-                                    <IconCell/>
+                                    {onCheck && <IconCell/>}
+                                    {onEdit && <IconCell/>}
+                                    {onDelete && <IconCell/>}
                                 </FooterRow>
                             </Table>
                         :
                     <NoData>No expenses</NoData>
                     }
-                    {onCreate && <PlusButton onClick={onCreate}/>}
+                    {onCreate ? <PlusButton onClick={onCreate}/> : <></>}
                 </Card>
             </ExpensesTableContainer>
         </>
