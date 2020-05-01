@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {useMutation, gql} from'@apollo/client';
 
-import Input from '../../Input/Input';
+import {StyledInput} from '../../Input/Input'
 import Button from '../../Button/Button';
 import ErrorField from '../../ErrorField/ErrorField';
 import Spinner from '../../Spinner/Spinner';
@@ -32,15 +32,6 @@ const ModalBody = styled.div`
 const ModalFooter = styled.div`
     display:flex;
 `;
-const InputContainer = styled.div`
-    width:100%;
-    position:relative;
-    margin:0rem 1rem 0rem 1rem;
-    font-family: ${props => props.theme.font.family};
-    font-size: ${props => props.theme.font.size.text};
-    font-weight: ${props => props.theme.font.weight.bold};
-`;
-
 const Row = styled.div`
     display:flex;
     flex-direction:row;
@@ -118,60 +109,60 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
             <ErrorField errorMessage={ErrorMessage} touched={true}/>
             <ModalBody>
                 <Row>
-                    <InputContainer>
-                        <Input
-                            name='firstName'
-                            id='firstName'
-                            type='firstName'
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.firstName}
-                        />
-                        <label>First name</label>
-                        <ErrorField errorMessage={formik.errors.firstName} touched={formik.touched.firstName} />
-                    </InputContainer>
+                    <StyledInput
+                        name='firstName'
+                        id='firstName'
+                        type='firstName'
+                        handleChange={formik.handleChange}
+                        handleBlur={formik.handleBlur}
+                        value={formik.values.firstName}
+                        label='First name'
+                        errors={formik.errors.firstName}
+                        touched={formik.touched.firstName}
+                        noWhitesSpaces={false}
+                    />
                 </Row>
                 <Row>
-                    <InputContainer>
-                        <Input
-                            name='lastName'
-                            id='lastName'
-                            type='lastName'
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.lastName}
-                        />
-                        <label>Last name</label>
-                        <ErrorField errorMessage={formik.errors.lastName} touched={formik.touched.lastName} />
-                    </InputContainer>
+                    <StyledInput
+                        name='lastName'
+                        id='lastName'
+                        type='lastName'
+                        handleChange={formik.handleChange}
+                        handleBlur={formik.handleBlur}
+                        value={formik.values.lastName}
+                        label='Last name'
+                        errors={formik.errors.lastName}
+                        touched={formik.touched.lastName}
+                        noWhitesSpaces={false}
+                    />
                 </Row>
                 <Row>
-                    <InputContainer>
-                        <Input
-                            name='createEmail'
-                            id='createEmail'
-                            type='email'
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={removeWhiteSpaces(formik.values.createEmail)}
-                        />
-                        <label>Email</label>
-                        <ErrorField errorMessage={formik.errors.createEmail} touched={formik.touched.createEmail} />
-                    </InputContainer>
+                    <StyledInput
+                        name='createEmail'
+                        id='createEmail'
+                        type='email'
+                        handleChange={formik.handleChange}
+                        handleBlur={formik.handleBlur}
+                        value={removeWhiteSpaces(formik.values.createEmail)}
+                        label='Email'
+                        errors={formik.errors.createEmail}
+                        touched={formik.touched.createEmail}
+                        noWhitesSpaces={true}
+                    />
                 </Row>
                 <Row>
-                    <InputContainer>
-                        <Input
-                            name='createPassword'
-                            id='createPassword'
-                            type='password'
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={removeWhiteSpaces(formik.values.createPassword)}
-                        />
-                        <label>Password</label>
-                        <ErrorField errorMessage={formik.errors.createPassword} touched={formik.touched.createPassword} />
-                    </InputContainer>
+                    <StyledInput
+                        name='createPassword'
+                        id='createPassword'
+                        type='password'
+                        handleChange={formik.handleChange}
+                        handleBlur={formik.handleBlur}
+                        value={removeWhiteSpaces(formik.values.createPassword)}
+                        label='Password'
+                        errors={formik.errors.createPassword}
+                        touched={formik.touched.createPassword}
+                        noWhitesSpaces={true}
+                    />
                 </Row>
             </ModalBody>
             <ModalFooter>

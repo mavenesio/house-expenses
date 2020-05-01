@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import {useMutation, gql} from'@apollo/client';
 
 import ModalHeader from '../ModalHeader/ModalHeader';
-import Input from '../../Input/Input';
+import {StyledInput} from '../../Input/Input';
 import Button from '../../Button/Button';
 import ErrorField from '../../ErrorField/ErrorField';
 import StyledSelect from '../../StyledSelect/StyledSelect';
@@ -33,16 +33,6 @@ const ModalBody = styled.div`
 `;
 const ModalFooter = styled.div`
     display:flex;
-`;
-const InputContainer = styled.div`
-    margin:0rem 1rem 0rem 1rem; 
-    width:50%;
-    display:flex;
-    flex-direction:column;
-    position:relative;
-    font-family: ${props => props.theme.font.family};
-    font-size: ${props => props.theme.font.size.text};
-    font-weight: ${props => props.theme.font.weight.bold};
 `;
 const Row = styled.div`
     display:flex;
@@ -101,7 +91,6 @@ const CreateExpenseCard = (props) => {
     });
 
     const expenseContext = useContext(ExpenseContext);
-    const removeWhiteSpaces = useCallback((value) => value.toString().trim());
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -156,30 +145,30 @@ const CreateExpenseCard = (props) => {
             <ErrorField ErrorMessage={ErrorMessage} touched={true} />
             <ModalBody>
                 <Row>
-                    <InputContainer>
-                        <Input
-                            value={formik.values.name}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            name='name'
-                            id='name'
-                            type='name'
-                        />
-                        <label>Name</label>
-                    <ErrorField errorMessage={formik.errors.name} touched={formik.touched.name} />
-                    </InputContainer>
-                    <InputContainer>
-                        <Input
-                            value={removeWhiteSpaces(formik.values.amount)}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            name='amount'
-                            id='amount'
-                            type='amount'
-                        />
-                        <label>Amount</label>
-                    <ErrorField errorMessage={formik.errors.amount} touched={formik.touched.amount} />
-                    </InputContainer>
+                    <StyledInput
+                        value={formik.values.name}
+                        handleChange={formik.handleChange}
+                        handleBlur={formik.handleBlur}
+                        name='name'
+                        id='name'
+                        type='name'
+                        label='Name'
+                        errors={formik.errors.name}
+                        touched={formik.touched.name}
+                        noWhitesSpaces={false}
+                    />
+                    <StyledInput
+                        value={formik.values.amount}
+                        handleChange={formik.handleChange}
+                        handleBlur={formik.handleBlur}
+                        name='amount'
+                        id='amount'
+                        type='amount'
+                        label='Amount'
+                        errors={formik.errors.amount}
+                        touched={formik.touched.amount}
+                        noWhitesSpaces={true}
+                    />
                 </Row>
                 <Row>
                     <StyledSelect
@@ -189,6 +178,8 @@ const CreateExpenseCard = (props) => {
                         name='numberOfMonth'
                         type='numberOfMonth'
                         label='Payments'
+                        errors={formik.errors.numberOfMonth}
+                        touched={formik.touched.numberOfMonth}
                     />
                     <StyledSelect
                         options={ExpenseTypeOptions}
@@ -197,8 +188,9 @@ const CreateExpenseCard = (props) => {
                         name='type'
                         type='type'
                         label='Type'
+                        errors={formik.errors.type}
+                        touched={formik.touched.type}
                     />
-                    <ErrorField errorMessage={formik.errors.type} touched={formik.touched.type} />
                 </Row>
                 <Row>
                     <StyledSelect
@@ -208,6 +200,8 @@ const CreateExpenseCard = (props) => {
                         type='startMonth'
                         options={MonthOptions}
                         label='Start month'
+                        errors={formik.errors.startMonth}
+                        touched={formik.touched.startMonth}
                     />
                     <StyledSelect
                         options={YearOptions}
@@ -216,9 +210,9 @@ const CreateExpenseCard = (props) => {
                         name='startYear'
                         type='startYear'
                         label='Start year'
+                        errors={formik.errors.startYear}
+                        touched={formik.touched.startYear}
                     />
-                    <ErrorField errorMessage={formik.errors.startMonth} touched={formik.touched.startMonth} />
-                    <ErrorField errorMessage={formik.errors.startYear} touched={formik.touched.startYear} />
                 </Row>
             </ModalBody>
             <ModalFooter>
