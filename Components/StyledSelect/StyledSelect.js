@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Select from 'react-select'
 import {SelectColourStyles} from '../../constants/constants';
+import ErrorField from '../ErrorField/ErrorField';
 
 
 const InputContainer = styled.div`
@@ -33,14 +34,7 @@ const CustomSelect = styled(Select)`
 `;
 
 
-const StyledSelect = (props) => {
-    const {options,
-           value,
-           onChange,
-           label,
-           name,
-           placeholder} = props;
-
+const StyledSelect = ({options, value, onChange, label, name, placeholder,  errors, touched}) => {
     return (
         <InputContainer>
             <CustomSelect 
@@ -53,6 +47,7 @@ const StyledSelect = (props) => {
                 inputId={name}
             />
             <label>{label}</label>
+            <ErrorField errorMessage={errors} touched={touched} />
         </InputContainer>
     )
 }

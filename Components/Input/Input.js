@@ -1,4 +1,6 @@
+import React,{useCallback} from 'react';
 import styled from 'styled-components';
+import ErrorField from '../ErrorField/ErrorField';
 
 const Input = styled.input`
     width:100%;
@@ -26,4 +28,35 @@ const Input = styled.input`
         left:10px;
     }
 `;
+
+const InputContainer = styled.div`
+    width:100%;
+    position:relative;
+    margin:0rem 1rem 0rem 1rem;
+    font-family: ${props => props.theme.font.family};
+    font-size: ${props => props.theme.font.size.text};
+    font-weight: ${props => props.theme.font.weight.bold};
+`;
+
+
+export const StyledInput = ({name, id, type, handleChange, handleBlur, value, errors, touched, label, noWhitesSpaces}) => {
+    const removeWhiteSpaces = useCallback((value , check) => (check) ? value.toString().trim() : value, [value]);
+    return (
+        <InputContainer>
+            <Input
+                name={removeWhiteSpaces(value, noWhitesSpaces)}
+                id={id}
+                type={type}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={value}
+            />
+            <label>{label}</label>
+            <ErrorField errorMessage={errors} touched={touched} />
+        </InputContainer>
+        
+    )
+}
+
+
 export default Input;
