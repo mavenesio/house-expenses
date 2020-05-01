@@ -127,6 +127,7 @@ function Login(props) {
   })
   return (
     <>
+      <Spinner loading={loading}/>
       <LoginContainer onSubmit={formik.handleSubmit} id='loginForm'>
         <LoginBox>
           <SuccessMessage> {SignUpSuccess && 'Welcome! ! ! !'}</SuccessMessage> 
@@ -161,7 +162,6 @@ function Login(props) {
           </ButtonContainer>
         </LoginBox>
       </LoginContainer>
-      <Spinner loading={loading} />
       <CreateUserModal visibility={ModalIsVisible} setVisibility={() => setModalIsVisible(false)} setSignUpSuccess={() => setSignUpSuccess(true)} />
     </>
   )

@@ -76,21 +76,23 @@ const Homepage = () => {
     });
 
   return (
-    <HomepageContainer>
+    <>
       <Spinner loading={loading}/>
-      <TableContainer>
-        <ExpensesTable 
-          dataTable={expenseContext.expenses}
-          onCheck={(id, paid) => paidExpense(id, paid)}
-          onEdit={(value) => {setUpdateModalVisibility(!UpdateModalVisibility); setSelectedRow(value)}}
-          onDelete={(value) => {setDeleteModalVisibility(!DeleteModalVisibility); setSelectedRow(value)}}
-          onCreate={() => setCreateModalVisibility(!DeleteModalVisibility)}
-          setSelectedRow/>
-      </TableContainer>
-      <DeleteExpenseModal visibility={DeleteModalVisibility} setVisibility={() => setDeleteModalVisibility(!DeleteModalVisibility)} expense={SelectedRow}/>
-      <UpdateExpenseModal visibility={UpdateModalVisibility} setVisibility={() => setUpdateModalVisibility(!UpdateModalVisibility)} expense={SelectedRow}/>
-      <CreateExpenseModal visibility={CreateModalVisibility} setVisibility={() => setCreateModalVisibility(!CreateModalVisibility)}/>
-    </HomepageContainer>
+      <HomepageContainer>
+        <TableContainer>
+          <ExpensesTable 
+            dataTable={expenseContext.expenses}
+            onCheck={(id, paid) => paidExpense(id, paid)}
+            onEdit={(value) => {setUpdateModalVisibility(!UpdateModalVisibility); setSelectedRow(value)}}
+            onDelete={(value) => {setDeleteModalVisibility(!DeleteModalVisibility); setSelectedRow(value)}}
+            onCreate={() => setCreateModalVisibility(!DeleteModalVisibility)}
+            setSelectedRow/>
+        </TableContainer>
+        <DeleteExpenseModal visibility={DeleteModalVisibility} setVisibility={() => setDeleteModalVisibility(!DeleteModalVisibility)} expense={SelectedRow}/>
+        <UpdateExpenseModal visibility={UpdateModalVisibility} setVisibility={() => setUpdateModalVisibility(!UpdateModalVisibility)} expense={SelectedRow}/>
+        <CreateExpenseModal visibility={CreateModalVisibility} setVisibility={() => setCreateModalVisibility(!CreateModalVisibility)}/>
+      </HomepageContainer>
+    </>
   )
 
 }

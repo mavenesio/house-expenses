@@ -1,32 +1,26 @@
 
-import React, {useCallback} from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import theme from '../../Theme/dark';
 
-import {ClimbingBoxLoader, ClockLoader, DotLoader, HashLoader, PacmanLoader} from "react-spinners";
+import {PacmanLoader} from "react-spinners";
 
 const SpinnerContainer = styled.div`
-    position: absolute;
+    position: relative;
+    z-index:200;
     width:100%;
     height:100%;
-    z-index:100;
     background-color:rgba(245, 245, 245,0.3);
 `;
 const SpinnerWrapper = styled.div`
     position:relative;    
     top: 100px;
-    left: calc(50%);
+    left: calc(30%);
     @media (max-width: 768px) {
-        left:0px;
+        left: 0px;
     }
 `;
 const Spinner = (props) => {
     const {loading} = props;
-    const getThemeColor = useCallback(
-        (colors) =>{
-            const keys = Object.keys(colors)
-            return colors[keys[Math.random() * keys.length]]
-        },[]);
 
     return (
         <>
@@ -34,7 +28,7 @@ const Spinner = (props) => {
                 loading &&
                 <SpinnerContainer>
                     <SpinnerWrapper>
-                        <PacmanLoader size={90} color={getThemeColor(theme.color)} loading={loading}/>
+                        <PacmanLoader size={90} color='#607d8b' loading={loading}/>
                     </SpinnerWrapper>
                 </SpinnerContainer>
             }

@@ -51,8 +51,7 @@ const ADD_USER = gql`
 
 const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
     const [ErrorMessage, setErrorMessage] = useState(null);
-    const [Loading, setLoading] = useState(false);
-    const [addUser] = useMutation(ADD_USER);
+    const [addUser, {loading}] = useMutation(ADD_USER);
     const removeWhiteSpaces = useCallback((value) => value.replace(' ', ''));
     const formik = useFormik({
         initialValues: {
@@ -76,7 +75,6 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
         }),
         onSubmit: async values => {
             try {
-                setLoading(true);
                 const {firstName, lastName, createPassword, createEmail} = values;
                 const {data} = await addUser({
                     variables: {
@@ -89,87 +87,86 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
                     }
                 });
                 changeVisibility();
-                setLoading(false);
                 setSignUpSuccess();
             } catch (err) {
-                setLoading(false);
-                const message = err.message.replace('GraphQL error:', '');
-                setErrorMessage(message);
+                setErrorMessage(err.message.replace('GraphQL error:', ''));
                 setTimeout( () => {
                   setErrorMessage(null);
-                },3000);
+                },5000);
             }
         }
     })
 
 
     return (
-        <CreateUserCardContainer onSubmit={formik.handleSubmit} id='createForm'>
-            <ModalHeader title='New user' onClose={changeVisibility}/>
-            <ErrorField errorMessage={ErrorMessage} touched={true}/>
-            <ModalBody>
-                <Row>
-                    <StyledInput
-                        name='firstName'
-                        id='firstName'
-                        type='firstName'
-                        handleChange={formik.handleChange}
-                        handleBlur={formik.handleBlur}
-                        value={formik.values.firstName}
-                        label='First name'
-                        errors={formik.errors.firstName}
-                        touched={formik.touched.firstName}
-                        noWhitesSpaces={false}
-                    />
-                </Row>
-                <Row>
-                    <StyledInput
-                        name='lastName'
-                        id='lastName'
-                        type='lastName'
-                        handleChange={formik.handleChange}
-                        handleBlur={formik.handleBlur}
-                        value={formik.values.lastName}
-                        label='Last name'
-                        errors={formik.errors.lastName}
-                        touched={formik.touched.lastName}
-                        noWhitesSpaces={false}
-                    />
-                </Row>
-                <Row>
-                    <StyledInput
-                        name='createEmail'
-                        id='createEmail'
-                        type='email'
-                        handleChange={formik.handleChange}
-                        handleBlur={formik.handleBlur}
-                        value={removeWhiteSpaces(formik.values.createEmail)}
-                        label='Email'
-                        errors={formik.errors.createEmail}
-                        touched={formik.touched.createEmail}
-                        noWhitesSpaces={true}
-                    />
-                </Row>
-                <Row>
-                    <StyledInput
-                        name='createPassword'
-                        id='createPassword'
-                        type='password'
-                        handleChange={formik.handleChange}
-                        handleBlur={formik.handleBlur}
-                        value={removeWhiteSpaces(formik.values.createPassword)}
-                        label='Password'
-                        errors={formik.errors.createPassword}
-                        touched={formik.touched.createPassword}
-                        noWhitesSpaces={true}
-                    />
-                </Row>
-            </ModalBody>
-            <ModalFooter>
-                <Button type='submit' form='createForm' >Create user!</Button>
-            </ModalFooter>
-            <Spinner loadring={Loading}/>
-        </CreateUserCardContainer>
+        <>
+            <Spinner loadring={loading}/>
+            <CreateUserCardContainer onSubmit={formik.handleSubmit} id='createForm'>
+                <ModalHeader title='New user' onClose={changeVisibility}/>
+                <ErrorField errorMessage={ErrorMessage} touched={true}/>
+                <ModalBody>
+                    <Row>
+                        <StyledInput
+                            name='firstName'
+                            id='firstName'
+                            type='firstName'
+                            handleChange={formik.handleChange}
+                            handleBlur={formik.handleBlur}
+                            value={formik.values.firstName}
+                            label='First name'
+                            errors={formik.errors.firstName}
+                            touched={formik.touched.firstName}
+                            noWhitesSpaces={false}
+                        />
+                    </Row>
+                    <Row>
+                        <StyledInput
+                            name='lastName'
+                            id='lastName'
+                            type='lastName'
+                            handleChange={formik.handleChange}
+                            handleBlur={formik.handleBlur}
+                            value={formik.values.lastName}
+                            label='Last name'
+                            errors={formik.errors.lastName}
+                            touched={formik.touched.lastName}
+                            noWhitesSpaces={false}
+                        />
+                    </Row>
+                    <Row>
+                        <StyledInput
+                            name='createEmail'
+                            id='createEmail'
+                            type='email'
+                            handleChange={formik.handleChange}
+                            handleBlur={formik.handleBlur}
+                            value={removeWhiteSpaces(formik.values.createEmail)}
+                            label='Email'
+                            errors={formik.errors.createEmail}
+                            touched={formik.touched.createEmail}
+                            noWhitesSpaces={true}
+                        />
+                    </Row>
+                    <Row>
+                        <StyledInput
+                            name='createPassword'
+                            id='createPassword'
+                            type='password'
+                            handleChange={formik.handleChange}
+                            handleBlur={formik.handleBlur}
+                            value={removeWhiteSpaces(formik.values.createPassword)}
+                            label='Password'
+                            errors={formik.errors.createPassword}
+                            touched={formik.touched.createPassword}
+                            noWhitesSpaces={true}
+                        />
+                    </Row>
+                </ModalBody>
+                <ModalFooter>
+                    <Button type='submit' form='createForm' >Create user!</Button>
+                </ModalFooter>
+            </CreateUserCardContainer>
+        </>
     )
 }
 export default CreateUserCard;
