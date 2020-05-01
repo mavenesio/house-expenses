@@ -11,37 +11,42 @@ import ErrorField from '../../ErrorField/ErrorField';
 import Spinner from '../../Spinner/Spinner';
 import ModalHeader from '../ModalHeader/ModalHeader';
 
-const CreateUserCardContainer = styled.div`
+const CreateUserCardContainer = styled.form`
     z-index:5;
     position:relative;
     align-self:center;
     background-color:${props => props.theme.color.white};
     border-radius:5px;
-    width:50vw;
-    min-width:300px;
+    width:70vw;
+    height:70vh; 
+    @media (max-width: 768px) {
+        width:100%;
+    }
 `;
-const ModalBody = styled.form`
+const ModalBody = styled.div`
     display:flex;
     flex-direction:column;
+    height:45vh;
     overflow-y: auto;
 `;
-
-const InputContainer = styled.div`
-    margin:0.2rem 1rem 0.2rem 1rem;
+const ModalFooter = styled.div`
     display:flex;
-    flex-direction:column;
+`;
+const InputContainer = styled.div`
+    width:100%;
     position:relative;
+    margin:0rem 1rem 0rem 1rem;
     font-family: ${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.text};
     font-weight: ${props => props.theme.font.weight.bold};
 `;
-const CustomButton = styled(Button)`
-  margin:1rem 0rem 1rem 0rem;
-  width:50%;
-  @media screen {
-    width:100%;
-  }
-  cursor: pointer;
+
+const Row = styled.div`
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    margin-top:1rem;
+    font-family: ${props => props.theme.font.family};
 `;
 
 const ADD_USER = gql`
@@ -108,10 +113,11 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
 
 
     return (
-        <CreateUserCardContainer>
+        <CreateUserCardContainer onSubmit={formik.handleSubmit} id='createForm'>
             <ModalHeader title='New user' onClose={changeVisibility}/>
             <ErrorField errorMessage={ErrorMessage} touched={true}/>
-            <ModalBody  onSubmit={formik.handleSubmit} id='createForm'>
+            <ModalBody>
+                <Row>
                     <InputContainer>
                         <Input
                             name='firstName'
@@ -124,6 +130,8 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
                         <label>First name</label>
                         <ErrorField errorMessage={formik.errors.firstName} touched={formik.touched.firstName} />
                     </InputContainer>
+                </Row>
+                <Row>
                     <InputContainer>
                         <Input
                             name='lastName'
@@ -136,37 +144,41 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
                         <label>Last name</label>
                         <ErrorField errorMessage={formik.errors.lastName} touched={formik.touched.lastName} />
                     </InputContainer>
-                <InputContainer>
-                    <Input
-                        name='createEmail'
-                        id='createEmail'
-                        type='email'
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={removeWhiteSpaces(formik.values.createEmail)}
-                    />
-                    <label>Email</label>
-                    <ErrorField errorMessage={formik.errors.createEmail} touched={formik.touched.createEmail} />
-                </InputContainer>
-                <InputContainer>
-                    <Input
-                        name='createPassword'
-                        id='createPassword'
-                        type='password'
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={removeWhiteSpaces(formik.values.createPassword)}
-                    />
-                    <label>Password</label>
-                    <ErrorField errorMessage={formik.errors.createPassword} touched={formik.touched.createPassword} />
-                </InputContainer>
-                <InputContainer>
-                    <CustomButton type='submit' form='createForm' >Create user!</CustomButton>
-                </InputContainer>
+                </Row>
+                <Row>
+                    <InputContainer>
+                        <Input
+                            name='createEmail'
+                            id='createEmail'
+                            type='email'
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={removeWhiteSpaces(formik.values.createEmail)}
+                        />
+                        <label>Email</label>
+                        <ErrorField errorMessage={formik.errors.createEmail} touched={formik.touched.createEmail} />
+                    </InputContainer>
+                </Row>
+                <Row>
+                    <InputContainer>
+                        <Input
+                            name='createPassword'
+                            id='createPassword'
+                            type='password'
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={removeWhiteSpaces(formik.values.createPassword)}
+                        />
+                        <label>Password</label>
+                        <ErrorField errorMessage={formik.errors.createPassword} touched={formik.touched.createPassword} />
+                    </InputContainer>
+                </Row>
             </ModalBody>
+            <ModalFooter>
+                <Button type='submit' form='createForm' >Create user!</Button>
+            </ModalFooter>
             <Spinner loadring={Loading}/>
         </CreateUserCardContainer>
     )
 }
-
 export default CreateUserCard;

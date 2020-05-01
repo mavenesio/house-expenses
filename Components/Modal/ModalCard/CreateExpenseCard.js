@@ -19,29 +19,26 @@ const CreateExpenseCardContainer = styled.form`
     align-self:center;
     background-color:${props => props.theme.color.white};
     border-radius:5px;
+    width:70vw;
+    height:70vh;
+    @media (max-width: 768px) {
+        width:100%;
+    }
 `;
 const ModalBody = styled.div`
     display:flex;
     flex-direction:column;
+    height:45vh;
     overflow-y: auto;
 `;
-
+const ModalFooter = styled.div`
+    display:flex;
+`;
 const InputContainer = styled.div`
-    margin:0.1rem 1rem 0.1rem 1rem;
+    margin:0rem 1rem 0rem 1rem; 
     width:50%;
     display:flex;
     flex-direction:column;
-    position:relative;
-    font-family: ${props => props.theme.font.family};
-    font-size: ${props => props.theme.font.size.text};
-    font-weight: ${props => props.theme.font.weight.bold};
-`;
-const ButtonContainer = styled.div`
-    margin:0.1rem 1rem 0.1rem 1rem;
-    width:100%;
-    display:flex;
-    flex-direction:row;
-    justify-content:flex-end;
     position:relative;
     font-family: ${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.text};
@@ -52,14 +49,6 @@ const Row = styled.div`
     flex-direction:row;
     justify-content:space-between;    
     margin-top:1rem;
-`;
-const CustomButton = styled(Button)`
-  margin:1rem 0rem 1rem 0rem;
-  width:50%;
-  @media screen {
-    width:100%;
-  }
-  cursor: pointer;
 `;
 
 const GET_USER_EXPENSES = gql`
@@ -194,6 +183,25 @@ const CreateExpenseCard = (props) => {
                 </Row>
                 <Row>
                     <StyledSelect
+                        options={NumberOfMonthOptions}
+                        value={formik.values.numberOfMonth}
+                        onChange={handleNumberOfMonthSelect}
+                        name='numberOfMonth'
+                        type='numberOfMonth'
+                        label='Payments'
+                    />
+                    <StyledSelect
+                        options={ExpenseTypeOptions}
+                        value={formik.values.type}
+                        onChange={handleTypeSelect}
+                        name='type'
+                        type='type'
+                        label='Type'
+                    />
+                    <ErrorField errorMessage={formik.errors.type} touched={formik.touched.type} />
+                </Row>
+                <Row>
+                    <StyledSelect
                         value={formik.values.startMonth}
                         onChange={handleStartMonthSelect}
                         name='startMonth'
@@ -212,31 +220,10 @@ const CreateExpenseCard = (props) => {
                     <ErrorField errorMessage={formik.errors.startMonth} touched={formik.touched.startMonth} />
                     <ErrorField errorMessage={formik.errors.startYear} touched={formik.touched.startYear} />
                 </Row>
-                <Row>
-                    <StyledSelect
-                        options={NumberOfMonthOptions}
-                        value={formik.values.numberOfMonth}
-                        onChange={handleNumberOfMonthSelect}
-                        name='numberOfMonth'
-                        type='numberOfMonth'
-                        label='Amount of payments'
-                    />
-                    <StyledSelect
-                        options={ExpenseTypeOptions}
-                        value={formik.values.type}
-                        onChange={handleTypeSelect}
-                        name='type'
-                        type='type'
-                        label='Type'
-                    />
-                    <ErrorField errorMessage={formik.errors.type} touched={formik.touched.type} />
-                </Row>
-                <Row>
-                    <ButtonContainer>
-                        <CustomButton type='submit' form='expenseForm' >Add!</CustomButton>
-                    </ButtonContainer>
-                </Row>
             </ModalBody>
+            <ModalFooter>
+                <Button type='submit' form='expenseForm' >Add! </Button>
+            </ModalFooter>
         </CreateExpenseCardContainer>
     )
 }

@@ -18,29 +18,26 @@ const UpdateExpenseCardContainer = styled.form`
     align-self:center;
     background-color:${props => props.theme.color.white};
     border-radius:5px;
+    width:70vw;
+    height:60vh;  
+    @media (max-width: 768px) {
+        width:100%;
+    }
 `;
 const ModalBody = styled.div`
     display:flex;
     flex-direction:column;
+    height:35vh;
     overflow-y: auto;
 `;
+const ModalFooter = styled.div`
+    display:flex;
 
-const InputContainer = styled.div`
-    margin:0.1rem 1rem 0.1rem 1rem;
-    width:50%;
-    display:flex;
-    flex-direction:column;
-    position:relative;
-    font-family: ${props => props.theme.font.family};
-    font-size: ${props => props.theme.font.size.text};
-    font-weight: ${props => props.theme.font.weight.bold};
 `;
-const ButtonContainer = styled.div`
-    margin:0.1rem 1rem 0.1rem 1rem;
-    display:flex;
-    flex-direction:row;
-    justify-content:flex-end;
+const InputContainer = styled.div`
+    width:100%;
     position:relative;
+    margin:0rem 1rem 0rem 1rem;
     font-family: ${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.text};
     font-weight: ${props => props.theme.font.weight.bold};
@@ -50,14 +47,6 @@ const Row = styled.div`
     flex-direction:row;
     justify-content:space-between;
     margin-top:1rem;
-`;
-const CustomButton = styled(Button)`
-  margin:1rem 0rem 1rem 0rem;
-  width:50%;
-  @media screen {
-    width:100%;
-  }
-  cursor: pointer;
 `;
 
 const UPDATE_EXPENSE = gql`
@@ -128,16 +117,14 @@ const UpdateExpenseCard = (props) => {
             <ErrorField ErrorMessage={ErrorMessage} touched={true} />
             <ModalBody >
                 <Row>
-                    <InputContainer>
                     <StyledSelect
                         options={ExpenseTypeOptions}
                         value={formik.values.updateType}
                         onChange={handleTypeSelect}
                         name='updateType'
-                        label='updateType'
+                        label='Type'
                     />
                     <ErrorField errorMessage={formik.errors.updateName} touched={formik.touched.updateName} />
-                    </InputContainer>
                     <InputContainer>
                         <Input
                             value={removeWhiteSpaces(formik.values.updateAmount)}
@@ -147,13 +134,13 @@ const UpdateExpenseCard = (props) => {
                             id='updateAmount'
                         />
                         <label>Amount</label>
-                    <ErrorField errorMessage={formik.errors.updateAmount} touched={formik.touched.updateAmount} />
                     </InputContainer>
+                    <ErrorField errorMessage={formik.errors.updateAmount} touched={formik.touched.updateAmount} />
                 </Row>
-                <ButtonContainer>
-                    <CustomButton type='submit' form='updateExpenseForm' >Update!</CustomButton>
-                </ButtonContainer>
             </ModalBody>
+            <ModalFooter>
+                <Button type='submit' form='updateExpenseForm' >Update!</Button>
+            </ModalFooter>
         </UpdateExpenseCardContainer>
     )
 }

@@ -18,22 +18,20 @@ const DeleteExpenseCardContainer = styled.form`
     align-self:center;
     background-color:${props => props.theme.color.white};
     border-radius:5px;
+    width:70vw;
+    height:70vh; 
+    @media (max-width: 768px) {
+        width:100%;
+    }
 `;
 const ModalBody = styled.div`
     display:flex;
     flex-direction:column;
+    height:45vh;
     overflow-y: auto;
 `;
-
-const ButtonContainer = styled.div`
-    margin:0.1rem 1rem 0.1rem 1rem;
+const ModalFooter = styled.div`
     display:flex;
-    flex-direction:row;
-    justify-content:flex-end;
-    position:relative;
-    font-family: ${props => props.theme.font.family};
-    font-size: ${props => props.theme.font.size.text};
-    font-weight: ${props => props.theme.font.weight.bold};
 `;
 const Row = styled.div`
     display:flex;
@@ -42,13 +40,9 @@ const Row = styled.div`
     margin-top:1rem;
     font-family: ${props => props.theme.font.family};
 `;
-const CustomButton = styled(Button)`
-  margin:1rem 0rem 1rem 0rem;
-  width:50%;
-  @media screen {
+const CustomRadioButton = styled(RadioGroup)`
     width:100%;
-  }
-  cursor: pointer;
+    padding:1rem;
 `;
 
 const DELETE_EXPENSE = gql`
@@ -98,7 +92,7 @@ const DeleteExpenseCard = ({changeVisibility, expense}) => {
             <ErrorField ErrorMessage={ErrorMessage} touched={true} />
             <ModalBody>
                 <Row>
-                    <RadioGroup
+                    <CustomRadioButton
                         value={RemoveType}
                         onChange={ (value) => setRemoveType(value) }>
                         <RadioButton 
@@ -119,12 +113,12 @@ const DeleteExpenseCard = ({changeVisibility, expense}) => {
                             rootColor={theme.color.primaryLightColor}> 
                             All expenses
                         </RadioButton>
-                    </RadioGroup>
+                    </CustomRadioButton>
                 </Row>
-                <ButtonContainer>
-                    <CustomButton type='submit' form='delelteExpenseForm' >Delete!</CustomButton>
-                </ButtonContainer>
             </ModalBody>
+            <ModalFooter>
+                <Button type='submit' form='delelteExpenseForm' >Delete!</Button>
+            </ModalFooter>
         </DeleteExpenseCardContainer>
     )
 }
