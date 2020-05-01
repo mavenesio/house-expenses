@@ -2,9 +2,9 @@ import styled from 'styled-components';
 
 const Button = styled.button`
     cursor: pointer;
+    margin: 1rem;
+    width:100%;
     padding: 1rem;
-    margin-top: 1rem;    
-    margin-bottom: 1rem;
     border-radius: 8px;
     border: 2px solid ${props => props.theme.color.primaryDarkColor};
     background-color: ${props => props.theme.color.primaryColor};
@@ -27,8 +27,6 @@ const Button = styled.button`
 export const SecondaryButton = styled.button`
     cursor: pointer;
     padding: 1rem;
-    margin-top: 1rem;    
-    margin-bottom: 1rem;
     border-radius: 8px;
     color: ${props => props.theme.color.black};
     border: 2px solid ${props => props.theme.color.primaryDarkColor};
