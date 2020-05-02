@@ -47,7 +47,9 @@ const GET_USER_EXPENSES = gql`
         id
         name
         amount
-        paid,
+        paid
+        currentMonth
+        currentYear
         type
       }
     }
@@ -55,11 +57,13 @@ const GET_USER_EXPENSES = gql`
 const ADD_RANGE_EXPENSES = gql`
     mutation addRangeExpenses($input:RangeExpenseInput!){
         addRangeExpenses(input: $input){
-            id,
-            name, 
-            amount,
-            paid,
-            type,
+            id
+            name 
+            amount
+            paid
+            currentMonth
+            currentYear
+            type
         }
     }
 `;
@@ -77,9 +81,7 @@ const CreateExpenseCard = (props) => {
                 }
               }});
             const now = new Date();
-            if ( addRangeExpenses.currentMonth === now.getMonth() || addRangeExpenses.currentYear === now.getFullYear()) {
-                console.log(addRangeExpenses.currentMonth, now.getMonth())
-                console.log(addRangeExpenses.currentYear, now.getFullYear())
+            if ( addRangeExpenses.currentMonth === now.getMonth() && addRangeExpenses.currentYear === now.getFullYear()) {
                 cache.writeQuery({
                     query: GET_USER_EXPENSES, 
                     variables:{ 
@@ -127,7 +129,7 @@ const CreateExpenseCard = (props) => {
                                 type:type.value};
                 const {data} = await addRangeExpenses( { variables: { input: {...inp}}});
                 const now = new Date();
-                if ( addRangeExpenses.currentMonth === now.getMonth() || addRangeExpenses.currentYear === now.getFullYear()) {
+                if ( data.addRangeExpenses.currentMonth === now.getMonth() && data.addRangeExpenses.currentYear === now.getFullYear()) {
                     expenseContext.addExpense(data.addRangeExpenses);
                 }
                 changeVisibility();
