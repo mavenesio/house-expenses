@@ -134,7 +134,7 @@ const UPDATE_EXPENSE_NAME = gql`
     }
 `;
 
-const ExpensesDataTable = ({dataTable}) => {
+const ExpensesDataTable = ({dataTable, updateSelect}) => {
     const [OnEditName, setOnEditName] = useState(false);
     const [NewName, setNewName] = useState('');
     const [CurrentName, setCurrentName] = useState('');
@@ -142,7 +142,7 @@ const ExpensesDataTable = ({dataTable}) => {
     const [updateExpenseName] = useMutation(UPDATE_EXPENSE_NAME);
     const UpdateName = useCallback( async (oldName, newName)  => {
         try {
-            const {data} = await updateExpenseName(
+            await updateExpenseName(
                 {variables: { 
                     input: {
                         oldName: oldName,
@@ -150,8 +150,8 @@ const ExpensesDataTable = ({dataTable}) => {
                         }
                     }
                 });
-                console.log(data);
             setOnEditName(false);
+            updateSelect();
             setCurrentName(newName);
         } catch (err) {console.log(err.message.replace('GraphQL error:', ''))}
     }, [])

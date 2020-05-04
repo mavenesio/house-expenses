@@ -6,6 +6,7 @@ import gql from "graphql-tag";
 
 import StyledSelect from '../Components/StyledSelect/StyledSelect';
 import ExpensesDataTable from '../Components/ExpensesDataTable/ExpensesDataTable';
+import Button from '../Components/Button/Button';
 import Spinner from '../Components/Spinner/Spinner';
 
 const ExpenseTrackingContainer = styled.div`
@@ -14,7 +15,20 @@ const ExpenseTrackingContainer = styled.div`
     margin-top:1rem;
   }
 `;
-const CustomSelect = styled(StyledSelect)`
+const FilterContainer = styled.div`
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  flex-wrap:wrap;
+`;
+const Container = styled.div`
+  display:flex;
+  align-self:center;
+  width:30%;
+  margin:0rem 1rem 0rem 1rem;
+  @media (max-width: 768px) {
+    width:100%;
+  }
 
 `;
 const GET_USER_EXPENSES_NAMES = gql`
@@ -39,31 +53,37 @@ const GET_USER_EXPENSES_DATA = gql`
 `;
 
 const ExpenseTracking = () => {
-  const {data: expenseNames, loading: loadingExpenseName} = useQuery(GET_USER_EXPENSES_NAMES);
+  const {data: expenseNames, loading: loadingExpenseName, refetch} = useQuery(GET_USER_EXPENSES_NAMES);
   const [ loadExpenses, { loading: loadingExpenseData, data:expenseData }] = useLazyQuery(GET_USER_EXPENSES_DATA);
   const [ExpenseSelected, setExpenseSelected] = useState(null);
-  const [ExpenseNames, setExpenseNames] = useState([]);
   const [ExpenseDataTable, setExpenseDataTable] = useState(null);
 
-  useEffect(() => {if(expenseNames) setExpenseNames(expenseNames.getAllExpenses.map((expenseName,index) => ({value: index, label: expenseName.name})))}, [loadingExpenseName]);
   useEffect(() => {if(expenseData) setExpenseDataTable(expenseData.getExpenseData)}, [expenseData]);
   
   const getExpenseDataCallback = useCallback((name) => loadExpenses({variables: { input: { name: name}}}),[])
   
   return (
       <ExpenseTrackingContainer>
-          <CustomSelect
-            value={ExpenseSelected}
-            onChange={(value)=> {setExpenseSelected(value);getExpenseDataCallback(value.label)}}
-            name='expenseSelected'
-            options={ExpenseNames}
-            label='Select expense'
-            errors=''
-            touched={false}
-          />
-          <ExpensesDataTable
-            dataTable={ExpenseDataTable}
-          />
+        <FilterContainer>
+          <Container>
+            <StyledSelect
+                value={ExpenseSelected}
+                onChange={(value)=> {setExpenseSelected(value);}}
+                name='expenseSelected'
+                options={expenseNames ? expenseNames.getAllExpenses.map((expenseName,index) => ({value: index, label: expenseName.name})) : []}
+                label='Select expense'
+                errors=''
+                touched={false}
+              />
+          </Container>
+          <Container>
+              <Button type='Button' onClick={() => {getExpenseDataCallback(ExpenseSelected.label); setExpenseSelected(null)}} >Search </Button>
+          </Container>
+        </FilterContainer>
+        <ExpensesDataTable
+          dataTable={ExpenseDataTable}
+          updateSelect={() => {console.log('aca tamo'); refetch()}}
+        />
       </ExpenseTrackingContainer>
   )
 
