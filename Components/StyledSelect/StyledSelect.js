@@ -45,6 +45,7 @@ const StyledSelect = ({options, value, onChange, label, name, placeholder,  erro
                 placeholder={placeholder}
                 name={name}
                 inputId={name}
+                maxMenuHeight='90px'
             />
             <label>{label}</label>
             <ErrorField errorMessage={errors} touched={touched} />
