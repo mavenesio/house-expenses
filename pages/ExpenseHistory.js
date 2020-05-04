@@ -52,7 +52,7 @@ const ExpenseHistory = () => {
   const [Month, setMonth] = useState(null);
   const [Year, setYear] = useState(null);
   const [DataTable, setDataTable] = useState(null)
-  const [ loadExpenses, { loading, data, refetch }] = useLazyQuery(GET_USER_EXPENSES,{
+  const [ loadExpenses, { loading, data }] = useLazyQuery(GET_USER_EXPENSES,{
     variables:{ 
       input: {
         month: parseInt((new Date()).getMonth()),
