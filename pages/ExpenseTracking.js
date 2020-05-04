@@ -1,39 +1,70 @@
 // @ts-nocheck
 import React, { useState, useEffect, useCallback } from 'react';
-import { gql, useQuery } from '@apollo/client';
 import styled from 'styled-components';
+import { useLazyQuery, useQuery } from '@apollo/client';
+import gql from "graphql-tag";
 
-import Header from '../Components/Header/Header';
-import Card from '../Components/Card/Card';
-import Construction from '../Components/Icons/construction';
-
-const ConstructionIcon = styled(Construction)`
-  margin-left:1rem;
-  font-size:5rem;
-  color:orange;
-`;
-
+import StyledSelect from '../Components/StyledSelect/StyledSelect';
+import ExpensesDataTable from '../Components/ExpensesDataTable/ExpensesDataTable';
+import Spinner from '../Components/Spinner/Spinner';
 
 const ExpenseTrackingContainer = styled.div`
-  padding:5rem;
+  padding:2rem;
+  & > * {
+    margin-top:1rem;
+  }
+`;
+const CustomSelect = styled(StyledSelect)`
+
+`;
+const GET_USER_EXPENSES_NAMES = gql`
+    query getAllExpenses{
+      getAllExpenses {
+        name
+      }
+    }
+`;
+
+const GET_USER_EXPENSES_DATA = gql`
+    query getExpenseData($input: getExpenseDataInput){
+      getExpenseData(input: $input) {
+        id
+        name
+        amount
+        currentMonth
+        currentYear
+        paid
+      }
+    }
 `;
 
 const ExpenseTracking = () => {
+  const {data: expenseNames, loading: loadingExpenseName} = useQuery(GET_USER_EXPENSES_NAMES);
+  const [ loadExpenses, { loading: loadingExpenseData, data:expenseData }] = useLazyQuery(GET_USER_EXPENSES_DATA);
+  const [ExpenseSelected, setExpenseSelected] = useState(null);
+  const [ExpenseNames, setExpenseNames] = useState([]);
+  const [ExpenseDataTable, setExpenseDataTable] = useState(null);
 
+  useEffect(() => {if(expenseNames) setExpenseNames(expenseNames.getAllExpenses.map((expenseName,index) => ({value: index, label: expenseName.name})))}, [loadingExpenseName]);
+  useEffect(() => {if(expenseData) setExpenseDataTable(expenseData.getExpenseData)}, [expenseData]);
+  
+  const getExpenseDataCallback = useCallback((name) => loadExpenses({variables: { input: { name: name}}}),[])
+  
   return (
-    <>
       <ExpenseTrackingContainer>
-        <Card>
-          <h1>
-            Working Progress
-            <ConstructionIcon />
-          </h1>
-          <h2>
-            On this page you can will see tracking of one particular expense month by month
-          </h2>
-        </Card>
+          <CustomSelect
+            value={ExpenseSelected}
+            onChange={(value)=> {setExpenseSelected(value);getExpenseDataCallback(value.label)}}
+            name='expenseSelected'
+            options={ExpenseNames}
+            label='Select expense'
+            errors=''
+            touched={false}
+          />
+          <ExpensesDataTable
+            dataTable={ExpenseDataTable}
+          />
       </ExpenseTrackingContainer>
-    </>
   )
 
 }
