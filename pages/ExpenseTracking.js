@@ -25,7 +25,8 @@ const Container = styled.div`
   display:flex;
   align-self:center;
   width:30%;
-  margin:0rem 1rem 0rem 1rem;
+  margin:1rem 1rem 0rem 1rem;
+  min-width: 350px;
   @media (max-width: 768px) {
     width:100%;
   }
