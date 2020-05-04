@@ -3,8 +3,8 @@ import React, {useState} from 'react';
 import {useRouter} from 'next/router';
 import styled from 'styled-components';
 import ChartBar from '../Icons/ChartBar';
-import FileRegular from '../Icons/FileRegular';
-import Clipboard from '../Icons/Clipboard';
+import SearchDollar from '../Icons/SearchDollar';
+import History from '../Icons/History';
 import Home from '../Icons/Home';
 
 const FooterNavbarContainer = styled.div`
@@ -21,7 +21,7 @@ const FooterNavbarContainer = styled.div`
     justify-content:center;
     border-top: unset; 
 `;
-const RecordButton = styled(Clipboard)`
+const HistoryButton = styled(History)`
     align-self:center;
     font-size: 40px;
     color: ${props => props.theme.color.white};
@@ -30,7 +30,7 @@ const RecordButton = styled(Clipboard)`
         color: ${props => props.theme.color.black};
     }
 `;
-const HistoryButton = styled(FileRegular)`
+const TrackingButton = styled(SearchDollar)`
     align-self:center;
     font-size: 40px;
     color: ${props => props.theme.color.white};
@@ -65,8 +65,8 @@ const FooterNavbar = () => {
     return (
             <FooterNavbarContainer>
                 <HomeButton onClick={() => router.push('/Homepage')} />
-                <RecordButton onClick={() => router.push('/ExpenseHistory')}/>
-                <HistoryButton onClick={() => router.push('/ExpenseTracking')}/>
+                <HistoryButton onClick={() => router.push('/ExpenseHistory')}/>
+                <TrackingButton onClick={() => router.push('/ExpenseTracking')}/>
                 <ChartButton onClick={() => router.push('/ExpenseReport')}/>
             </FooterNavbarContainer>
             )
