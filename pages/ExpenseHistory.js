@@ -51,7 +51,12 @@ const GET_USER_EXPENSES = gql`
 const ExpenseHistory = () => {
   const [Month, setMonth] = useState(null);
   const [Year, setYear] = useState(null);
-  const [DataTable, setDataTable] = useState(null)
+
+  useEffect(() => {
+    const now = new Date();
+    setMonth(MonthOptions.find(month => month.value == parseInt(now.getMonth())));
+    setYear(YearOptions.find(year => year.value == parseInt(now.getFullYear())));
+  }, []);
   const [ loadExpenses, { loading, data }] = useLazyQuery(GET_USER_EXPENSES,{
     variables:{ 
       input: {
@@ -69,7 +74,6 @@ const ExpenseHistory = () => {
           year: parseInt(year.value)
         }
       }});
-      console.log(month, year);
     })
 
   return (
@@ -90,13 +94,13 @@ const ExpenseHistory = () => {
           </StyledSelectContainer>
           <StyledSelectContainer>
             <StyledSelect
-                    value={Year}
-                    onChange={(value)=> setYear(value)}
-                    name='startYear'
-                    options={YearOptions}
-                    label='Year'
-                    errors=''
-                    touched={false}
+              value={Year}
+              onChange={(value)=> setYear(value)}
+              name='startYear'
+              options={YearOptions}
+              label='Year'
+              errors=''
+              touched={false}
                 />
           </StyledSelectContainer>
           <StyledSelectContainer>
