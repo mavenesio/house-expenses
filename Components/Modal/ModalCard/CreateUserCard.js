@@ -163,7 +163,7 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
                     </Row>
                 </ModalBody>
                 <ModalFooter>
-                    <Button type='submit' form='createForm' >Create user!</Button>
+                    <Button type='submit' form='createForm' >Create user</Button>
                 </ModalFooter>
             </CreateUserCardContainer>
         </>

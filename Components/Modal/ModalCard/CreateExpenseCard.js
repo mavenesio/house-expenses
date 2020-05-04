@@ -39,6 +39,12 @@ const Row = styled.div`
     flex-direction:row;
     justify-content:space-between;    
     margin-top:1rem;
+    & > div {
+        margin:0rem 1rem 0rem 1rem;
+    }
+`;
+const CustomButton = styled(Button)`
+    margin:0rem 1rem 0rem 1rem;
 `;
 
 const GET_USER_EXPENSES = gql`
@@ -97,6 +103,7 @@ const CreateExpenseCard = (props) => {
             }
         }
     });
+    
 
     const expenseContext = useContext(ExpenseContext);
     const formik = useFormik({
@@ -227,7 +234,7 @@ const CreateExpenseCard = (props) => {
                 </Row>
             </ModalBody>
             <ModalFooter>
-                <Button type='submit' form='expenseForm' >Add! </Button>
+                <CustomButton type='submit' form='expenseForm' >Add</CustomButton>
             </ModalFooter>
         </CreateExpenseCardContainer>
     )

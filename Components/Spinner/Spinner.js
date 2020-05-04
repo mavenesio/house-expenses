@@ -28,7 +28,7 @@ const Spinner = (props) => {
                 loading &&
                 <SpinnerContainer>
                     <SpinnerWrapper>
-                        <PacmanLoader size={90} color='#607d8b' loading={loading}/>
+                        <PacmanLoader size={90} color='#006064' loading={loading}/>
                     </SpinnerWrapper>
                 </SpinnerContainer>
             }

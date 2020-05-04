@@ -27,10 +27,11 @@ const FilterContainer = styled.div`
   justify-content:center;
   flex-wrap:wrap;
 `;
-const StyledSelectContainer = styled.div`
+const Container = styled.div`
   display:flex;
   align-self:center;
   width:30%;
+  margin:0rem 1rem 0rem 1rem;
   @media (max-width: 768px) {
     width:100%;
   }
@@ -81,7 +82,7 @@ const ExpenseHistory = () => {
       <Spinner loading={loading}/>
       <ExpenseTrackingContainer>
         <FilterContainer>
-          <StyledSelectContainer>
+          <Container>
             <StyledSelect
               value={Month}
               onChange={(value)=> setMonth(value)}
@@ -91,8 +92,8 @@ const ExpenseHistory = () => {
               errors=''
               touched={false}
             />
-          </StyledSelectContainer>
-          <StyledSelectContainer>
+          </Container>
+          <Container>
             <StyledSelect
               value={Year}
               onChange={(value)=> setYear(value)}
@@ -102,10 +103,10 @@ const ExpenseHistory = () => {
               errors=''
               touched={false}
                 />
-          </StyledSelectContainer>
-          <StyledSelectContainer>
+          </Container>
+          <Container>
               <Button type='Button' onClick={() => getExpenses(Month, Year)} >Search </Button>
-          </StyledSelectContainer>
+          </Container>
         </FilterContainer>
             <TableContainer>
               <ExpensesTable 

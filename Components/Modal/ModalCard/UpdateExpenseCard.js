@@ -39,6 +39,12 @@ const Row = styled.div`
     flex-direction:row;
     justify-content:space-between;
     margin-top:1rem;
+    &:first-child {
+        margin:0rem 1rem 0rem 1rem;
+    }
+`;
+const CustomButton = styled(Button)`
+    margin:0rem 1rem 0rem 1rem;
 `;
 
 const UPDATE_EXPENSE = gql`
@@ -131,7 +137,7 @@ const UpdateExpenseCard = (props) => {
                 </Row>
             </ModalBody>
             <ModalFooter>
-                <Button type='submit' form='updateExpenseForm' >Update!</Button>
+                <CustomButton type='submit' form='updateExpenseForm' >Update</CustomButton>
             </ModalFooter>
         </UpdateExpenseCardContainer>
     )

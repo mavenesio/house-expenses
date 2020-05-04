@@ -44,6 +44,10 @@ const CustomRadioButton = styled(RadioGroup)`
     width:100%;
     padding:1rem;
 `;
+const CustomButton = styled(Button)`
+    margin:0rem 1rem 0rem 1rem;
+`;
+
 
 const GET_USER_EXPENSES = gql`
     query getExpenses($input: GetExpensesInput!){
@@ -150,7 +154,7 @@ const DeleteExpenseCard = ({changeVisibility, expense}) => {
                 </Row>
             </ModalBody>
             <ModalFooter>
-                <Button type='submit' form='delelteExpenseForm' >Delete!</Button>
+                <CustomButton type='submit' form='delelteExpenseForm' >Delete</CustomButton>
             </ModalFooter>
         </DeleteExpenseCardContainer>
     )

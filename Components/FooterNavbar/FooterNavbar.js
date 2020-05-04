@@ -10,7 +10,7 @@ import Home from '../Icons/Home';
 const FooterNavbarContainer = styled.div`
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
     cursor:pointer;
-    height:10%;
+    height:4rem;
     width:100%;
     background-color:${props => props.theme.color.primaryDarkColor};
     grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
@@ -19,6 +19,7 @@ const FooterNavbarContainer = styled.div`
     display:flex;
     flex-direction:row;
     justify-content:center;
+    border-top: unset; 
 `;
 const RecordButton = styled(Clipboard)`
     align-self:center;

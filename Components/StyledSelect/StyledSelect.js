@@ -10,7 +10,7 @@ const InputContainer = styled.div`
     font-size: ${props => props.theme.font.size.text};
     font-weight: 500;
     width:100%;
-    margin:0rem 1rem 0rem 1rem;
+    /*margin:0rem 1rem 0rem 1rem;*/
     position:relative;
 `;
 const CustomSelect = styled(Select)`
@@ -33,7 +33,6 @@ const CustomSelect = styled(Select)`
     }
 `;
 
-
 const StyledSelect = ({options, value, onChange, label, name, placeholder,  errors, touched}) => {
     return (
         <InputContainer>
@@ -45,7 +44,7 @@ const StyledSelect = ({options, value, onChange, label, name, placeholder,  erro
                 placeholder={placeholder}
                 name={name}
                 inputId={name}
-                maxMenuHeight='90px'
+                maxMenuHeight='100px'
             />
             <label>{label}</label>
             <ErrorField errorMessage={errors} touched={touched} />
