@@ -5,10 +5,12 @@ import styled from 'styled-components';
 import {PacmanLoader} from "react-spinners";
 
 const SpinnerContainer = styled.div`
-    position: relative;
+    position: absolute;
     z-index:200;
     width:100%;
-    height:100%;
+    height:calc(100%);
+    top:0px;
+    right:0px;
     background-color:rgba(245, 245, 245,0.3);
 `;
 const SpinnerWrapper = styled.div`

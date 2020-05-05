@@ -25,7 +25,7 @@ const PageContainer = styled.div`
 const Body = styled.div`
   background-color:${props => props.theme.color.backgroundColor};
   overflow-x:scroll;
-  height:${props => props.fullBody ? '100%' : '90%'};
+  height:${props => props.fullBody ? 'calc(100% - 4rem)' : 'calc(100% - 8rem)'};
   overflow-x: hidden;
 `;
 
@@ -42,8 +42,8 @@ const MyApp = ({Component, pageProps})=>  {
                 <title>Expenses</title>
               </Head>
               <PageContainer>
+                <Header setIsDarkMode={setIsDarkMode} IsDarkMode={IsDarkMode} page={router.pathname} />
                 <Body fullBody={router.pathname === '/' || router.pathname === '/Index'}>
-                  <Header setIsDarkMode={setIsDarkMode} IsDarkMode={IsDarkMode} page={router.pathname} />
                   <Component {...pageProps} />
                 </Body>
                 {

@@ -20,6 +20,7 @@ const FooterNavbarContainer = styled.div`
     flex-direction:row;
     justify-content:center;
     border-top: unset; 
+    align-self:flex-end;
 `;
 const HistoryButton = styled(History)`
     align-self:center;
@@ -67,7 +68,7 @@ const FooterNavbar = () => {
                 <HomeButton onClick={() => router.push('/Homepage')} />
                 <HistoryButton onClick={() => router.push('/ExpenseHistory')}/>
                 <TrackingButton onClick={() => router.push('/ExpenseTracking')}/>
-                <ChartButton onClick={() => router.push('/ExpenseReport')}/>
+                {/*<ChartButton onClick={() => router.push('/ExpenseReport')}/>*/}
             </FooterNavbarContainer>
             )
 }
