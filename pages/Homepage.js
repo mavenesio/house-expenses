@@ -62,7 +62,7 @@ const Homepage = () => {
   const [DeleteModalVisibility, setDeleteModalVisibility] = useState(false);
   const [CreateModalVisibility, setCreateModalVisibility] = useState(false);
   const router = useRouter();
-  useEffect(() => { if(data){console.log(data.getExpenses);expenseContext.setExpenses(data.getExpenses)}}, [loading]);
+  useEffect(() => { if(data)expenseContext.setExpenses(data.getExpenses)}, [loading]);
   useEffect(() => {if(!loading && data === undefined) router.push('/')}, [loading]);
   const [updateExpense] = useMutation(UPDATE_EXPENSE);
   const paidExpense =  useCallback(

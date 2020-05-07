@@ -8,6 +8,9 @@ const ErrorFieldContainer = styled.div`
     font-size:12px;
     margin-top:5px;
     font-weight: ${props => props.theme.font.weight.bold};
+    ::first-letter {
+        text-transform:uppercase;
+    }
 `;
 
 

@@ -32,6 +32,9 @@ const ModalBody = styled.div`
 const ModalFooter = styled.div`
     display:flex;
 `;
+const CustomButton = styled(Button)`
+    margin:0rem 1rem 0rem 1rem;
+`;
 const Row = styled.div`
     display:flex;
     flex-direction:row;
@@ -163,7 +166,7 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
                     </Row>
                 </ModalBody>
                 <ModalFooter>
-                    <Button type='submit' form='createForm' >Create user</Button>
+                    <CustomButton type='submit' form='createForm' >Create user</CustomButton>
                 </ModalFooter>
             </CreateUserCardContainer>
         </>

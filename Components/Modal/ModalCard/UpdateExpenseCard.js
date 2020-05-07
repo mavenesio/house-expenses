@@ -103,7 +103,8 @@ const UpdateExpenseCard = (props) => {
     const { setFieldValue } = formik;
     useEffect(() => {
         setFieldValue('updateAmount', (expense) ? expense.amount : '');
-        setFieldValue('updatetype', (expense) ? ExpenseTypeOptions.find(option => option.value === expense.type) : ExpenseTypeOptions[0]);
+        const currentType = expense ? ExpenseTypeOptions.find(option => option.value === expense.type) : null;
+        handleTypeSelect((expense) ? currentType : null);
     }, [expense]);
 
     const handleTypeSelect = useCallback((value) => setFieldValue('updateType', value), [setFieldValue]);

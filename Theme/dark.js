@@ -2,9 +2,9 @@ const dark = {
     color:{
       backgroundColor: '#42404d',
 
-      primaryColor: '#006064',
-      primaryDarkColor: '#00363a',
-      primaryLightColor: '#428e92',
+      primaryColor: '#00363a',
+      primaryDarkColor: '#001114',
+      primaryLightColor: '#326064',
 
       secondaryColor: 'orange',
       secondaryDarkColor: 'orange',

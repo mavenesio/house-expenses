@@ -91,11 +91,11 @@ const HorizonalLine = styled.div`
     }
 `;
 
-const NameCell = styled.div`
+const Cell = styled.div`
     cursor: default;
     overflow:hidden;
     white-space:nowrap;
-    text-align:start;
+    text-align:${props => props.align};
     position:relative;
     width: 70%;
     font-size:20px;
@@ -103,18 +103,9 @@ const NameCell = styled.div`
     @media (max-width: 800px) {
         font-size:15px;
     }
-`;
-const AmoutCell = styled.div`
-    cursor: default;
-    text-align:end;
-    position:relative;
-    width: 20%;
-    font-size:20px;
-    color: ${props => props.theme.font.color.primary};
-    @media (max-width: 800px) {
-        font-size:15px;
+    ::first-letter {
+        text-transform:uppercase;
     }
-    
 `;
 const PlusButton = styled(PlusSquare)`
     position:absolute;
@@ -157,14 +148,14 @@ const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
                 row => 
                 <Row key={row.name}>
                     {renderIcon(row.type)}
-                    <NameCell>
+                    <Cell align='start'>
                         {row.name}
                         <HorizonalLine isvisible={row.paid}/>
-                    </NameCell>
-                    <AmoutCell> 
+                    </Cell>
+                    <Cell align='end'>
                         {row.amount}
                         <HorizonalLine isvisible={row.paid}/>
-                    </AmoutCell>
+                    </Cell >
                     {onCheck &&
                         <IconCell>
                             <Checkbox title='' checked={row.paid} onCheck={() => onCheck(row.id,row.paid)}/>
@@ -191,8 +182,8 @@ const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
                             <Table>
                                 {renderRows(dataTable)}
                                 <FooterRow>
-                                    <NameCell>Total </NameCell>
-                                    <AmoutCell>{dataTable.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</AmoutCell>
+                                    <Cell align='start'>Total </Cell>
+                                    <Cell align='end'>{dataTable.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</Cell>
                                     {onCheck && <IconCell/>}
                                     {onEdit && <IconCell/>}
                                     {onDelete && <IconCell/>}

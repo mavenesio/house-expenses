@@ -18,7 +18,7 @@ const CheckBoxContainer = styled.label `
   font-family: ${props => props.theme.font.family};
   margin:0rem 1rem 0rem 1rem;
   display:flex;
-  justify-content:center
+  justify-content:center;
 `;
 const CircleIcon = styled(Circle)`
     align-self:center;
@@ -29,7 +29,7 @@ const CircleIcon = styled(Circle)`
     left:2.5px;
 `;
 const CircleCheck = styled(Check)`
-    color: ${props => props.checked ? props.theme.color.primaryDarkColor : props.theme.font.color.primary };
+    color: ${props => props.checked ? props.theme.color.primaryColor : props.theme.font.color.primary };
     position:absolute;
     font-size: 22px;
     align-self:center;
