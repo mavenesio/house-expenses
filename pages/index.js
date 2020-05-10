@@ -8,7 +8,7 @@ import {gql, useMutation} from '@apollo/client';
 import jwtDecode from 'jwt-decode';
 
 import UserContext from '../context/user/UserContext';
-import Input from '../Components/Input/Input';
+import {StyledInput} from '../Components/Input/Input';
 import Button, {SecondaryButton} from '../Components/Button/Button';
 import ErrorField from '../Components/ErrorField/ErrorField';
 import Spinner from '../Components/Spinner/Spinner';
@@ -32,38 +32,11 @@ const LoginBox = styled.div`
   top:20%;
   position:absolute;
 `;
-const ButtonContainer = styled.div`
-  margin:1rem;
-  display:flex;
-  flex-direction:row;
-  justify-content: space-between;
-`;
-const InputContainer = styled.div`
-    margin:1rem;
-    display:flex;
-    flex-direction:column;
-    position:relative;
-    font-family: ${props => props.theme.font.family};
-    font-size: ${props => props.theme.font.size.text};
-    font-weight: ${props => props.theme.font.weight.bold};
-`;
 const CustomButton = styled(Button)`
-  white-space:nowrap;
-  margin:0.5rem;
-  width:45%;
-  font-family: ${props => props.theme.font.family};
-  @media screen {
-    margin:0.5rem 0rem 0.5rem 0rem;
-  }
+  margin: 1rem;
 `;
 const CustomSecondaryButton = styled(SecondaryButton)`
-  font-family: ${props => props.theme.font.family};
-  white-space:nowrap;
-  margin:0.5rem;
-  width:45%;
-  @media screen {
-    margin:0.5rem 0rem 0.5rem 0rem;
-  }
+  margin: 1rem;
 `;
 const SuccessMessage = styled.div`
   color: ${props => props.theme.color.pimaryColor};
@@ -72,6 +45,13 @@ const SuccessMessage = styled.div`
   font-family: ${props => props.theme.font.family};
   margin: 0.5rem;
   text-align:center;
+`;
+const Row = styled.div`
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    margin-top:1rem;
+    font-family: ${props => props.theme.font.family};
 `;
 
 
@@ -90,7 +70,6 @@ function Login(props) {
   const router = useRouter();
   const userContext = useContext(UserContext);
   const [AuthorizationInput, {loading}] = useMutation(AUTHOTIZATION_USER);
-  const removeWhiteSpaces = useCallback((value) => value.replace(' ', ''));
   const formik = useFormik({
     initialValues: {email: '', password: ''},
     validationSchema: Yup.object({
@@ -132,34 +111,36 @@ function Login(props) {
         <LoginBox>
           <SuccessMessage> {SignUpSuccess && 'Welcome! ! ! !'}</SuccessMessage> 
           <ErrorField errorMessage={ErrorMessage} touched={true}/>
-          <InputContainer>
-              <Input
-                  name='email'
-                  id='email'
-                  type='email'
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={removeWhiteSpaces(formik.values.email)}
-              />
-              <label>Email</label>
-              <ErrorField errorMessage={formik.errors.email} touched={formik.touched.email }/>
-          </InputContainer>
-          <InputContainer>
-              <Input
-                  name='password'
-                  id='password'
-                  type='password'
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={removeWhiteSpaces(formik.values.password)}
-              />
-              <label>Password</label>
-              <ErrorField errorMessage={formik.errors.password} touched={formik.touched.password } />
-            </InputContainer>
-          <ButtonContainer>
+          <Row>
+            <StyledInput
+                name='email'
+                id='email'
+                type='email'
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
+                value={formik.values.email}
+                label='Email'
+                errors={formik.errors.email} 
+                touched={formik.touched.email }
+                noWhitesSpaces={true}
+            />
+          </Row>
+          <Row>
+            <StyledInput
+                name='password'
+                id='password'
+                type='password'
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
+                value={formik.values.password}
+                label='Passowrd'
+                noWhitesSpaces={true}
+            />
+          </Row>
+          <Row>
             <CustomSecondaryButton type='submit' form='loginForm' >Log in</CustomSecondaryButton>
             <CustomButton type='button' onClick={() => {setModalIsVisible(true)}} >Sign up</CustomButton>
-          </ButtonContainer>
+          </Row>
         </LoginBox>
       </LoginContainer>
       <CreateUserModal visibility={ModalIsVisible} setVisibility={() => setModalIsVisible(false)} setSignUpSuccess={() => setSignUpSuccess(true)} />
