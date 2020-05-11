@@ -5,8 +5,6 @@ import styled from 'styled-components';
 import Card from '../Card/Card';
 import Checkbox from '../CheckBox/Checkbox';
 import {ExpenseTypes} from '../../constants/constants';
-
-import Modal from '../Modal/Modal';
 import PlusSquare from '../Icons/PlusSquare';
 import Trash from '../Icons/Trash';
 import Pen from '../Icons/Pen';
