@@ -21,10 +21,7 @@ const SpinnerWrapper = styled.div`
         left: 0px;
     }
 `;
-const Spinner = (props) => {
-    const {loading} = props;
-
-    return (
+const Spinner = ({loading}) => (
         <>
             {
                 loading &&
@@ -35,7 +32,5 @@ const Spinner = (props) => {
                 </SpinnerContainer>
             }
         </>
-        
     )
-}
 export default Spinner;
