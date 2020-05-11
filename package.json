@@ -1,32 +1,39 @@
 {
-  "name": "probabilty-simulation",
+  "name": "house-expenses",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest",
+    "testwatch": "jest --watchAll"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Venedictto/probability-simulation.git"
+    "url": "git+https://github.com/Venedictto/House-Expenses.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Venedictto/probability-simulation/issues"
+    "url": "https://github.com/Venedictto/House-Expenses/issues"
   },
-  "homepage": "https://github.com/Venedictto/probability-simulation#readme",
+  "homepage": "https://github.com/Venedictto/House-Expenses#readme",
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.44",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
     "apollo-link-context": "^1.0.20",
+    "babel-jest": "^26.0.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.4",
     "formik": "^2.1.4",
     "graphql": "^15.0.0",
     "isomorphic-unfetch": "^3.0.0",
+    "jest": "^26.0.1",
     "jwt-decode": "^2.2.0",
     "next": "^9.3.5",
     "node-fetch": "^2.6.0",
