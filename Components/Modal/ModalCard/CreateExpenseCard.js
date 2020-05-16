@@ -10,7 +10,7 @@ import {StyledInput} from '../../Input/Input';
 import Button from '../../Button/Button';
 import ErrorField from '../../ErrorField/ErrorField';
 import StyledSelect from '../../StyledSelect/StyledSelect';
-import {YearOptions, MonthOptions, NumberOfMonthOptions, ExpenseTypeOptions} from '../../../constants/constants';
+import {YearOptions, MonthOptions, ExpenseTypeOptions} from '../../../constants/constants';
 import ExpenseContext from '../../../context/expenses/ExpenseContext';
 
 const CreateExpenseCardContainer = styled.form`
@@ -112,7 +112,7 @@ const CreateExpenseCard = (props) => {
             amount: 0,
             startMonth: MonthOptions[(new Date()).getMonth()],
             startYear: YearOptions[0],
-            numberOfMonth: NumberOfMonthOptions[0],
+            numberOfMonth: '1',
             type: ExpenseTypeOptions[0],
         },
         validationSchema: Yup.object({
@@ -123,6 +123,10 @@ const CreateExpenseCard = (props) => {
                         .max(9999999,'Amount must be lower than $9999999 characters'),
             startMonth: Yup.object().required('Start month is required.'),
             startYear: Yup.object().required('Start year is required.'),
+            numberOfMonth: Yup.number('Must be number')
+                              .required()
+                              .min(1, 'At least 1 payment.')
+                              .max(50,'At most 50 payments'),
             type: Yup.object().required('Type is required.'),
         }),
         onSubmit: async values => {
@@ -132,7 +136,7 @@ const CreateExpenseCard = (props) => {
                                 amount: parseFloat(amount),
                                 startMonth: parseInt(startMonth.value),
                                 startYear: parseInt(startYear.value),
-                                monthAmount: parseInt(numberOfMonth.value),
+                                monthAmount: parseInt(numberOfMonth),
                                 type:type.value};
                 const {data} = await addRangeExpenses( { variables: { input: {...inp}}});
                 const now = new Date();
@@ -154,7 +158,6 @@ const CreateExpenseCard = (props) => {
     const { setFieldValue } = formik;
     const handleStartMonthSelect = useCallback((value) => setFieldValue('startMonth', value), [setFieldValue]);
     const handleStartYearSelect = useCallback((value) => setFieldValue('startYear', value), [setFieldValue]);
-    const handleNumberOfMonthSelect = useCallback((value) => setFieldValue('numberOfMonth', value), [setFieldValue]);
     const handleTypeSelect = useCallback((value) => setFieldValue('type', value), [setFieldValue]);
 
     return (
@@ -189,15 +192,17 @@ const CreateExpenseCard = (props) => {
                     />
                 </Row>
                 <Row>
-                    <StyledSelect
-                        options={NumberOfMonthOptions}
+                    <StyledInput
                         value={formik.values.numberOfMonth}
-                        onChange={handleNumberOfMonthSelect}
+                        handleChange={formik.handleChange}
+                        handleBlur={formik.handleBlur}
                         name='numberOfMonth'
-                        type='numberOfMonth'
+                        id='numberOfMonth'
+                        type='string'
                         label='Payments'
                         errors={formik.errors.numberOfMonth}
                         touched={formik.touched.numberOfMonth}
+                        noWhitesSpaces={true}
                     />
                     <StyledSelect
                         options={ExpenseTypeOptions}
