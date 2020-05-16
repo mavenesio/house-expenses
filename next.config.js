@@ -23,8 +23,8 @@ const {
     })(),
       URI: (() => {       
           if (isDev) return 'http://localhost:4000/'
-          if (isProd) return 'https://obscure-plateau-48683.herokuapp.com/'
-          if (isStaging) return 'https://obscure-plateau-48683.herokuapp.com/'
+          if (isStaging) return 'https://mysterious-ocean-88588.herokuapp.com/'
+          if (isProd) return 'https://whispering-hollows-31809.herokuapp.com/'
       return 'URI:not (isDev,isProd && !isStaging,isProd && isStaging)'
     })(),
     }
