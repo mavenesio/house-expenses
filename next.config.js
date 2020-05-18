@@ -15,7 +15,6 @@ const {
     console.log(`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging}`)
   
     const env = {
-      API_URL: 'development',
       BASE_URL: (() => {
         if (isDev) return 'http://localhost:3000/'
         if (isProd) return 'http://localhost:3000/'
