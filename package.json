@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/Venedictto/House-Expenses#readme",
   "dependencies": {
-    "@apollo/client": "^3.0.0-beta.44",
+    "@apollo/client": "^3.0.0-beta.48",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
@@ -35,15 +35,15 @@
     "isomorphic-unfetch": "^3.0.0",
     "jest": "^26.0.1",
     "jwt-decode": "^2.2.0",
-    "next": "^9.3.5",
+    "next": "^9.4.1",
     "node-fetch": "^2.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-charts": "^3.0.15",
     "react-radio-buttons": "^1.2.2",
     "react-select": "^3.1.0",
-    "react-spinners": "^0.8.1",
+    "react-spinners": "^0.8.3",
     "styled-components": "^5.1.0",
-    "yup": "^0.28.4"
+    "yup": "^0.28.5"
   }
 }
