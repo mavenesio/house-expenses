@@ -112,6 +112,9 @@ function Login(props) {
           <SuccessMessage> {SignUpSuccess && 'Welcome! ! ! !'}</SuccessMessage> 
           <ErrorField errorMessage={ErrorMessage} touched={true}/>
           <Row>
+            <h1>{process.env.API_URL}</h1>
+          </Row>
+          <Row>
             <StyledInput
                 name='email'
                 id='email'

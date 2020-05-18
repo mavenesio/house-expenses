@@ -15,18 +15,19 @@ const {
     console.log(`isDev:${isDev}  isProd:${isProd}   isStaging:${isStaging}`)
   
     const env = {
+      API_URL: 'development',
       BASE_URL: (() => {
-          if (isDev) return 'http://localhost:3000/'
-          if (isProd) return 'http://localhost:3000/'
-          if (isStaging) return 'http://localhost:3000/'
-      return 'BASE_URL:not (isDev,isProd && !isStaging,isProd && isStaging)'
-    })(),
+        if (isDev) return 'http://localhost:3000/'
+        if (isProd) return 'http://localhost:3000/'
+        if (isStaging) return 'http://localhost:3000/'
+        return 'BASE_URL:not (isDev,isProd && !isStaging,isProd && isStaging)'
+      })(),
       URI: (() => {       
-          if (isDev) return 'http://localhost:4000/'
-          if (isStaging) return 'https://mysterious-ocean-88588.herokuapp.com/'
-          if (isProd) return 'https://whispering-hollows-31809.herokuapp.com/'
-      return 'URI:not (isDev,isProd && !isStaging,isProd && isStaging)'
-    })(),
+        if (isDev) return 'http://localhost:4000/'
+        if (isStaging) return 'https://mysterious-ocean-88588.herokuapp.com/'
+        if (isProd) return 'https://whispering-hollows-31809.herokuapp.com/'
+        return 'URI:not (isDev,isProd && !isStaging,isProd && isStaging)'
+      })(),
     }
   
     // next.config.js object
