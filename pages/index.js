@@ -83,6 +83,7 @@ function Login(props) {
 
     onSubmit: async values => {
       const {email, password} = values;
+      console.log(process.env.API_URL);
       try {
         const {data} = await AuthorizationInput({
           variables: {
