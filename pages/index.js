@@ -112,9 +112,6 @@ function Login(props) {
           <SuccessMessage> {SignUpSuccess && 'Welcome! ! ! !'}</SuccessMessage> 
           <ErrorField errorMessage={ErrorMessage} touched={true}/>
           <Row>
-            <h1>STAGING</h1>
-          </Row>
-          <Row>
             <StyledInput
                 name='email'
                 id='email'
