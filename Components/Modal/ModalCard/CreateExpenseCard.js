@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useMutation, gql } from '@apollo/client';
-import { parseISO, isEqual } from 'date-fns';
+import { getFirstDayOfThisMonth, ISOEqualDate } from '../../../Utils/DateUtils';
 
 import ModalHeader from '../ModalHeader/ModalHeader';
 import { StyledInput } from '../../Input/Input';
@@ -79,15 +79,14 @@ const CreateExpenseCard = (props) => {
     const [ErrorMessage, setErrorMessage] = useState(null);
     const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES, {
         update(cache, { data: { addRangeExpenses } } ) {
-            const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
+            const today = getFirstDayOfThisMonth(false);
             const { getExpenses } = cache.readQuery({ query: GET_USER_EXPENSES, variables:{ 
                 input: {
                   month: parseInt(today.getMonth()),
                   year: parseInt(today.getFullYear()) 
                 }
               }});
-            if (isEqual(parseISO(addRangeExpenses.currentDate, []), today)) {
+            if (ISOEqualDate(addRangeExpenses.currentDate, today)) {
                 cache.writeQuery({
                     query: GET_USER_EXPENSES, 
                     variables:{ 
@@ -103,7 +102,7 @@ const CreateExpenseCard = (props) => {
             }
         }
     });
-    
+
 
     const expenseContext = useContext(ExpenseContext);
     const formik = useFormik({
@@ -139,11 +138,11 @@ const CreateExpenseCard = (props) => {
                                 monthAmount: parseInt(numberOfMonth),
                                 type:type.value};
                 const {data} = await addRangeExpenses( { variables: { input: {...inp}}});
-                const now = new Date();
-                const today = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
-                if (isEqual(parseISO(data.addRangeExpenses.currentDate, []), today)) {
+
+                const today = getFirstDayOfThisMonth(false);
+                if (ISOEqualDate(data.addRangeExpenses.currentDate, today)) {
                     expenseContext.addExpense(data.addRangeExpenses);
-                }
+                };
                 changeVisibility();
             } catch (err) {
                 const message = err.message.replace('GraphQL error:', '');
@@ -155,7 +154,6 @@ const CreateExpenseCard = (props) => {
             formik.resetForm();
         }
     });
-
     const { setFieldValue } = formik;
     const handleStartMonthSelect = useCallback((value) => setFieldValue('startMonth', value), [setFieldValue]);
     const handleStartYearSelect = useCallback((value) => setFieldValue('startYear', value), [setFieldValue]);

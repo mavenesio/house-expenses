@@ -9,8 +9,7 @@ import Pen from '../Icons/Pen';
 import Times from '../Icons/TimesSolid';
 import Check from '../Icons/CheckSolid';
 import Input from '../Input/Input';
-import { parseISO, isEqual } from 'date-fns';
-
+import {getDateFromISO, getNameMonthFromDate} from '../../Utils/DateUtils';
 
 const PenButton = styled(Pen)`
     cursor: pointer;
@@ -90,6 +89,7 @@ const Cell = styled.div`
     width: ${props => props.cellWith};
     font-size:20px;
     color: ${props => props.theme.font.color.primary};
+    text-transform: capitalize;
     @media (max-width: 800px) {
         font-size:15px;
     }
@@ -164,10 +164,10 @@ const ExpensesDataTable = ({dataTable, updateSelect}) => {
                 row => 
                 <Row key={row.id} position='center' hover={true}> 
                     <Cell cellWith='45px' textAling='start'> 
-                        {parseISO(row.currentDate,[]).getFullYear()}
+                        {getDateFromISO(row.currentDate).getFullYear()}
                     </Cell>
                     <Cell cellWith='100px' textAling='start'> 
-                        {MonthOptions[parseISO(row.currentDate).getMonth()].label}
+                        {getNameMonthFromDate(row.currentDate, true)}
                     </Cell>
                     <Cell cellWith='76px' textAling='end'> 
                         {`$ ${row.amount}`}
