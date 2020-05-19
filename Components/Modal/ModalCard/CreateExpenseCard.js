@@ -87,7 +87,6 @@ const CreateExpenseCard = (props) => {
                   year: parseInt(today.getFullYear()) 
                 }
               }});
-              console.log('on update cache : ', addRangeExpenses);
             if (isEqual(parseISO(addRangeExpenses.currentDate, []), today)) {
                 cache.writeQuery({
                     query: GET_USER_EXPENSES, 
@@ -142,9 +141,6 @@ const CreateExpenseCard = (props) => {
                 const {data} = await addRangeExpenses( { variables: { input: {...inp}}});
                 const now = new Date();
                 const today = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
-                console.log('on submit: ', data.addRangeExpenses);
-                console.log(parseISO(data.addRangeExpenses.currentDate, []));
-                console.log(today);
                 if (isEqual(parseISO(data.addRangeExpenses.currentDate, []), today)) {
                     expenseContext.addExpense(data.addRangeExpenses);
                 }
