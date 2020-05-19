@@ -46,8 +46,7 @@ const GET_USER_EXPENSES_DATA = gql`
         id
         name
         amount
-        currentMonth
-        currentYear
+        currentDate
         paid
       }
     }

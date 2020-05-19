@@ -1,16 +1,17 @@
 // @ts-nocheck
-import React, {useState, useCallback, useContext} from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import {useMutation, gql} from'@apollo/client';
+import { useMutation, gql } from '@apollo/client';
+import { parseISO, isEqual } from 'date-fns';
 
 import ModalHeader from '../ModalHeader/ModalHeader';
-import {StyledInput} from '../../Input/Input';
+import { StyledInput } from '../../Input/Input';
 import Button from '../../Button/Button';
 import ErrorField from '../../ErrorField/ErrorField';
 import StyledSelect from '../../StyledSelect/StyledSelect';
-import {YearOptions, MonthOptions, ExpenseTypeOptions} from '../../../constants/constants';
+import { YearOptions, MonthOptions, ExpenseTypeOptions } from '../../../constants/constants';
 import ExpenseContext from '../../../context/expenses/ExpenseContext';
 
 const CreateExpenseCardContainer = styled.form`
@@ -54,8 +55,7 @@ const GET_USER_EXPENSES = gql`
         name
         amount
         paid
-        currentMonth
-        currentYear
+        currentDate
         type
       }
     }
@@ -67,8 +67,7 @@ const ADD_RANGE_EXPENSES = gql`
             name 
             amount
             paid
-            currentMonth
-            currentYear
+            currentDate
             type
         }
     }
@@ -80,20 +79,22 @@ const CreateExpenseCard = (props) => {
     const [ErrorMessage, setErrorMessage] = useState(null);
     const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES, {
         update(cache, { data: { addRangeExpenses } } ) {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
             const { getExpenses } = cache.readQuery({ query: GET_USER_EXPENSES, variables:{ 
                 input: {
-                  month: parseInt((new Date()).getMonth()),
-                  year: parseInt((new Date()).getFullYear()) 
+                  month: parseInt(today.getMonth()),
+                  year: parseInt(today.getFullYear()) 
                 }
               }});
-            const now = new Date();
-            if ( addRangeExpenses.currentMonth === now.getMonth() && addRangeExpenses.currentYear === now.getFullYear()) {
+              console.log('on update cache : ', addRangeExpenses);
+            if (isEqual(parseISO(addRangeExpenses.currentDate, []), today)) {
                 cache.writeQuery({
                     query: GET_USER_EXPENSES, 
                     variables:{ 
                         input: {
-                        month: parseInt((new Date()).getMonth()),
-                        year: parseInt((new Date()).getFullYear()) 
+                        month: parseInt(today.getMonth()),
+                        year: parseInt(today.getFullYear()) 
                         }
                     },
                     data: {
@@ -140,7 +141,11 @@ const CreateExpenseCard = (props) => {
                                 type:type.value};
                 const {data} = await addRangeExpenses( { variables: { input: {...inp}}});
                 const now = new Date();
-                if ( data.addRangeExpenses.currentMonth === now.getMonth() && data.addRangeExpenses.currentYear === now.getFullYear()) {
+                const today = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
+                console.log('on submit: ', data.addRangeExpenses);
+                console.log(parseISO(data.addRangeExpenses.currentDate, []));
+                console.log(today);
+                if (isEqual(parseISO(data.addRangeExpenses.currentDate, []), today)) {
                     expenseContext.addExpense(data.addRangeExpenses);
                 }
                 changeVisibility();

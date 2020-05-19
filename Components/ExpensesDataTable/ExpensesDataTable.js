@@ -9,6 +9,7 @@ import Pen from '../Icons/Pen';
 import Times from '../Icons/TimesSolid';
 import Check from '../Icons/CheckSolid';
 import Input from '../Input/Input';
+import { parseISO, isEqual } from 'date-fns';
 
 
 const PenButton = styled(Pen)`
@@ -163,10 +164,10 @@ const ExpensesDataTable = ({dataTable, updateSelect}) => {
                 row => 
                 <Row key={row.id} position='center' hover={true}> 
                     <Cell cellWith='45px' textAling='start'> 
-                        {row.currentYear}
+                        {parseISO(row.currentDate,[]).getFullYear()}
                     </Cell>
                     <Cell cellWith='100px' textAling='start'> 
-                        {MonthOptions[row.currentMonth].label}
+                        {MonthOptions[parseISO(row.currentDate).getMonth()].label}
                     </Cell>
                     <Cell cellWith='76px' textAling='end'> 
                         {`$ ${row.amount}`}
