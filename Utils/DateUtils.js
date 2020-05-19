@@ -38,5 +38,4 @@ export const getDateFromISO = (date) => parseISO(date);
 export const getNameMonthFromDate = (date, isISO) => {
     if(isISO) return format(parseISO(date),'MMMM',{locale: esLocale});
     else format(date,'MMMM',{locale: esLocale})
-
 }
