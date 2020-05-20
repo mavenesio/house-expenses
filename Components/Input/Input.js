@@ -31,11 +31,15 @@ const Input = styled.input`
 
 const InputContainer = styled.div`
     width:100%;
+    min-width:125px;    
     position:relative;
     margin:0rem 1rem 0rem 1rem;
     font-family: ${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.text};
     font-weight: ${props => props.theme.font.weight.bold};
+    @media (max-width: 768px) {
+        width:100%;
+    }
 `;
 
 

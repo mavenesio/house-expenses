@@ -21,21 +21,27 @@ const HeaderContainer = styled.div`
     background-color:${props => props.theme.color.primaryDarkColor};
     grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
     font-family: ${props => props.theme.font.family};
-    font-size: ${props => props.theme.font.size.subTitle};
     color:${props => props.theme.color.white};
+    @media (max-width: 768px) {
+        font-size: ${props => props.theme.font.size.text};
+    }
 `;
 const HeaderText = styled.div`
     align-self:center;
     padding-left: 1rem;
     font-weight:800;
+
 `;
 const LogOutButton = styled(PowerOff)`
     align-self:center;
-    font-size: 30px;
     color: white;
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
         color: ${props => props.theme.color.black};
+    }
+    font-size: 30px;
+    @media (max-width: 768px) {
+        font-size: 25px;
     }
 `;
 const SwitchContainer = styled.div`
@@ -45,10 +51,16 @@ const SwitchContainer = styled.div`
 const LightOnIcon = styled(LightOn)`
     color: #ffe736;
     font-size:40px;
+    @media (max-width: 768px) {
+        font-size: 30px;
+    }
 `;
 const LightOffIcon = styled(LightOff)`
     color: #a2a6a6;
     font-size:40px;
+    @media (max-width: 768px) {
+        font-size: 30px;
+    }
 `;
 
 const SET_USER_PREFERENCE = gql`

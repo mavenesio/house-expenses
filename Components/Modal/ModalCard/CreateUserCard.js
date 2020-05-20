@@ -39,7 +39,8 @@ const Row = styled.div`
     display:flex;
     flex-direction:row;
     justify-content:center;
-    margin-top:1rem;
+    flex-wrap:wrap;
+    margin-top:0.5rem;
     font-family: ${props => props.theme.font.family};
 `;
 

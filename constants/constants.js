@@ -1,13 +1,13 @@
 // @ts-nocheck
 
 import theme from '../Theme/dark';
-import Styled from 'styled-components';
+import styled from 'styled-components';
+
 import CreditCard from '../Components/Icons/CreditCard';
 import Home from '../Components/Icons/Home';
 import Cash from '../Components/Icons/Cash';
 import ShoppingCart from '../Components/Icons/ShoppingCart';
 import Important from '../Components/Icons/Important';
-import styled from 'styled-components';
 
 export const SelectColourStyles = {
     control: (styles, { isFocused }) => {
@@ -62,11 +62,11 @@ export const NumberOfMonthOptions = [
     { value: '18', label: '18' },
 ];
 
-const IconContainer = Styled.div`
+const IconContainer = styled.div`
   color:${props => props.iconcolor};
   margin-right:10px;
 `;
-const IconWrapper = Styled.div`
+const IconWrapper = styled.div`
   color:${props => props.iconcolor};
   margin-right:10px;
   font-size: 20px;

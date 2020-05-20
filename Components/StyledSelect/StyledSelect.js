@@ -10,7 +10,7 @@ const InputContainer = styled.div`
     font-size: ${props => props.theme.font.size.text};
     font-weight: 500;
     width:100%;
-    /*margin:0rem 1rem 0rem 1rem;*/
+    min-width:125px;
     position:relative;
 `;
 const CustomSelect = styled(Select)`

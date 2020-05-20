@@ -12,6 +12,7 @@ import Button from '../../Button/Button';
 import ErrorField from '../../ErrorField/ErrorField';
 import StyledSelect from '../../StyledSelect/StyledSelect';
 import { YearOptions, MonthOptions, ExpenseTypeOptions } from '../../../constants/constants';
+import RadioButtonType from '../../RadioButtonType/RadioButtonType';
 import ExpenseContext from '../../../context/expenses/ExpenseContext';
 
 const CreateExpenseCardContainer = styled.form`
@@ -30,7 +31,6 @@ const ModalBody = styled.div`
     display:flex;
     flex-direction:column;
     height:45vh;
-    overflow-y: auto;
 `;
 const ModalFooter = styled.div`
     display:flex;
@@ -41,7 +41,7 @@ const Row = styled.div`
     justify-content:space-between;    
     margin-top:1rem;
     & > div {
-        margin:0rem 1rem 0rem 1rem;
+        margin:1rem 1rem 0rem 1rem;
     }
 `;
 const CustomButton = styled(Button)`
@@ -112,7 +112,7 @@ const CreateExpenseCard = (props) => {
             startMonth: MonthOptions[(new Date()).getMonth()],
             startYear: YearOptions[0],
             numberOfMonth: '1',
-            type: ExpenseTypeOptions[0],
+            type: null,
         },
         validationSchema: Yup.object({
             name: Yup.string('Must be string').required('Name is required.').max(20,'Name must be lower than 20 characters'),
@@ -126,7 +126,7 @@ const CreateExpenseCard = (props) => {
                               .required()
                               .min(1, 'At least 1 payment.')
                               .max(50,'At most 50 payments'),
-            type: Yup.object().required('Type is required.'),
+            type: Yup.string('Must be string').required('Type is required.'),
         }),
         onSubmit: async values => {
             try {
@@ -136,7 +136,7 @@ const CreateExpenseCard = (props) => {
                                 startMonth: parseInt(startMonth.value),
                                 startYear: parseInt(startYear.value),
                                 monthAmount: parseInt(numberOfMonth),
-                                type:type.value};
+                                type:type};
                 const {data} = await addRangeExpenses( { variables: { input: {...inp}}});
 
                 const today = getFirstDayOfThisMonth(false);
@@ -191,6 +191,9 @@ const CreateExpenseCard = (props) => {
                     />
                 </Row>
                 <Row>
+                    <RadioButtonType value={formik.values.type} onChange={handleTypeSelect}/>
+                </Row>
+                <Row>
                     <StyledInput
                         value={formik.values.numberOfMonth}
                         handleChange={formik.handleChange}
@@ -203,18 +206,6 @@ const CreateExpenseCard = (props) => {
                         touched={formik.touched.numberOfMonth}
                         noWhitesSpaces={true}
                     />
-                    <StyledSelect
-                        options={ExpenseTypeOptions}
-                        value={formik.values.type}
-                        onChange={handleTypeSelect}
-                        name='type'
-                        type='type'
-                        label='Type'
-                        errors={formik.errors.type}
-                        touched={formik.touched.type}
-                    />
-                </Row>
-                <Row>
                     <StyledSelect
                         value={formik.values.startMonth}
                         onChange={handleStartMonthSelect}
