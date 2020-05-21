@@ -84,6 +84,7 @@ const CreateExpenseCard = (props) => {
             startYear: Yup.object().required('Start year is required.'),
             numberOfMonth: Yup.number('Must be number')
                               .required()
+                              .integer('invalid decimal')
                               .min(1, 'At least 1 payment.')
                               .max(50,'At most 50 payments'),
             type: Yup.string('Must be string').required('Type is required.'),
@@ -98,7 +99,6 @@ const CreateExpenseCard = (props) => {
                                 monthAmount: parseInt(numberOfMonth),
                                 type:type};
                 const {data} = await addRangeExpenses( { variables: { input: {...inp}}});
-
                 const today = getFirstDayOfThisMonth(false);
                 if (ISOEqualDate(data.addRangeExpenses.currentDate, today)) {
                     expenseContext.addExpense(data.addRangeExpenses);
@@ -155,7 +155,7 @@ const CreateExpenseCard = (props) => {
                 </Row>
                 <Row>
                     <StyledInput
-                        value={formik.values.numberOfMonth}
+                        value={formik.values.numberOfMonth.replace(',', '.')}
                         handleChange={formik.handleChange}
                         handleBlur={formik.handleBlur}
                         name='numberOfMonth'
