@@ -9,7 +9,7 @@ import Pen from '../Icons/Pen';
 import Times from '../Icons/TimesSolid';
 import Check from '../Icons/CheckSolid';
 import Input from '../Input/Input';
-import {getDateFromISO, getNameMonthFromDate} from '../../Utils/DateUtils';
+import {getDateFromISO, getNameMonthFromISODate} from '../../Utils/DateUtils';
 
 const PenButton = styled(Pen)`
     cursor: pointer;
@@ -139,7 +139,7 @@ const ExpensesDataTable = ({dataTable, updateSelect}) => {
     const [OnEditName, setOnEditName] = useState(false);
     const [NewName, setNewName] = useState('');
     const [CurrentName, setCurrentName] = useState('');
-    useEffect(() => { if(dataTable) setCurrentName(dataTable[0].name) }, [dataTable])
+    useEffect(() => { if(dataTable && dataTable.length > 0) setCurrentName(dataTable[0].name) }, [dataTable])
     const [updateExpenseName] = useMutation(UPDATE_EXPENSE_NAME);
     const UpdateName = useCallback( async (oldName, newName)  => {
         try {
@@ -167,7 +167,7 @@ const ExpensesDataTable = ({dataTable, updateSelect}) => {
                         {getDateFromISO(row.currentDate).getFullYear()}
                     </Cell>
                     <Cell cellWith='100px' textAling='start'> 
-                        {getNameMonthFromDate(row.currentDate, true)}
+                        {getNameMonthFromISODate(row.currentDate)}
                     </Cell>
                     <Cell cellWith='76px' textAling='end'> 
                         {`$ ${row.amount}`}

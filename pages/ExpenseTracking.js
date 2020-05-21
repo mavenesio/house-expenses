@@ -82,7 +82,7 @@ const ExpenseTracking = () => {
         </FilterContainer>
         <ExpensesDataTable
           dataTable={ExpenseDataTable}
-          updateSelect={() => {console.log('aca tamo'); refetch()}}
+          updateSelect={() => {console.log('expense tracking'); refetch()}}
         />
       </ExpenseTrackingContainer>
   )

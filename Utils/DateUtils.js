@@ -1,5 +1,8 @@
 import {isEqual, isAfter, formatISO, parseISO, format, isSameYear, isSameMonth} from 'date-fns';
 import esLocale from 'date-fns/locale/es';
+import { MonthOptions } from '../constants/constants';
+
+import { DateTime } from 'luxon';
 
 /* returns first day of current month */
 export const getFirstDayOfThisMonth = (onISO) => {
@@ -27,7 +30,8 @@ export const DateEquals = (firstDate, secondDate) => isEqual(firstDate, secondDa
 /* Expects first Date as ISO string and second Date as Date object*/
 /* Returns true if fristDate is after second date */
 export const ISOEqualDate = (firstDate, secondDate) => {
-    return (isSameYear(parseISO(firstDate.substring(0, 10)), secondDate) && isSameMonth(parseISO(firstDate.substring(0, 10)), secondDate));
+    const parsedFirstDate = DateTime.fromISO(firstDate, {zone: 'America/Chicago'});
+    return parsedFirstDate.hasSame( secondDate, 'year') && parsedFirstDate.hasSame(secondDate,'month')
 };
 
 /* Returns ISO string from Date object */
@@ -37,7 +41,8 @@ export const getISOFromDate = (date) => formatISO(date);
 export const getDateFromISO = (date) => parseISO(date);
 
 /* Returns name of Month from Date object or string*/
-export const getNameMonthFromDate = (date, isISO) => {
-    if(isISO) return format(parseISO(date),'MMMM',{locale: esLocale});
-    else format(date,'MMMM',{locale: esLocale})
-}
+export const getNameMonthFromISODate = (date) => {
+    return getDateByFormat(date, 'MMMM', 'es-ES');
+}   
+
+const getDateByFormat = (date, format, lng) => DateTime.fromISO(date, {setZone: true}).toFormat(format, { locale: lng });
