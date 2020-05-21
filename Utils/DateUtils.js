@@ -1,4 +1,4 @@
-import {isEqual, isAfter, formatISO, parseISO, format} from 'date-fns';
+import {isEqual, isAfter, formatISO, parseISO, format, isSameYear, isSameMonth} from 'date-fns';
 import esLocale from 'date-fns/locale/es';
 
 /* returns first day of current month */
@@ -26,7 +26,9 @@ export const DateEquals = (firstDate, secondDate) => isEqual(firstDate, secondDa
 
 /* Expects first Date as ISO string and second Date as Date object*/
 /* Returns true if fristDate is after second date */
-export const ISOEqualDate = (firstDate, secondDate) => isEqual(parseISO(firstDate), secondDate);
+export const ISOEqualDate = (firstDate, secondDate) => {
+    return (isSameYear(parseISO(firstDate.substring(0, 10)), secondDate) && isSameMonth(parseISO(firstDate.substring(0, 10)), secondDate));
+};
 
 /* Returns ISO string from Date object */
 export const getISOFromDate = (date) => formatISO(date);
