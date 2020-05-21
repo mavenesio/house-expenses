@@ -10,10 +10,10 @@ import jwtDecode from 'jwt-decode';
 import UserContext from '../context/user/UserContext';
 import {StyledInput} from '../Components/Input/Input';
 import Button, {SecondaryButton} from '../Components/Button/Button';
-import ErrorField from '../Components/ErrorField/ErrorField';
 import Spinner from '../Components/Spinner/Spinner';
 import CreateUserModal from '../Components/Modal/CreateUserModal';
 
+import Toast from '../Components/toast/toast';
 
 const LoginContainer = styled.form`
   width: 100%;
@@ -38,14 +38,6 @@ const CustomButton = styled(Button)`
 const CustomSecondaryButton = styled(SecondaryButton)`
   margin: 1rem;
 `;
-const SuccessMessage = styled.div`
-  color: ${props => props.theme.color.pimaryColor};
-  font-size: 15px;
-  font-weight: 800;
-  font-family: ${props => props.theme.font.family};
-  margin: 0.5rem;
-  text-align:center;
-`;
 const Row = styled.div`
     display:flex;
     flex-direction:row;
@@ -65,8 +57,7 @@ const AUTHOTIZATION_USER = gql`
 
 function Login(props) {
   const [ModalIsVisible, setModalIsVisible] = useState(false);
-  const [ErrorMessage, setErrorMessage] = useState(null);
-  const [SignUpSuccess, setSignUpSuccess] = useState(false);
+  const [SingUpMessage, setSingUpMessage] = useState(null);
   const router = useRouter();
   const userContext = useContext(UserContext);
   const [AuthorizationInput, {loading}] = useMutation(AUTHOTIZATION_USER);
@@ -83,7 +74,6 @@ function Login(props) {
 
     onSubmit: async values => {
       const {email, password} = values;
-      console.log('api url:', process.env.API_URL);
       try {
         const {data} = await AuthorizationInput({
           variables: {
@@ -96,23 +86,19 @@ function Login(props) {
         userContext.setMode(decodeToken.mode);
         formik.resetForm();
         router.push('/Homepage');
-        setSignUpSuccess(false);
-      } catch (err) {
-          const message = err.message.replace('GraphQL error:', '');
-          setErrorMessage(message);
-          setTimeout( () => {
-            setErrorMessage(null);
-          },3000);
+        setSingUpMessage(null);
+      } 
+      catch (err) {
+          setSingUpMessage({type:'error', text: err.message.replace('GraphQL error:', '')});
       }
     }
   })
   return (
     <>
+      <Toast message={SingUpMessage} setMessage={(value) => setSingUpMessage(value)}/>
       <Spinner loading={loading}/>
       <LoginContainer onSubmit={formik.handleSubmit} id='loginForm'>
         <LoginBox>
-          <SuccessMessage> {SignUpSuccess && 'Welcome! ! ! !'}</SuccessMessage> 
-          <ErrorField errorMessage={ErrorMessage} touched={true}/>
           <Row>
             <StyledInput
                 name='email'
@@ -145,7 +131,11 @@ function Login(props) {
           </Row>
         </LoginBox>
       </LoginContainer>
-      <CreateUserModal visibility={ModalIsVisible} setVisibility={() => setModalIsVisible(false)} setSignUpSuccess={() => setSignUpSuccess(true)} />
+      <CreateUserModal
+        visibility={ModalIsVisible}
+        setVisibility={() => setModalIsVisible(false)}
+        setMessage={(type, message) => setSingUpMessage({type: type, text: message})}
+      />
     </>
   )
 

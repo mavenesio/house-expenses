@@ -7,7 +7,6 @@ import {useMutation, gql} from'@apollo/client';
 
 import {StyledInput} from '../../Input/Input'
 import Button from '../../Button/Button';
-import ErrorField from '../../ErrorField/ErrorField';
 import Spinner from '../../Spinner/Spinner';
 import ModalHeader from '../ModalHeader/ModalHeader';
 
@@ -53,10 +52,8 @@ const ADD_USER = gql`
     }
 `;
 
-const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
-    const [ErrorMessage, setErrorMessage] = useState(null);
+const CreateUserCard = ({changeVisibility, setMessage}) => {
     const [addUser, {loading}] = useMutation(ADD_USER);
-    const removeWhiteSpaces = useCallback((value) => value.replace(' ', ''));
     const formik = useFormik({
         initialValues: {
             firstName: '',
@@ -92,12 +89,9 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
                 });
                 changeVisibility();
                 formik.resetForm();
-                setSignUpSuccess();
+                setMessage('success',`Welcome ${data.addUser.firstName}!!`);
             } catch (err) {
-                setErrorMessage(err.message.replace('GraphQL error:', ''));
-                setTimeout( () => {
-                  setErrorMessage(null);
-                },5000);
+                setMessage('error', err.message.replace('GraphQL error:', ''));
             }
         }
     })
@@ -108,7 +102,6 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
             <Spinner loadring={loading}/>
             <CreateUserCardContainer onSubmit={formik.handleSubmit} id='createForm'>
                 <ModalHeader title='New user' onClose={changeVisibility}/>
-                <ErrorField errorMessage={ErrorMessage} touched={true}/>
                 <ModalBody>
                     <Row>
                         <StyledInput
@@ -145,7 +138,7 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
                             type='email'
                             handleChange={formik.handleChange}
                             handleBlur={formik.handleBlur}
-                            value={removeWhiteSpaces(formik.values.createEmail)}
+                            value={formik.values.createEmail}
                             label='Email'
                             errors={formik.errors.createEmail}
                             touched={formik.touched.createEmail}
@@ -159,7 +152,7 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
                             type='password'
                             handleChange={formik.handleChange}
                             handleBlur={formik.handleBlur}
-                            value={removeWhiteSpaces(formik.values.createPassword)}
+                            value={formik.values.createPassword}
                             label='Password'
                             errors={formik.errors.createPassword}
                             touched={formik.touched.createPassword}

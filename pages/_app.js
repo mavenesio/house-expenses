@@ -15,6 +15,8 @@ import dark from '../Theme/dark';
 import light from '../Theme/light';
 import FooterNavbar from '../Components/FooterNavbar/FooterNavbar';
 
+import 'react-toastify/dist/ReactToastify.css';
+
 const PageContainer = styled.div`
   position:absolute;
   left:0px;
