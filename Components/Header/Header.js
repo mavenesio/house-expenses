@@ -86,7 +86,7 @@ const Header = ({page, setIsDarkMode, IsDarkMode}) => {
             switch (page.toLowerCase()) {
                 case '/index':
                 case '/': return 'Login';
-                case '/homepage': headerText = 'This month expenses';break;
+                case '/homepage': headerText = 'THIS MONTH\'S EXPENSES';break;
                 case '/expensehistory': headerText = 'EXPENSE HISTORY';break;
                 case '/expensereports': headerText = 'EXPENSE REPORTS';break;
                 case '/expensetracking': headerText = 'EXPENSE TRACKING';break;

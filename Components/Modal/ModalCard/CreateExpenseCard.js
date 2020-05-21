@@ -102,7 +102,7 @@ const CreateExpenseCard = ({changeVisibility, setMessage}) => {
                     expenseContext.addExpense(data.addRangeExpenses);
                 };
                 changeVisibility();
-                setMessage('success', (data.addRangeExpenses) ? 'Your expense has been created' : 'You can review it on the Expense History tab');
+                setMessage('success', (data.addRangeExpenses) ? 'Your expense has been created' : 'Your expense has been created, You can review it on the Expense History tab');
             } 
             catch (err) {
                 setMessage('error', err.message.replace('GraphQL error:', ''));
