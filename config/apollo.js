@@ -7,7 +7,16 @@ const httpLink = createHttpLink({
     // @ts-ignore
     fetch
 });
-
+const defaultOptions = {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'ignore',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+  }
 const authLink = setContext((_, {headers}) => {
     
     const token = localStorage.getItem('token');
@@ -23,6 +32,7 @@ const authLink = setContext((_, {headers}) => {
 
 const client = new ApolloClient({
     cache: new InMemoryCache(),
+    defaultOptions: defaultOptions,
     // @ts-ignore
     link: authLink.concat(httpLink),
 });

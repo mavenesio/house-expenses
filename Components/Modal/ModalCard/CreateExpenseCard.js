@@ -39,26 +39,12 @@ const Row = styled.div`
     display:flex;
     flex-direction:row;
     justify-content:space-between;    
-    margin-top:1rem;
     & > div {
         margin:1rem 1rem 0rem 1rem;
     }
 `;
 const CustomButton = styled(Button)`
     margin:0rem 1rem 0rem 1rem;
-`;
-
-const GET_USER_EXPENSES = gql`
-    query getExpenses($input: GetExpensesInput!){
-      getExpenses(input: $input){
-        id
-        name
-        amount
-        paid
-        currentDate
-        type
-      }
-    }
 `;
 const ADD_RANGE_EXPENSES = gql`
     mutation addRangeExpenses($input:RangeExpenseInput!){
@@ -73,36 +59,10 @@ const ADD_RANGE_EXPENSES = gql`
     }
 `;
 
-
 const CreateExpenseCard = (props) => {
     const {changeVisibility} = props;
     const [ErrorMessage, setErrorMessage] = useState(null);
-    const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES, {
-        update(cache, { data: { addRangeExpenses } } ) {
-            const today = getFirstDayOfThisMonth(false);
-            const { getExpenses } = cache.readQuery({ query: GET_USER_EXPENSES, variables:{ 
-                input: {
-                  month: parseInt(today.getMonth()),
-                  year: parseInt(today.getFullYear()) 
-                }
-              }});
-            if (ISOEqualDate(addRangeExpenses.currentDate, today)) {
-                cache.writeQuery({
-                    query: GET_USER_EXPENSES, 
-                    variables:{ 
-                        input: {
-                        month: parseInt(today.getMonth()),
-                        year: parseInt(today.getFullYear()) 
-                        }
-                    },
-                    data: {
-                        getExpenses : [...getExpenses, addRangeExpenses ]
-                    }
-                })
-            }
-        }
-    });
-
+    const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES);
 
     const expenseContext = useContext(ExpenseContext);
     const formik = useFormik({
