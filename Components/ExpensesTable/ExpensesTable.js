@@ -116,6 +116,9 @@ const PlusButton = styled(PlusSquare)`
     background-color: ${props => props.theme.color.backgroundColor};
     color: ${props => props.theme.font.color.primary};
     margin: 0rem 1rem 0rem 1rem;
+    @media (max-width: 800px) {
+        right: -5px;
+    }
     &:hover{
         color: ${props => props.theme.color.black};
     }
