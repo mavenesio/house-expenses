@@ -91,6 +91,7 @@ const CreateUserCard = ({changeVisibility, setSignUpSuccess}) => {
                     }
                 });
                 changeVisibility();
+                formik.resetForm();
                 setSignUpSuccess();
             } catch (err) {
                 setErrorMessage(err.message.replace('GraphQL error:', ''));

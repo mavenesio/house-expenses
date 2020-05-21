@@ -94,6 +94,7 @@ function Login(props) {
         localStorage.setItem('token', token);
         const decodeToken = jwtDecode(token);
         userContext.setMode(decodeToken.mode);
+        formik.resetForm();
         router.push('/Homepage');
         setSignUpSuccess(false);
       } catch (err) {
@@ -140,7 +141,7 @@ function Login(props) {
           </Row>
           <Row>
             <CustomSecondaryButton type='submit' form='loginForm' >Log in</CustomSecondaryButton>
-            <CustomButton type='button' onClick={() => {setModalIsVisible(true)}} >Sign up</CustomButton>
+            <CustomButton type='button' onClick={() => {formik.resetForm();setModalIsVisible(true)}} >Sign up</CustomButton>
           </Row>
         </LoginBox>
       </LoginContainer>
