@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import ExpensesTable from '../Components/ExpensesTable/ExpensesTable';
 import Spinner from '../Components/Spinner/Spinner';
+import Toast from '../Components/toast/toast'
 
 import UpdateExpenseModal from '../Components/Modal/UpdateExpenseModal';
 import DeleteExpenseModal from '../Components/Modal/DeleteExpenseModal';
@@ -59,6 +60,7 @@ const Homepage = () => {
   });
   const expenseContext = useContext(ExpenseContext);
   const [SelectedRow, setSelectedRow] = useState(null);
+  const [HomepageMessages, setHomepageMessages] = useState(null);
   const [UpdateModalVisibility, setUpdateModalVisibility] = useState(false);
   const [DeleteModalVisibility, setDeleteModalVisibility] = useState(false);
   const [CreateModalVisibility, setCreateModalVisibility] = useState(false);
@@ -72,12 +74,13 @@ const Homepage = () => {
         const {data} = await updateExpense({variables: { input: {expenseId: expenseId, paid: !paid }}});
         expenseContext.updateExpense(data.updateExpense);
       } catch (err) {
-        console.log(err);
+        setHomepageMessages({type: 'error', message: err});
       }
     });
 
   return (
     <>
+    <Toast message={HomepageMessages} setMessage={(value) => setHomepageMessages(value)}/>
       <Spinner loading={loading}/>
       <HomepageContainer>
         <TableContainer>
@@ -91,7 +94,11 @@ const Homepage = () => {
         </TableContainer>
         <DeleteExpenseModal visibility={DeleteModalVisibility} setVisibility={() => setDeleteModalVisibility(!DeleteModalVisibility)} expense={SelectedRow}/>
         <UpdateExpenseModal visibility={UpdateModalVisibility} setVisibility={() => setUpdateModalVisibility(!UpdateModalVisibility)} expense={SelectedRow}/>
-        <CreateExpenseModal visibility={CreateModalVisibility} setVisibility={() => setCreateModalVisibility(!CreateModalVisibility)}/>
+        <CreateExpenseModal 
+          visibility={CreateModalVisibility}
+          setVisibility={() => setCreateModalVisibility(!CreateModalVisibility)}
+          setMessage={(type, message) => setHomepageMessages({type: type, text: message})}
+          />
       </HomepageContainer>
     </>
   )

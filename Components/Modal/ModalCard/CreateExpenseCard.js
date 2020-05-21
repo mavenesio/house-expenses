@@ -9,7 +9,6 @@ import { getFirstDayOfThisMonth, ISOEqualDate } from '../../../Utils/DateUtils';
 import ModalHeader from '../ModalHeader/ModalHeader';
 import { StyledInput } from '../../Input/Input';
 import Button from '../../Button/Button';
-import ErrorField from '../../ErrorField/ErrorField';
 import StyledSelect from '../../StyledSelect/StyledSelect';
 import { YearOptions, MonthOptions, ExpenseTypeOptions } from '../../../constants/constants';
 import RadioButtonType from '../../RadioButtonType/RadioButtonType';
@@ -59,8 +58,7 @@ const ADD_RANGE_EXPENSES = gql`
     }
 `;
 
-const CreateExpenseCard = (props) => {
-    const {changeVisibility} = props;
+const CreateExpenseCard = ({changeVisibility, setMessage}) => {
     const [ErrorMessage, setErrorMessage] = useState(null);
     const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES);
 
@@ -100,16 +98,14 @@ const CreateExpenseCard = (props) => {
                                 type:type};
                 const {data} = await addRangeExpenses( { variables: { input: {...inp}}});
                 const today = getFirstDayOfThisMonth(false);
-                if (ISOEqualDate(data.addRangeExpenses.currentDate, today)) {
+                if (data.addRangeExpenses && ISOEqualDate(data.addRangeExpenses.currentDate, today)) {
                     expenseContext.addExpense(data.addRangeExpenses);
                 };
                 changeVisibility();
-            } catch (err) {
-                const message = err.message.replace('GraphQL error:', '');
-                setErrorMessage(message);
-                setTimeout( () => {
-                  setErrorMessage(null);
-                },3000);
+                setMessage('success', (data.addRangeExpenses) ? 'Your expense has been created' : 'You can review it on the Expense History tab');
+            } 
+            catch (err) {
+                setMessage('error', err.message.replace('GraphQL error:', ''));
             }
             formik.resetForm();
         }
@@ -122,7 +118,6 @@ const CreateExpenseCard = (props) => {
     return (
         <CreateExpenseCardContainer onSubmit={formik.handleSubmit} id='expenseForm'>
             <ModalHeader title='New expense' onClose={changeVisibility} />
-            <ErrorField ErrorMessage={ErrorMessage} touched={true} />
             <ModalBody>
                 <Row>
                     <StyledInput
