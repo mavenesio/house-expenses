@@ -30,6 +30,7 @@ const ModalBody = styled.div`
     display:flex;
     flex-direction:column;
     height:45vh;
+    overflow-y:scroll;
 `;
 const ModalFooter = styled.div`
     display:flex;
@@ -40,6 +41,10 @@ const Row = styled.div`
     justify-content:space-between;    
     & > div {
         margin:1rem 1rem 0rem 1rem;
+    }
+    @media(max-width: 600px){
+        flex-wrap:wrap;
+        width: 100%;
     }
 `;
 const CustomButton = styled(Button)`
