@@ -1,13 +1,23 @@
 // @ts-nocheck
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import styled from 'styled-components';
 
 import Card from '../Card/Card';
 import Checkbox from '../CheckBox/Checkbox';
 import {ExpenseTypes} from '../../constants/constants';
+import RadioButtonType from '../RadioButtonType/RadioButtonType';
 import PlusSquare from '../Icons/PlusSquare';
 import Trash from '../Icons/Trash';
 import Pen from '../Icons/Pen';
+import TimesCircle from '../Icons/TimesCircle';
+
+const CrossButton = styled(TimesCircle)`
+    align-self:center;
+    font-size: 25px;
+    color: ${props => props.theme.color.gray};
+    margin: 0rem 1rem 1rem 1rem;
+    cursor: pointer;
+`;
 
 const ExpensesTableContainer = styled.div`
     height:100%;
@@ -63,6 +73,15 @@ const Row = styled.div`
         border: 1px solid ${props => props.theme.color.gray};
         border-radius:8px;
     }
+`;
+const FilterContainer = styled.div`
+    background-color:${props => props.theme.color.backgroundColor};
+    border: 1px solid ${props => props.theme.color.backgroundColor};
+    color:${props => props.theme.color.white};
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    padding: 0rem.6rem 0rem .6rem;
 `;
 const FooterRow = styled.div`
     display:flex;
@@ -134,6 +153,11 @@ const NoData = styled.p`
 `;
 
 const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
+    const [SelectedType, setSelectedType] = useState(null);
+    const [Data, setData] = useState(null);
+    useEffect(() => setData(dataTable), [dataTable]);
+    useEffect(() => setData(SelectedType ? dataTable.filter(expense => expense.type === SelectedType) : dataTable), [SelectedType])
+
     const renderIcon = useCallback(
         (rowType) => {
             const icon = ExpenseTypes.find(type => type.key === rowType);
@@ -141,7 +165,6 @@ const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
             return ExpenseTypes.find(type => type.key === 'Market').value
         }
     )
-
     const renderRows = useCallback(
         
         (data) => {
@@ -178,13 +201,17 @@ const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
         <>
             <ExpensesTableContainer>
                 <Card>
-                    {dataTable && dataTable.length > 0
+                    <FilterContainer>
+                        <RadioButtonType value={SelectedType} onChange={(value) => setSelectedType(value)}/>
+                        <CrossButton onClick={() => setSelectedType(null)}/>
+                    </FilterContainer>
+                    {Data && Data.length > 0
                         ?
                             <Table>
-                                {renderRows(dataTable)}
+                                {renderRows(Data)}
                                 <FooterRow>
                                     <Cell align='start'>Total </Cell>
-                                    <Cell align='end'>{dataTable.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</Cell>
+                                    <Cell align='end'>{Data.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</Cell>
                                     {onCheck && <IconCell/>}
                                     {onEdit && <IconCell/>}
                                     {onDelete && <IconCell/>}

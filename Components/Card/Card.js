@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import styled from 'styled-components';
 
-const Paper = styled.div`
+const Card = styled.div`
     background: #fff;
     padding: 20px;
     position: relative;
@@ -14,20 +14,5 @@ const Paper = styled.div`
     padding: 2rem;
 
 `;
-
-const Card = ({children}) => {
-    const renderCardChildComponents = useCallback(
-        (ch) => {
-            return React.Children.map(ch, (child) => {
-                return React.cloneElement(child);
-                });
-            }
-        , []);
-    return (
-        <Paper>
-            {renderCardChildComponents(children)}
-        </Paper>
-    );
-}
 
 export default Card;

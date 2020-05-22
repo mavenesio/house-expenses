@@ -23,19 +23,11 @@ const IconWrapper = styled.div`
     padding:0.2rem 0.2rem 0rem 0.2rem;
     border-radius:30%;
     cursor:pointer;
-    border: 2px solid ${props => props.selected ? 'black' : 'white'};
-    &:hover {
-        border: 2px solid ${props => props.theme.color.gray};
-    }
 `;
 
 
 const RadioButtonType = ({ value, onChange }) => {
-
-    useEffect(() => {
-        if(value === null) onChange('House');
-    }, [value])
-
+    
     return (
         <RadioButtonTypeContainer>
             <IconWrapper onClick={() => onChange('House')} iconcolor={value === 'House' ? '#0062ff' : 'gray'}><Home /></IconWrapper>

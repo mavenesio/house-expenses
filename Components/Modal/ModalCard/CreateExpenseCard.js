@@ -75,7 +75,7 @@ const CreateExpenseCard = ({changeVisibility, setMessage}) => {
             startMonth: MonthOptions[(new Date()).getMonth()],
             startYear: YearOptions[0],
             numberOfMonth: '1',
-            type: null,
+            type: 'House',
         },
         validationSchema: Yup.object({
             name: Yup.string('Must be string').required('Name is required.').max(20,'Name must be lower than 20 characters'),
