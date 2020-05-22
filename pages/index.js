@@ -121,7 +121,7 @@ function Login(props) {
                 handleChange={formik.handleChange}
                 handleBlur={formik.handleBlur}
                 value={formik.values.password}
-                label='Passoword'
+                label='Password'
                 noWhitesSpaces={true}
             />
           </Row>
