@@ -11,6 +11,10 @@ import Check from '../Icons/CheckSolid';
 import Input from '../Input/Input';
 import {getDateFromISO, getNameMonthFromISODate} from '../../Utils/DateUtils';
 
+const StyledCard = styled(Card)`
+    width:70%;
+`;
+
 const PenButton = styled(Pen)`
     cursor: pointer;
     align-self:center;
@@ -66,8 +70,7 @@ const Table = styled.div`
     min-width:300px;
 `;
 const Row = styled.div`
-    background-color:${props => props.theme.color.darkGray};
-    border: 1px solid ${props => props.theme.color.darkGray};
+    border: 1px solid transparent;
     color:${props => props.theme.color.white};
     display:flex;
     flex-direction:row;
@@ -81,7 +84,6 @@ const Row = styled.div`
 `;
 const Cell = styled.div`
     cursor: default;
-    overflow:hidden;
     white-space:nowrap;
     text-align:${props => props.textAling};
     position:relative;
@@ -96,7 +98,7 @@ const Cell = styled.div`
 `;
 const HeaderCell = styled.div`
     cursor: default;
-    overflow:hidden;
+    overflow:wrap;
     white-space:nowrap;
     text-align:${props => props.textAling};
     position:relative;
@@ -112,8 +114,7 @@ const NoData = styled.p`
     color: ${props => props.theme.font.color.primary};
 `;
 const CustomInput = styled(Input)`
-    border:2px solid ${props => props.theme.color.gray};
-    background-color: ${props => props.theme.color.darkGray};
+    border:2px solid transparent;
     color: ${props => props.theme.font.color.primary};
     padding:unset;
     font-size:40px;
@@ -179,7 +180,7 @@ const ExpensesDataTable = ({dataTable, updateSelect}) => {
                 )}, []);
     return (
         <ExpensesDataTableContainer>
-            <Card>
+            <StyledCard>
                 {dataTable && dataTable.length > 0
                     ?
                     <>
@@ -187,7 +188,7 @@ const ExpensesDataTable = ({dataTable, updateSelect}) => {
                             {OnEditName 
                             ?
                                 <>
-                                    <HeaderCell cellWith='200px' textAling='start'> 
+                                    <HeaderCell cellWith='75%' textAling='start'> 
                                         <CustomInput
                                             name='updateName'
                                             id='updateName'
@@ -222,7 +223,7 @@ const ExpensesDataTable = ({dataTable, updateSelect}) => {
                     :
                 <NoData>No expenses</NoData>
                 }
-            </Card>
+            </StyledCard>
         </ExpensesDataTableContainer>
     )
 }

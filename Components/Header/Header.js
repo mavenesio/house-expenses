@@ -78,7 +78,6 @@ const Header = ({page, setIsDarkMode, IsDarkMode}) => {
     const userContext = useContext(UserContext);
     const [setUserPreference] = useMutation(SET_USER_PREFERENCE);
     const {toggleMode, mode} = userContext;
-    setIsDarkMode(mode === 'dark');
     
     const getTitle = useCallback(
         (page) => {

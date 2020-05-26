@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import {useMutation, gql} from'@apollo/client';
 
 import {StyledInput} from '../../Input/Input'
-import Button from '../../Button/Button';
+import Button, {SecondaryButton} from '../../Button/Button';
 import Spinner from '../../Spinner/Spinner';
 import ModalHeader from '../ModalHeader/ModalHeader';
 
@@ -31,6 +31,9 @@ const ModalFooter = styled.div`
     display:flex;
 `;
 const CustomButton = styled(Button)`
+    margin:1rem;
+`;
+const CustomSecondaryButton = styled(SecondaryButton)`
     margin:1rem;
 `;
 const Row = styled.div`
@@ -160,7 +163,8 @@ const CreateUserCard = ({changeVisibility, setMessage}) => {
                     </Row>
                 </ModalBody>
                 <ModalFooter>
-                    <CustomButton type='submit' form='createForm' >Create user</CustomButton>
+                <CustomSecondaryButton  type='button' onClick={changeVisibility}>Cancel</CustomSecondaryButton>
+                <CustomButton type='submit' form='expenseForm' >Create</CustomButton>
                 </ModalFooter>
             </CreateUserCardContainer>
         </>
