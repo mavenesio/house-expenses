@@ -16,10 +16,9 @@ const CreateUserCardContainer = styled.form`
     align-self:center;
     background-color:${props => props.theme.color.white};
     border-radius:5px;
-    width:70vw;
-    height:70vh; 
+    width:70vw; 
     @media (max-width: 768px) {
-        width:100%;
+        width:95%;
     }
 `;
 const ModalBody = styled.div`
@@ -32,7 +31,7 @@ const ModalFooter = styled.div`
     display:flex;
 `;
 const CustomButton = styled(Button)`
-    margin:0rem 1rem 0rem 1rem;
+    margin:1rem;
 `;
 const Row = styled.div`
     display:flex;

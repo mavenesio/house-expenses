@@ -26,7 +26,7 @@ const Modal = (props) => {
         , []);
     return (
         <ModalContainer isVisible={isVisible}>
-            {renderModalBody(children)}
+                {renderModalBody(children)}
         </ModalContainer>
     )
 }

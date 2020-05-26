@@ -66,8 +66,8 @@ const Table = styled.div`
     min-width:300px;
 `;
 const Row = styled.div`
-    background-color:${props => props.theme.color.backgroundColor};
-    border: 1px solid ${props => props.theme.color.backgroundColor};
+    background-color:${props => props.theme.color.darkGray};
+    border: 1px solid ${props => props.theme.color.darkGray};
     color:${props => props.theme.color.white};
     display:flex;
     flex-direction:row;
@@ -113,7 +113,7 @@ const NoData = styled.p`
 `;
 const CustomInput = styled(Input)`
     border:2px solid ${props => props.theme.color.gray};
-    background-color: ${props => props.theme.color.backgroundColor};
+    background-color: ${props => props.theme.color.darkGray};
     color: ${props => props.theme.font.color.primary};
     padding:unset;
     font-size:40px;

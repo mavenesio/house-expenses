@@ -1,21 +1,21 @@
 const dark = {
     color:{
-      backgroundColor: '#42404d',
+      primaryColor: '#417980',
+      primaryDarkColor: '#417980',
+      primaryLightColor: '#3BA29E',
 
-      primaryColor: '#00363a',
-      primaryDarkColor: '#001114',
-      primaryLightColor: '#326064',
-
-      secondaryColor: 'orange',
-      secondaryDarkColor: 'orange',
-      secondaryLightColor: 'orange',
-
-      lightgrey:'#e4e4e4',
-      gray: '#b2b2b2',
-      darkGray: '#42404d',
+      gray: '#9e9e9e',
+      darkGray: '#FFFFF0',
+      lightgrey:'#dedede',
 
       black: 'black',
       white: '#FFFFF0',
+
+      backgroundPrimaryColor: '#42404d',
+      backgroundSecondaryColor: 'white',
+      
+      buttonPrimaryColor: '#FFFFF0',
+      buttonOnHoverColor: '#9e9e9e'
     },
     font: {
         family: 'Raleway', //'Indie Flower',

@@ -4,19 +4,21 @@ import ErrorField from '../ErrorField/ErrorField';
 
 const Input = styled.input`
     width:100%;
-    border-radius:8px;
     padding: 20px 20px 5px 20px;
-    border: 2px solid ${props => props.theme.color.primaryColor};
+    border:unset;
+    border-radius: 8px 8px 0px 0px;
+    border-bottom: 2px solid ${props => props.theme.color.gray};
     font-family: ${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.text};
     box-sizing: border-box;
     line-height: 1.2em;
     height:55px;
-    background-color: ${props => props.theme.color.white};
+    background-color: ${props => props.theme.color.backgroundPrimaryColor};
+    color: ${props => props.theme.color.backgroundSecondaryColor};
     outline: unset;
     &:focus {
         outline: none;
-        border: 2px solid ${props => props.theme.color.primaryDarkColor};
+        border-bottom: 2px solid ${props => props.theme.color.primaryDarkColor};
     };
     & ~ label{
         color:${props => props.theme.color.primaryDarkColor};
@@ -43,11 +45,13 @@ const InputContainer = styled.div`
 `;
 
 
-export const StyledInput = ({name, id, type, handleChange, handleBlur, value, errors, touched, label, noWhitesSpaces}) => {
-    const removeWhiteSpaces = useCallback(
-        (value , check) => {
-            if (check) return value.toString().trim()
-            return value
+export const StyledInput = ({name, id, type, handleChange, handleBlur, value, errors, touched, label, noWhitesSpaces, noCharacters}) => {
+    const formatValue = useCallback(
+        (value , noWhitesSpaces, noCharacters) => {
+            let formatedValue = value;
+            if (noWhitesSpaces) formatedValue = formatedValue.toString().trim();
+            if (noCharacters) formatedValue = formatedValue.replace(/[a-zA-Z]/g, '');
+            return formatedValue
         }, [value]);
     return (
         <InputContainer>
@@ -57,7 +61,7 @@ export const StyledInput = ({name, id, type, handleChange, handleBlur, value, er
                 type={type}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={removeWhiteSpaces(value, noWhitesSpaces)}
+                value={formatValue(value, noWhitesSpaces, noCharacters)}
             />
             <label>{label}</label>
             <ErrorField errorMessage={errors} touched={touched} />

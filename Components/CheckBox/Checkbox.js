@@ -1,11 +1,10 @@
 // @ts-nocheck
 import React from 'react';
 import styled from 'styled-components';
-import Circle from '../Icons/CircleSolid';
-import Check from '../Icons/CheckCircle';
+import Check from '../Icons/CheckSolid';
 
 const CheckBoxContainer = styled.label `
-  display: block;
+  display: flex;
   position: relative;
   padding-left: 35px;
   margin-bottom: 12px;
@@ -17,25 +16,18 @@ const CheckBoxContainer = styled.label `
   user-select: none;
   font-family: ${props => props.theme.font.family};
   margin:0rem 1rem 0rem 1rem;
-  display:flex;
-  justify-content:center;
-`;
-const CircleIcon = styled(Circle)`
-    align-self:center;
-    color: ${props =>  props.theme.font.color.primary};
-    font-size: 20px;
-    position: absolute;
-    top:2.5px;
-    left:2.5px;
 `;
 const CircleCheck = styled(Check)`
-    color: ${props => props.checked ? props.theme.color.primaryColor : props.theme.font.color.primary };
+    color: ${props => props.checked ? props.theme.color.primaryDarkColor : 'transparent' };
     position:absolute;
-    font-size: 22px;
+    font-size: 20px;
     align-self:center;
     position: absolute;
     top:1.5px;
     left:1.5px;
+    border-radius:50%;
+    padding:1px;
+    border: 2px solid ${props => props.theme.color.primaryDarkColor};
 `;
 
 const CheckBoxInput = styled.input.attrs({type: 'checkbox'})`
@@ -46,14 +38,11 @@ const CheckBoxInput = styled.input.attrs({type: 'checkbox'})`
   width: 0;
 `;
 
-const CheckBox = (props) => {
-    const { title, onCheck, checked } = props;
-
+const CheckBox = ({title, onCheck, checked } ) => {
     return (
       <CheckBoxContainer >
-        {title}
+      {title}
         <CheckBoxInput onChange={onCheck} checked={checked} />
-        <CircleIcon/>
         <CircleCheck checked={checked}/>
       </CheckBoxContainer>
     );

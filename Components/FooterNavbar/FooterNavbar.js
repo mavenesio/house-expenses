@@ -25,37 +25,37 @@ const FooterNavbarContainer = styled.div`
 const HistoryButton = styled(History)`
     align-self:center;
     font-size: 40px;
-    color: ${props => props.theme.color.white};
+    color: ${props => props.theme.color.buttonPrimaryColor};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
-        color: ${props => props.theme.color.black};
+        color: ${props => props.theme.color.buttonOnHoverColor};
     }
 `;
 const TrackingButton = styled(SearchDollar)`
     align-self:center;
     font-size: 40px;
-    color: ${props => props.theme.color.white};
+    color: ${props => props.theme.color.buttonPrimaryColor};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
-        color: ${props => props.theme.color.black};
+        color: ${props => props.theme.color.buttonOnHoverColor};
     }
 `;
 const ChartButton = styled(ChartBar)`
     align-self:center;
     font-size: 40px;
-    color: ${props => props.theme.color.white};
+    color: ${props => props.theme.color.buttonPrimaryColor};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
-        color: ${props => props.theme.color.black};
+        color: ${props => props.theme.color.buttonOnHoverColor};
     }
 `;
 const HomeButton = styled(Home)`
     align-self:center;
     font-size: 40px;
-    color: ${props => props.theme.color.white};
+    color: ${props => props.theme.color.buttonPrimaryColor};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
-        color: ${props => props.theme.color.black};
+        color: ${props => props.theme.color.buttonOnHoverColor};
     }
 `;
 

@@ -1,21 +1,22 @@
 const light = {
     color:{
-      backgroundColor: '#FFFFF0',
-
-      primaryColor: '#326064',
-      primaryDarkColor: '#00363a',
-      primaryLightColor: '#5f8d92',
-
-      secondaryColor: 'orange',
-      secondaryDarkColor: 'orange',
-      secondaryLightColor: 'orange',
+      primaryColor: '#417980',
+      primaryDarkColor: '#417980',
+      primaryLightColor: '#3BA29E',
 
       gray: '#9e9e9e',
       darkGray: '#FFFFF0',
       lightgrey:'#dedede',
 
-      black: 'black',
+      black: '#9e9e9e',
       white: '#FFFFF0',
+
+      backgroundPrimaryColor: 'white',
+      backgroundSecondaryColor: 'black',
+
+      buttonPrimaryColor: '#FFFFF0',
+      buttonOnHoverColor: '#9e9e9e'
+      
     },
     font: {
         family: 'Raleway', //'Indie Flower',

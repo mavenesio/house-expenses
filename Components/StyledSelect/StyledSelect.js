@@ -1,10 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
 import Select from 'react-select'
-import {SelectColourStyles} from '../../constants/constants';
 import ErrorField from '../ErrorField/ErrorField';
+import theme from '../../Theme/light';
 
+const SelectColourStyles = {
+    control: (styles, { isFocused }) => {
+      return ({
+        ...styles,
+        borderRadius: 'unset',
+        padding: '10px',
+        weight: 500,
+        border: 'unset',
+        borderBottom: isFocused ? `2px solid ${theme.color.primaryDarkColor}` : `2px solid ${theme.color.gray}`,
+        boxShadow: isFocused ? 0 : 0,
+        backgroundColor: 'transparent',
+        '&:hover': {
+        }
+      });
+    },
+    option: (styles, { isFocused, isSelected }) => {
+      return {
+        ...styles,
+        color: 'black',
+        weight: 500,
+        backgroundColor: isFocused ? '#e6e6e6' : isSelected ? '#e6e6e6' : 'white',
 
+      };
+    }
+  };
 const InputContainer = styled.div`
     font-family: ${props => props.theme.font.family};
     font-size: ${props => props.theme.font.size.text};
@@ -15,11 +39,14 @@ const InputContainer = styled.div`
 `;
 const CustomSelect = styled(Select)`
     & > div{
+        border-radius: 8px 8px 0px 0px;
         padding-bottom:unset;
-        background-color: ${props => props.theme.color.white};
+        background-color: ${props => props.theme.color.backgroundPrimaryColor};
         height:55px;
         & > div > div {
             top:60%;
+            color: ${props => props.theme.color.backgroundSecondaryColor};
+        background-color: ${props => props.theme.color.backgroundPrimaryColor};
         }
     }
     & ~ label{
@@ -44,7 +71,6 @@ const StyledSelect = ({options, value, onChange, label, name, placeholder,  erro
                 placeholder={placeholder}
                 name={name}
                 inputId={name}
-                maxMenuHeight='100px'
             />
             <label>{label}</label>
             <ErrorField errorMessage={errors} touched={touched} />

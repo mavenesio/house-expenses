@@ -39,7 +39,6 @@ const UPDATE_EXPENSE = gql`
 `;
 
 const HomepageContainer = styled.div`
-  background-color:${props => props.theme.color.backgroundColor};
 `;
 const TableContainer = styled.div`
   display:flex;

@@ -9,14 +9,9 @@ import RadioButtonType from '../RadioButtonType/RadioButtonType';
 import PlusSquare from '../Icons/PlusSquare';
 import Trash from '../Icons/Trash';
 import Pen from '../Icons/Pen';
-import TimesCircle from '../Icons/TimesCircle';
 
-const CrossButton = styled(TimesCircle)`
-    align-self:center;
-    font-size: 25px;
-    color: ${props => props.theme.color.gray};
-    margin: 0rem 1rem 1rem 1rem;
-    cursor: pointer;
+const StyledCard = styled(Card)`
+    width:70%;
 `;
 
 const ExpensesTableContainer = styled.div`
@@ -25,12 +20,13 @@ const ExpensesTableContainer = styled.div`
     font-size:25px;
     display: flex;
     justify-content: center;
+    width: 1000px;
 `;
 const PenButton = styled(Pen)`
     align-self:center;
     font-size: 20px;
     color: ${props => props.theme.font.color.primary};
-    margin: 0rem 1rem 0rem 1rem;
+    margin: 0rem 0.5rem 0rem 0.8rem;
     pointer-events:${props => props.disabled ? 'none' : 'unset'};
     color: ${props => props.disabled ? 'gray' : props.theme.font.color.primary};
     &:hover{
@@ -40,11 +36,11 @@ const PenButton = styled(Pen)`
         color: ${props => props.disabled ? 'gray' : props.theme.color.primaryColor};
     }
 `;
+
 const TrashButton = styled(Trash)`
     align-self:center;
     font-size: 20px;
     color: ${props => props.theme.font.color.primary};
-    margin: 0rem 1rem 0rem 1rem;
     pointer-events:${props => props.disabled ? 'none' : 'unset'};
     color: ${props => props.disabled ? 'gray' : props.theme.font.color.primary};
     &:hover{
@@ -54,6 +50,7 @@ const TrashButton = styled(Trash)`
         color: ${props => props.disabled ? 'gray' : props.theme.color.primaryColor};
     }
 `;
+
 const Table = styled.div`
     display:flex;
     flex-direction:column;
@@ -61,43 +58,44 @@ const Table = styled.div`
     align-self:flex-start;
     min-width:300px;
 `;
+
 const Row = styled.div`
-    background-color:${props => props.theme.color.backgroundColor};
-    border: 1px solid ${props => props.theme.color.backgroundColor};
-    color:${props => props.theme.color.white};
+    border: 1px solid transparent;
+    color:${props => props.theme.color.backgroundSecondaryColor};
     display:flex;
     flex-direction:row;
     justify-content:center;
-    padding: 0rem.6rem 0rem .6rem;
+    padding: 0.6rem 0.6rem 0rem 0.6rem;
     &:hover{
         border: 1px solid ${props => props.theme.color.gray};
         border-radius:8px;
     }
 `;
+
 const FilterContainer = styled.div`
-    background-color:${props => props.theme.color.backgroundColor};
-    border: 1px solid ${props => props.theme.color.backgroundColor};
+    border: 1px solid transparent;
     color:${props => props.theme.color.white};
     display:flex;
     flex-direction:row;
     justify-content:center;
+    margin-top:3rem;
     padding: 0rem.6rem 0rem .6rem;
+    flex-wrap:wrap;
 `;
+
 const FooterRow = styled.div`
     display:flex;
     flex-direction:row;
     justify-content:center;
-    padding: 1rem.6rem 1rem .6rem;
+    margin-left: 30px;
+    padding-top: 1rem;
     border-top:  1.5px solid ${props => props.theme.color.primaryColor};
-    border: 1px solid ${props => props.theme.color.backgroundColor};
-    &:hover{
-        border: 1px solid ${props => props.theme.color.gray};
-        border-radius:8px;
-    }
+    border: 1px solid transparent;
 `;
+
 const HorizonalLine = styled.div`
     height:0px;
-    border: 1.5px solid ${props => props.theme.color.primaryColor};
+    border-top: 3px solid ${props => props.theme.color.primaryColor};
     position:absolute;
     top:calc(40%);
     width:100%;
@@ -110,11 +108,11 @@ const HorizonalLine = styled.div`
 
 const Cell = styled.div`
     cursor: default;
+    overflow-wrap: normal;
     overflow:hidden;
-    white-space:nowrap;
     text-align:${props => props.align};
     position:relative;
-    width: 70%;
+    width: ${props => props.cellWith};
     font-size:20px;
     color: ${props => props.theme.font.color.primary};
     @media (max-width: 800px) {
@@ -125,27 +123,23 @@ const Cell = styled.div`
     }
 `;
 const PlusButton = styled(PlusSquare)`
-    position:absolute;
-    top: -33px;
-    right: -48px;
+    position:absolute;    
+    top: -7px;
+    right: -23px;
     align-self:flex-start;
     padding:0.5rem;
     cursor: pointer;
     font-size: 50px;
-    background-color: ${props => props.theme.color.backgroundColor};
-    color: ${props => props.theme.font.color.primary};
+    color: ${props => props.theme.color.backgroundSecondaryColor};
+    width: ${props => props.cellWith};
     margin: 0rem 1rem 0rem 1rem;
-    @media (max-width: 800px) {
-        right: -5px;
-    }
     &:hover{
-        color: ${props => props.theme.color.black};
+        color: ${props => props.theme.color.gray};
     }
 `;
 const IconCell = styled.div`
     text-align:start;
-    width:10%;
-    margin-left:0.2rem;
+    width:35px;
     cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
 `;
 const NoData = styled.p`
@@ -172,11 +166,11 @@ const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
                 row => 
                 <Row key={row.name}>
                     {renderIcon(row.type)}
-                    <Cell align='start'>
+                    <Cell align='start' cellWith='60%'>
                         {row.name}
                         <HorizonalLine isvisible={row.paid}/>
                     </Cell>
-                    <Cell align='end'>
+                    <Cell align='end' cellWith='20%'>
                         {row.amount}
                         <HorizonalLine isvisible={row.paid}/>
                     </Cell >
@@ -200,18 +194,17 @@ const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
     return (
         <>
             <ExpensesTableContainer>
-                <Card>
+                <StyledCard >
                     <FilterContainer>
-                        <RadioButtonType value={SelectedType} onChange={(value) => setSelectedType(value)}/>
-                        <CrossButton onClick={() => setSelectedType(null)}/>
+                        <RadioButtonType value={SelectedType} onChange={(value) => setSelectedType(value)} cleanAvailable={true}/>
                     </FilterContainer>
                     {Data && Data.length > 0
                         ?
                             <Table>
                                 {renderRows(Data)}
                                 <FooterRow>
-                                    <Cell align='start'>Total </Cell>
-                                    <Cell align='end'>{Data.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</Cell>
+                                    <Cell align='start' cellWith='60%'>Total </Cell>
+                                    <Cell align='end'cellWith='20%'>{Data.reduce((accumulator, expense) => accumulator + expense.amount, 0)}</Cell>
                                     {onCheck && <IconCell/>}
                                     {onEdit && <IconCell/>}
                                     {onDelete && <IconCell/>}
@@ -221,7 +214,7 @@ const ExpensesTable = ({dataTable, onEdit, onCheck, onDelete, onCreate}) => {
                     <NoData>No expenses</NoData>
                     }
                     {onCreate ? <PlusButton onClick={onCreate}/> : <></>}
-                </Card>
+                </StyledCard>
             </ExpensesTableContainer>
         </>
     )

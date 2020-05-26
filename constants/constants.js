@@ -1,39 +1,17 @@
 // @ts-nocheck
 
-import theme from '../Theme/dark';
 import styled from 'styled-components';
-
 import CreditCard from '../Components/Icons/CreditCard';
 import Home from '../Components/Icons/Home';
 import Cash from '../Components/Icons/Cash';
 import ShoppingCart from '../Components/Icons/ShoppingCart';
 import Important from '../Components/Icons/Important';
+import CarSolid from '../Components/Icons/CarSolid';
+import FemaleSolid from '../Components/Icons/FemaleSolid';
+import MaleSolid from '../Components/Icons/MaleSolid';
+import BusSolid from '../Components/Icons/BusSolid';
 
-export const SelectColourStyles = {
-    control: (styles, { isFocused }) => {
-      return ({
-        ...styles,
-        borderRadius: '8px',
-        padding: '10px',
-        color: `${theme.color.primaryDarkColor}`,
-        weight: 500,
-        border: isFocused ? `2px solid ${theme.color.primaryDarkColor}` : `2px solid ${theme.color.primaryColor}`,
-        boxShadow: isFocused ? 0 : 0,
-        '&:hover': {
-        }
-      });
-    },
-    option: (styles, { isFocused, isSelected }) => {
-      return {
-        ...styles,
-        color: 'black',
-        weight: 500,
-        backgroundColor: isFocused ? '#e6e6e6' : isSelected ? '#e6e6e6' : 'white',
-
-      };
-    }
-  };
-  export const MonthOptions = [
+export const MonthOptions = [
     { value: '0', label: 'Enero' },
     { value: '1', label: 'Febrero' },
     { value: '2', label: 'Marzo' },
@@ -78,17 +56,25 @@ const Label = styled.div`
 `;
 
 export const ExpenseTypeOptions = [
-  { value: 'House', label: <Label><IconContainer iconcolor='#0062ff'><Home /></IconContainer> House </Label>},
-  { value: 'Market', label: <Label><IconContainer iconcolor='green'><ShoppingCart /></IconContainer> Market</Label>},
-  { value: 'CreditCard', label: <Label><IconContainer iconcolor='violet'><CreditCard /></IconContainer> Credit Card </Label>},
-  { value: 'Cash', label: <Label><IconContainer iconcolor='orange'><Cash /></IconContainer> Cash </Label>},
-  { value: 'Important', label: <Label><IconContainer iconcolor='red'><Important /></IconContainer> Important </Label>},
+  { value: 'House',       label: <Label><IconContainer iconcolor='#0062ff'> <Home />          </IconContainer> House </Label>},
+  { value: 'Market',      label: <Label><IconContainer iconcolor='#00FF00'> <ShoppingCart />  </IconContainer> Market</Label>},
+  { value: 'CreditCard',  label: <Label><IconContainer iconcolor='#008080'> <CreditCard />    </IconContainer> Credit Card </Label>},
+  { value: 'Cash',        label: <Label><IconContainer iconcolor='#FFFF00'> <Cash />          </IconContainer> Cash </Label>},
+  { value: 'Important',   label: <Label><IconContainer iconcolor='#FF0000'> <Important />     </IconContainer> Important </Label>},
+  { value: 'Car',         label: <Label><IconContainer iconcolor='#0000FF'> <CarSolid />      </IconContainer> Car </Label>},
+  { value: 'Female',      label: <Label><IconContainer iconcolor='#FF00FF'> <FemaleSolid />   </IconContainer> Female </Label>},
+  { value: 'Male',        label: <Label><IconContainer iconcolor='#808000'> <MaleSolid />     </IconContainer> Male </Label>},
+  { value: 'Bus',         label: <Label><IconContainer iconcolor='#00FFFF'> <BusSolid />      </IconContainer> Bus </Label>},
 ];
 
 export const ExpenseTypes = [
-  { key: 'House', value: <IconWrapper iconcolor='#0062ff'><Home /></IconWrapper>},
-  { key: 'Market', value: <IconWrapper iconcolor='green'><ShoppingCart /></IconWrapper>},
-  { key: 'CreditCard', value: <IconWrapper iconcolor='violet'><CreditCard /></IconWrapper>},
-  { key: 'Cash', value: <IconWrapper iconcolor='orange'><Cash /></IconWrapper>},
-  { key: 'Important', value: <IconWrapper iconcolor='red'><Important /></IconWrapper>},
+  { key: 'House',       value: <IconWrapper iconcolor='#0062ff'><Home /></IconWrapper>},
+  { key: 'Market',      value: <IconWrapper iconcolor='#00FF00'><ShoppingCart /></IconWrapper>},
+  { key: 'CreditCard',  value: <IconWrapper iconcolor='#008080'><CreditCard /></IconWrapper>},
+  { key: 'Cash',        value: <IconWrapper iconcolor='#FFFF00'><Cash /></IconWrapper>},
+  { key: 'Important',   value: <IconWrapper iconcolor='#FF0000'><Important /></IconWrapper>},
+  { key: 'Car',         value: <IconWrapper iconcolor='#0000FF'><CarSolid /></IconWrapper>},
+  { key: 'Female',      value: <IconWrapper iconcolor='#FF00FF'><FemaleSolid /></IconWrapper>},
+  { key: 'Male',        value: <IconWrapper iconcolor='#808000'><MaleSolid /></IconWrapper>},
+  { key: 'Bus',         value: <IconWrapper iconcolor='#00FFFF'><BusSolid /></IconWrapper>},
 ];

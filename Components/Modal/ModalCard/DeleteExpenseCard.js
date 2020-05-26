@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {useMutation, gql} from'@apollo/client';
 import theme from '../../../Theme/dark';
-import Button from '../../Button/Button';
+import Button, {SecondaryButton} from '../../Button/Button';
 import ErrorField from '../../ErrorField/ErrorField';
 import ExpenseContext from '../../../context/expenses/ExpenseContext';
 import ModalHeader from '../ModalHeader/ModalHeader';
@@ -16,18 +16,16 @@ const DeleteExpenseCardContainer = styled.form`
     z-index:5;
     position:relative;
     align-self:center;
-    background-color:${props => props.theme.color.white};
+    background-color:${props => props.theme.color.backgroundPrimaryColor};
     border-radius:5px;
     width:70vw;
-    height:70vh; 
     @media (max-width: 768px) {
-        width:100%;
+        width:95%;
     }
 `;
 const ModalBody = styled.div`
     display:flex;
     flex-direction:column;
-    height:45vh;
     overflow-y: auto;
 `;
 const ModalFooter = styled.div`
@@ -37,15 +35,21 @@ const Row = styled.div`
     display:flex;
     flex-direction:row;
     justify-content:center;
-    margin-top:1rem;
+    margin-top:1rem; 
     font-family: ${props => props.theme.font.family};
 `;
 const CustomRadioButton = styled(RadioGroup)`
     width:100%;
     padding:1rem;
+    & > div > div {
+        border-style:unset;
+    }
 `;
 const CustomButton = styled(Button)`
-    margin:0rem 1rem 0rem 1rem;
+    margin:1rem;
+`;
+const CustomSecondaryButton = styled(SecondaryButton)`
+    margin:1rem;
 `;
 
 const DELETE_EXPENSE = gql`
@@ -120,6 +124,7 @@ const DeleteExpenseCard = ({changeVisibility, expense}) => {
                 </Row>
             </ModalBody>
             <ModalFooter>
+                <CustomSecondaryButton type='button' onClick={changeVisibility}>Cancel</CustomSecondaryButton>
                 <CustomButton type='submit' form='delelteExpenseForm' >Delete</CustomButton>
             </ModalFooter>
         </DeleteExpenseCardContainer>

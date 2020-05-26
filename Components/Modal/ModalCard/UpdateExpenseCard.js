@@ -7,27 +7,25 @@ import {useMutation, gql} from'@apollo/client';
 import ExpenseContext from '../../../context/expenses/ExpenseContext';
 import ModalHeader from '../ModalHeader/ModalHeader';
 import {StyledInput} from '../../Input/Input';
-import Button from '../../Button/Button';
+import Button, {SecondaryButton} from '../../Button/Button';
 import ErrorField from '../../ErrorField/ErrorField';
-import StyledSelect from '../../StyledSelect/StyledSelect';
-import {ExpenseTypeOptions} from '../../../constants/constants';
 
 const UpdateExpenseCardContainer = styled.form`
     z-index:5;
     position:relative;
     align-self:center;
-    background-color:${props => props.theme.color.white};
+    background-color:${props => props.theme.color.backgroundPrimaryColor};
     border-radius:5px;
     width:70vw;
-    height:60vh;  
-    @media (max-width: 768px) {
-        width:100%;
+    max-width:550px;
+    @media (max-width: 640px) {
+        width:95%;
+        max-width:unset;
     }
 `;
 const ModalBody = styled.div`
     display:flex;
     flex-direction:column;
-    height:35vh;
     overflow-y: auto;
 `;
 const ModalFooter = styled.div`
@@ -40,11 +38,14 @@ const Row = styled.div`
     justify-content:space-between;
     margin-top:1rem;
     &:first-child {
-        margin:0rem 1rem 0rem 1rem;
+        margin:0rem 1rem;
     }
 `;
 const CustomButton = styled(Button)`
-    margin:0rem 1rem 0rem 1rem;
+    margin:1rem;
+`;
+const CustomSecondaryButton = styled(SecondaryButton)`
+    margin:1rem;
 `;
 
 const UPDATE_EXPENSE = gql`
@@ -66,25 +67,22 @@ const UpdateExpenseCard = (props) => {
     const formik = useFormik({
         initialValues: {
             updateAmount: (expense) ? expense.amount : '',
-            updateType: (expense) ? ExpenseTypeOptions.find(option => option.value === expense.type) : ExpenseTypeOptions[0],
         },
         validationSchema: Yup.object({
             updateAmount: Yup.number('Must be number')
                             .required('Amount is required.')
                             .min(0, 'Amount greater than 0.')
                             .max(9999999,'Amount must be lower than 9999999 characters'),
-            updateType: Yup.object().required('Type is required.'),
         }),
         onSubmit: async values => {
-                const {updateAmount, updateType} = values;
+                const { updateAmount } = values;
                 const {id} = expense;
                 try {
                     const {data} = await updateExpense({
                         variables: { 
                             input: {
                                 expenseId: id, 
-                                amount: parseFloat(updateAmount),
-                                type:updateType.value
+                                amount: parseFloat(updateAmount)
                             }
                         }
                     });
@@ -103,11 +101,7 @@ const UpdateExpenseCard = (props) => {
     const { setFieldValue } = formik;
     useEffect(() => {
         setFieldValue('updateAmount', (expense) ? expense.amount : '');
-        const currentType = expense ? ExpenseTypeOptions.find(option => option.value === expense.type) : null;
-        handleTypeSelect((expense) ? currentType : null);
     }, [expense]);
-
-    const handleTypeSelect = useCallback((value) => setFieldValue('updateType', value), [setFieldValue]);
 
     return (
         <UpdateExpenseCardContainer onSubmit={formik.handleSubmit} id='updateExpenseForm'>
@@ -115,15 +109,6 @@ const UpdateExpenseCard = (props) => {
             <ErrorField ErrorMessage={ErrorMessage} touched={true} />
             <ModalBody >
                 <Row>
-                    <StyledSelect
-                        options={ExpenseTypeOptions}
-                        value={formik.values.updateType}
-                        onChange={handleTypeSelect}
-                        name='updateType'
-                        label='Type'
-                        error={formik.errors.updateName}
-                        touched={formik.touched.updateName}
-                    />
                     <StyledInput
                         value={formik.values.updateAmount}
                         handleChange={formik.handleChange}
@@ -138,6 +123,7 @@ const UpdateExpenseCard = (props) => {
                 </Row>
             </ModalBody>
             <ModalFooter>
+                <CustomSecondaryButton  type='button' onClick={changeVisibility}>Cancel</CustomSecondaryButton>
                 <CustomButton type='submit' form='updateExpenseForm' >Update</CustomButton>
             </ModalFooter>
         </UpdateExpenseCardContainer>

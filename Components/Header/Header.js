@@ -21,7 +21,7 @@ const HeaderContainer = styled.div`
     background-color:${props => props.theme.color.primaryDarkColor};
     grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
     font-family: ${props => props.theme.font.family};
-    color:${props => props.theme.color.white};
+    font-size: ${props => props.theme.font.size.subTitle};
     @media (max-width: 768px) {
         font-size: ${props => props.theme.font.size.text};
     }
@@ -30,14 +30,15 @@ const HeaderText = styled.div`
     align-self:center;
     padding-left: 1rem;
     font-weight:800;
+    color: ${props => props.theme.color.buttonPrimaryColor};
 
 `;
 const LogOutButton = styled(PowerOff)`
     align-self:center;
-    color: white;
+    color: ${props => props.theme.color.buttonPrimaryColor};
     margin: 0rem 1rem 0rem 1rem;
     &:hover{
-        color: ${props => props.theme.color.black};
+        color: ${props => props.theme.color.buttonOnHoverColor};
     }
     font-size: 30px;
     @media (max-width: 768px) {
@@ -56,7 +57,7 @@ const LightOnIcon = styled(LightOn)`
     }
 `;
 const LightOffIcon = styled(LightOff)`
-    color: #a2a6a6;
+    color: ${props => props.theme.color.buttonPrimaryColor};
     font-size:40px;
     @media (max-width: 768px) {
         font-size: 30px;

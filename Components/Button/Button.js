@@ -6,14 +6,14 @@ const Button = styled.button`
     padding: 1rem;
     border-radius: 8px;
     border: 2px solid ${props => props.theme.color.primaryDarkColor};
-    background-color: ${props => props.theme.color.primaryColor};
+    background-color: ${props => props.theme.color.buttonPrimaryColor};
     font-size: ${props => props.theme.font.size.text};
     font-weight:${props => props.theme.font.weight.bold};
     color: ${props => props.theme.color.black};
     font-weight:800;
     &:hover{
-        background-color: ${props => props.theme.color.primaryDarkColor};
-        color: ${props => props.theme.color.white};
+        background-color: ${props => props.theme.color.buttonOnHoverColor};
+        color: black;
     }
     &:focus {
         outline: unset;
@@ -25,12 +25,8 @@ const Button = styled.button`
 `;
 export const SecondaryButton = styled(Button)`
     color: ${props => props.theme.color.black};
-    border: 2px solid ${props => props.theme.color.primaryDarkColor};
-    background-color: ${props => props.theme.color.white};
-    &:hover{
-        background-color: ${props => props.theme.color.primaryDarkColor};
-        color: ${props => props.theme.color.white};
-    }
+    border: unset;
+    background-color: ${props => props.theme.color.backgroundPrimaryColor};
     &:disabled {
         background-color: ${props => props.theme.color.primaryDarkColor};
         color: ${props => props.theme.color.primaryColor};

@@ -8,9 +8,9 @@ import { getFirstDayOfThisMonth, ISOEqualDate } from '../../../Utils/DateUtils';
 
 import ModalHeader from '../ModalHeader/ModalHeader';
 import { StyledInput } from '../../Input/Input';
-import Button from '../../Button/Button';
+import Button, {SecondaryButton} from '../../Button/Button';
 import StyledSelect from '../../StyledSelect/StyledSelect';
-import { YearOptions, MonthOptions, ExpenseTypeOptions } from '../../../constants/constants';
+import { YearOptions, MonthOptions } from '../../../constants/constants';
 import RadioButtonType from '../../RadioButtonType/RadioButtonType';
 import ExpenseContext from '../../../context/expenses/ExpenseContext';
 
@@ -18,19 +18,16 @@ const CreateExpenseCardContainer = styled.form`
     z-index:5;
     position:relative;
     align-self:center;
-    background-color:${props => props.theme.color.white};
+    background-color:${props => props.theme.color.backgroundPrimaryColor};
     border-radius:5px;
     width:70vw;
-    height:70vh;
-    @media (max-width: 768px) {
-        width:100%;
+    @media (max-width: 640px) {
+        width:95%;
     }
 `;
 const ModalBody = styled.div`
     display:flex;
     flex-direction:column;
-    height:45vh;
-    overflow-y:scroll;
 `;
 const ModalFooter = styled.div`
     display:flex;
@@ -38,7 +35,7 @@ const ModalFooter = styled.div`
 const Row = styled.div`
     display:flex;
     flex-direction:row;
-    justify-content:space-between;    
+    justify-content:center;    
     & > div {
         margin:1rem 1rem 0rem 1rem;
     }
@@ -48,7 +45,10 @@ const Row = styled.div`
     }
 `;
 const CustomButton = styled(Button)`
-    margin:0rem 1rem 0rem 1rem;
+    margin:1rem;
+`;
+const CustomSecondaryButton = styled(SecondaryButton)`
+    margin:1rem;
 `;
 const ADD_RANGE_EXPENSES = gql`
     mutation addRangeExpenses($input:RangeExpenseInput!){
@@ -64,7 +64,6 @@ const ADD_RANGE_EXPENSES = gql`
 `;
 
 const CreateExpenseCard = ({changeVisibility, setMessage}) => {
-    const [ErrorMessage, setErrorMessage] = useState(null);
     const [addRangeExpenses] = useMutation(ADD_RANGE_EXPENSES);
 
     const expenseContext = useContext(ExpenseContext);
@@ -131,11 +130,12 @@ const CreateExpenseCard = ({changeVisibility, setMessage}) => {
                         handleBlur={formik.handleBlur}
                         name='name'
                         id='name'
-                        type='name'
+                        type='string'
                         label='Name'
                         errors={formik.errors.name}
                         touched={formik.touched.name}
                         noWhitesSpaces={false}
+                        noCharacters={false}
                     />
                     <StyledInput
                         value={formik.values.amount}
@@ -143,11 +143,12 @@ const CreateExpenseCard = ({changeVisibility, setMessage}) => {
                         handleBlur={formik.handleBlur}
                         name='amount'
                         id='amount'
-                        type='amount'
+                        type='string'
                         label='Amount'
                         errors={formik.errors.amount}
                         touched={formik.touched.amount}
                         noWhitesSpaces={true}
+                        noCharacters={true}
                     />
                 </Row>
                 <Row>
@@ -165,12 +166,13 @@ const CreateExpenseCard = ({changeVisibility, setMessage}) => {
                         errors={formik.errors.numberOfMonth}
                         touched={formik.touched.numberOfMonth}
                         noWhitesSpaces={true}
+                        noCharacters={true}
                     />
                     <StyledSelect
                         value={formik.values.startMonth}
                         onChange={handleStartMonthSelect}
                         name='startMonth'
-                        type='startMonth'
+                        type='string'
                         options={MonthOptions}
                         label='Start month'
                         errors={formik.errors.startMonth}
@@ -181,7 +183,7 @@ const CreateExpenseCard = ({changeVisibility, setMessage}) => {
                         value={formik.values.startYear}
                         onChange={handleStartYearSelect}
                         name='startYear'
-                        type='startYear'
+                        type='string'
                         label='Start year'
                         errors={formik.errors.startYear}
                         touched={formik.touched.startYear}
@@ -189,6 +191,7 @@ const CreateExpenseCard = ({changeVisibility, setMessage}) => {
                 </Row>
             </ModalBody>
             <ModalFooter>
+                <CustomSecondaryButton  type='button' onClick={changeVisibility}>Cancel</CustomSecondaryButton>
                 <CustomButton type='submit' form='expenseForm' >Add</CustomButton>
             </ModalFooter>
         </CreateExpenseCardContainer>

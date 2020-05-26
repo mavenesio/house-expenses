@@ -12,6 +12,7 @@ import {StyledInput} from '../Components/Input/Input';
 import Button, {SecondaryButton} from '../Components/Button/Button';
 import Spinner from '../Components/Spinner/Spinner';
 import CreateUserModal from '../Components/Modal/CreateUserModal';
+import Card from '../Components/Card/Card';
 
 import Toast from '../Components/toast/toast';
 
@@ -21,14 +22,10 @@ const LoginContainer = styled.form`
   display:flex;
   justify-content:center;
 `;
-const LoginBox = styled.div`
+const LoginBox = styled(Card)`
   display:flex;
-  min-width: 350px;
   flex-direction:column;
   align-self:center;
-  border:2px solid ${props => props.theme.color.primaryColor};
-  background-color: ${props => props.theme.color.white};
-  border-radius: 8px;
   top:20%;
   position:absolute;
 `;
