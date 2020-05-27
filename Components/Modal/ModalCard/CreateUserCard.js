@@ -164,7 +164,7 @@ const CreateUserCard = ({changeVisibility, setMessage}) => {
                 </ModalBody>
                 <ModalFooter>
                 <CustomSecondaryButton  type='button' onClick={changeVisibility}>Cancel</CustomSecondaryButton>
-                <CustomButton type='submit' form='expenseForm' >Create</CustomButton>
+                <CustomButton type='submit' form='createForm' >Create</CustomButton>
                 </ModalFooter>
             </CreateUserCardContainer>
         </>
