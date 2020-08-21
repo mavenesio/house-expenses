@@ -4,7 +4,6 @@ import {setContext} from 'apollo-link-context';
 
 const httpLink = createHttpLink({
     uri: process.env.API_URL,
-    // @ts-ignore
     fetch
 });
 const defaultOptions = {
@@ -33,7 +32,6 @@ const authLink = setContext((_, {headers}) => {
 const client = new ApolloClient({
     cache: new InMemoryCache(),
     defaultOptions: defaultOptions,
-    // @ts-ignore
     link: authLink.concat(httpLink),
 });
 
